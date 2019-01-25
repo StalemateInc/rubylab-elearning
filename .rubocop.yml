@@ -1,0 +1,61 @@
+Layout/EndOfLine:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 12
+  Exclude:
+  - 'db/schema.rb'
+  - 'db/migrate/*'
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 20
+  Exclude:
+  - 'db/migrate/*'
+
+Metrics/BlockLength:
+  Exclude:
+  - 'config/environments/development.rb'
+  - 'spec/controllers/*'
+  - 'db/schema.rb'
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+  - 'db/schema.rb'
+  - 'config/initializers/simple_form.rb'
+  IgnoredPatterns:
+    - '#.'
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+  - 'db/schema.rb'
+
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+  - 'db/schema.rb'
+
+Style/StringLiterals:
+  Exclude:
+  - 'db/schema.rb'
+
+Style/NumericLiterals:
+  Exclude:
+  - 'db/schema.rb'
+
+Style/MixinUsage:
+  Exclude:
+  - 'bin/update'
+  - 'bin/setup'
+
+Lint/ScriptPermission:
+  Enabled: false
+  
+Style/WordArray:
+  Exclude:
+  - 'db/schema.rb'

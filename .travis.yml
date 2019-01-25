@@ -1,0 +1,18 @@
+language: ruby
+
+rvm:
+- 2.3.3
+
+services:
+- postgresql
+
+script:
+- bundle install
+- psql -c "create user alex with encrypted password 'qwerty123';" -U postgres
+- psql -c "CREATE DATABASE showtime_test;" -U postgres
+- psql -c "GRANT ALL PRIVILEGES ON DATABASE showtime_test to alex;" -U postgres
+- psql -c "ALTER DATABASE showtime_test OWNER TO alex;" -U postgres
+- bundle exec rake db:migrate
+- bundle exec rake db:migrate RAILS_ENV=test
+- bundle exec rubocop
+- bundle exec rspec spec/
