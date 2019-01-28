@@ -4,8 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
   has_one :profile, dependent: :destroy
-  has_many :created_courses, :as => :ownable
+  has_many :ownerships, as: :ownable
+  has_many :created_courses, through: :ownerships, source: :course
   has_many :memberships, dependent: :destroy
   has_many :organizations, through: :memberships
-
 end
