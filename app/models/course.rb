@@ -1,4 +1,5 @@
 class Course < ApplicationRecord
-belongs_to :ownable, :polymorphic => true
+  has_one :ownership, dependent: :destroy
+  has_many :participations, dependent: :destroy
 
 end
