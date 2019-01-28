@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -11,5 +13,4 @@ class User < ApplicationRecord
   has_many :participations, dependent: :destroy
   has_many :passing_courses, through: :participations, source: :course
   has_many :feedbacks
-
 end
