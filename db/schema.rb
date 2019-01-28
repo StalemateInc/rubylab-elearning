@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_190719) do
+ActiveRecord::Schema.define(version: 2019_01_28_191615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 2019_01_28_190719) do
     t.integer "views", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer "rating"
+    t.text "content"
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_feedbacks_on_course_id"
+    t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -91,6 +102,8 @@ ActiveRecord::Schema.define(version: 2019_01_28_190719) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "feedbacks", "courses"
+  add_foreign_key "feedbacks", "users"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
   add_foreign_key "ownerships", "courses"
