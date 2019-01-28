@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_181847) do
+ActiveRecord::Schema.define(version: 2019_01_28_190719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,15 @@ ActiveRecord::Schema.define(version: 2019_01_28_181847) do
     t.index ["ownable_type", "ownable_id"], name: "index_ownerships_on_ownable_type_and_ownable_id"
   end
 
+  create_table "participations", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_participations_on_course_id"
+    t.index ["user_id"], name: "index_participations_on_user_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
@@ -85,5 +94,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_181847) do
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
   add_foreign_key "ownerships", "courses"
+  add_foreign_key "participations", "courses"
+  add_foreign_key "participations", "users"
   add_foreign_key "profiles", "users"
 end

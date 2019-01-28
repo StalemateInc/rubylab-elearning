@@ -8,4 +8,6 @@ class User < ApplicationRecord
   has_many :created_courses, through: :ownerships, source: :course
   has_many :memberships, dependent: :destroy
   has_many :organizations, through: :memberships
+  has_many :participations, dependent: :destroy
+  has_many :passing_courses, through: :participations, source: :course
 end
