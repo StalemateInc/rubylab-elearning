@@ -9,7 +9,7 @@ class CreateProfiles < ActiveRecord::Migration[5.2]
       t.date :birthday
       t.timestamps
     end
-  
+
     add_index :profiles, :nickname, unique: true
   end
 end
