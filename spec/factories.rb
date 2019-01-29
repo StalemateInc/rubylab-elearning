@@ -15,4 +15,10 @@ FactoryBot.define do
     description { Faker::Lorem.characters(100) }
   end
 
+  factory :course do
+    name { 'Test Course' }
+    duration { 5 }
+    difficulty { 0 }
+    views { 0 }
+  end
 end

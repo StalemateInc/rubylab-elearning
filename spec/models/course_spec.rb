@@ -4,12 +4,14 @@ require 'rails_helper'
 
 RSpec.describe Course, type: :model do
 
-  MINIMUM_NAME_LENGTH = 4
-  MAXIMUM_NAME_LENGTH = 20
-  MINIMUM_DURATION = 0
-  MINIMUM_VIEWS = 0
+  module CourseConstants
+    MINIMUM_NAME_LENGTH = 4
+    MAXIMUM_NAME_LENGTH = 20
+    MINIMUM_DURATION = 0
+    MINIMUM_VIEWS = 0
+  end
 
-  subject { described_class.new(name: 'Course Name', duration: 10, difficulty: :novice) }
+  subject { build :course }
 
   it 'is valid with valid attributes' do
     expect(subject).to be_valid
@@ -36,13 +38,13 @@ RSpec.describe Course, type: :model do
   end
 
   context 'is not valid if name' do
-    it "is shorter than #{MINIMUM_NAME_LENGTH} symbols" do
-      subject.name = 'a' * (MINIMUM_NAME_LENGTH - 1)
+    it "is shorter than #{CourseConstants::MAXIMUM_NAME_LENGTH} symbols" do
+      subject.name = 'a' * (CourseConstants::MINIMUM_NAME_LENGTH - 1)
       expect(subject).not_to be_valid
     end
 
-    it "is longer than #{MAXIMUM_NAME_LENGTH} symbols" do
-      subject.name = 'a' * (MAXIMUM_NAME_LENGTH + 1)
+    it "is longer than #{CourseConstants::MAXIMUM_NAME_LENGTH} symbols" do
+      subject.name = 'a' * (CourseConstants::MAXIMUM_NAME_LENGTH + 1)
       expect(subject).not_to be_valid
     end
   end
@@ -53,13 +55,13 @@ RSpec.describe Course, type: :model do
       expect(subject).not_to be_valid
     end
 
-    it "is less than #{MINIMUM_DURATION}" do
-      subject.duration = MINIMUM_DURATION - 1
+    it "is less than #{CourseConstants::MINIMUM_DURATION}" do
+      subject.duration = CourseConstants::MINIMUM_DURATION - 1
       expect(subject).not_to be_valid
     end
 
-    it "is equal to #{MINIMUM_DURATION}" do
-      subject.duration = MINIMUM_DURATION
+    it "is equal to #{CourseConstants::MINIMUM_DURATION}" do
+      subject.duration = CourseConstants::MINIMUM_DURATION
       expect(subject).not_to be_valid
     end
   end
@@ -70,8 +72,8 @@ RSpec.describe Course, type: :model do
       expect(subject).not_to be_valid
     end
 
-    it "is less than #{MINIMUM_VIEWS}" do
-      subject.duration = MINIMUM_VIEWS - 1
+    it "is less than #{CourseConstants::MINIMUM_VIEWS}" do
+      subject.duration = CourseConstants::MINIMUM_VIEWS - 1
       expect(subject).not_to be_valid
     end
   end
