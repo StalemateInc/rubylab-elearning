@@ -3,5 +3,24 @@
 require 'rails_helper'
 
 RSpec.describe Participation, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  let(:user) { User.new(email: 'example@mail.com', password: 'somepassword') }
+  let(:course) { Course.new(name: 'Course Name', duration: 10, difficulty: :novice) }
+
+  subject { described_class.new(user: user, course: course) }
+
+  it 'is valid with valid attributes' do
+    expect(subject).to be_valid
+  end
+
+  it 'is not valid without a user' do
+    subject.user = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'is not valid without a course' do
+    subject.course = nil
+    expect(subject).not_to be_valid
+  end
+
 end
