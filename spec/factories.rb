@@ -25,7 +25,7 @@ FactoryBot.define do
   factory :profile do
     name { Faker::Name.first_name }
     surname { Faker::Name.last_name }
-    nickname { Faker::Internet.username }
+    nickname { Faker::Internet.username(3..50) }
     address { Faker::Address.full_address }
     birthday { Faker::Date.birthday }
   end

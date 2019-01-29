@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Profile, type: :model do
   module ProfileConstants
-    MINIMUM_NAME_LENGTH = 4
-    MAXIMUM_NAME_LENGTH = 20
+    MINIMUM_NAME_LENGTH = 2
+    MAXIMUM_NAME_LENGTH = 35
     MINIMUM_SURNAME_LENGTH = MINIMUM_NAME_LENGTH
     MAXIMUM_SURNAME_LENGTH = MAXIMUM_NAME_LENGTH
     MINIMUM_NICKNAME_LENGTH = 3

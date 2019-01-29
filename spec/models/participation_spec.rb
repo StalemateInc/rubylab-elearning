@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Participation, type: :model do
 
-  let(:user) { User.new(email: 'example@mail.com', password: 'somepassword') }
-  let(:course) { Course.new(name: 'Course Name', duration: 10, difficulty: :novice) }
+  let(:user) { build :user }
+  let(:course) { build :course }
 
   subject { described_class.new(user: user, course: course) }
 
