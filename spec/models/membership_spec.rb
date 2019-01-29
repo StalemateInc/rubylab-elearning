@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Membership, type: :model do
 
-  let(:user) { User.new(email: 'example@mail.com', password: 'somepassword') }
-  let(:organization) { Organization.new(name: 'sometext', description: 'somedescription') }
+  let(:user) { build :user }
+  let(:organization) { build :organization }
 
   subject { described_class.new(user: user, organization: organization) }
 
@@ -25,7 +25,7 @@ RSpec.describe Membership, type: :model do
     expect(subject).not_to be_valid
   end
 
-  it 'is invalid if duplicates' do
+  it 'is invalid if duplicate membership present' do
     subject.organization = existing_membership.organization
     subject.user = existing_membership.user
     expect(subject).not_to be_valid

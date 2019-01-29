@@ -29,4 +29,9 @@ FactoryBot.define do
     address { Faker::Address.full_address }
     birthday { Faker::Date.birthday }
   end
+
+  factory :feedback do
+    rating { rand(6) }
+    content { Faker::Lorem.paragraph(1) }
+  end
 end

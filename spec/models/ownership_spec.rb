@@ -4,15 +4,17 @@ require 'rails_helper'
 
 RSpec.describe Ownership, type: :model do
 
-  let(:course) { Course.new(name: 'Course Name', duration: 10, difficulty: :novice) }
-  let(:organization) { Organization.new(name: 'sometext', description: 'somedescription') }
-  let(:user) { User.new(email: 'example@mail.com', password: 'somepassword') }
+  let(:course) { build :course }
+  let(:organization) { build :organization }
+  let(:user) { build :user }
 
-  let(:org_ownership) { described_class.new(course: course, ownable: organization,
-                                            ownable_type: 'Organization') }
+  let(:org_ownership) do
+    described_class.new(course: course, ownable: organization, ownable_type: 'Organization')
+  end
   let(:user_ownership) { described_class.new(course: course, ownable: user, ownable_type: 'User') }
-  let(:existing_ownership) { described_class.new(course_id: course.id, ownable_id: user.id,
-                                                 ownable_type: 'User') }
+  let(:existing_ownership) do
+    described_class.new(course_id: course.id, ownable_id: user.id, ownable_type: 'User')
+  end
 
   context 'ownership with organization' do
     it 'is valid with valid attributes' do
@@ -36,7 +38,7 @@ RSpec.describe Ownership, type: :model do
     expect(user_ownership).not_to be_valid
   end
 
-  it 'is invalid if duplicates' do
+  it 'is invalid if duplicate ownership present' do
     user_ownership.course = existing_ownership.course
     user_ownership.ownable = existing_ownership.ownable
     expect(user_ownership).not_to be_valid
