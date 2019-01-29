@@ -18,7 +18,15 @@ FactoryBot.define do
   factory :course do
     name { 'Test Course' }
     duration { 5 }
-    difficulty { 0 }
+    difficulty { :unspecified }
     views { 0 }
+  end
+
+  factory :profile do
+    name { Faker::Name.first_name }
+    surname { Faker::Name.last_name }
+    nickname { Faker::Internet.username }
+    address { Faker::Address.full_address }
+    birthday { Faker::Date.birthday }
   end
 end
