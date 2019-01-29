@@ -9,6 +9,8 @@ RSpec.describe Participation, type: :model do
 
   subject { described_class.new(user: user, course: course) }
 
+  let(:existing_participation) { described_class.new(user_id: user.id, course_id: course.id) }
+
   it 'is valid with valid attributes' do
     expect(subject).to be_valid
   end
@@ -23,4 +25,9 @@ RSpec.describe Participation, type: :model do
     expect(subject).not_to be_valid
   end
 
+  it 'is invalid if duplicates' do
+    subject.course = existing_participation.course
+    subject.user = existing_participation.user
+    expect(subject).not_to be_valid
+  end
 end
