@@ -39,8 +39,8 @@ gem 'bootstrap'
 gem 'font-awesome-sass'
 
 # add jquery if neccessary
-# gem 'jquery-rails'
-# gem 'jquery-ui-rails'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 gem 'devise'
 gem 'figaro'
