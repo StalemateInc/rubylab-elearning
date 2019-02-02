@@ -15,6 +15,15 @@ class User < ApplicationRecord
   has_many :enrolled_courses, through: :participations, source: :course
   has_many :feedbacks
 
+  def password_match?
+    self.errors[:password] << I18n.t('errors.messages.blank') if password.blank?
+    self.errors[:password_confirmation] << I18n.t('errors.messages.blank') if password_confirmation.blank?
+    self.errors[:password_confirmation] << I18n.translate('errors.messages.confirmation', attribute: 'password') if password != password_confirmation
+    password == password_confirmation && !password.blank?
+  end
+
+  # new function to set the password without knowing the current
+  # password used in our confirmation controller.
   def attempt_set_password(params)
     p = {}
     p[:password] = params[:password]
@@ -24,12 +33,12 @@ class User < ApplicationRecord
 
   # new function to return whether a password has been set
   def has_no_password?
-    encrypted_password.blank?
+    self.encrypted_password.blank?
   end
 
   # new function to provide access to protected method unless_confirmed
   def only_if_unconfirmed
-    unless_confirmed { yield }
+    pending_any_confirmation { yield }
   end
 
   def password_required?
