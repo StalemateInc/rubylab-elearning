@@ -5,7 +5,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # don't want to enable logged users to access the confirmation page.
   # If you are using rails 5.1+ use: skip_before_action
   # skip_before_action :require_no_authentication
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, raise: false
 
   # GET /resource/confirmation/new
   # def new
@@ -28,7 +28,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     end
     unless @confirmable.errors.empty?
       self.resource = @confirmable
-      render new_user_confirmation_path
+      render 'users/confirmations/show'
     end
   end
 
@@ -50,7 +50,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
 
     if !@confirmable.errors.empty?
       self.resource = @confirmable
-      render new_user_confirmation_path
+      render 'users/confirmations/new'
     end
   end
 
@@ -67,7 +67,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     @confirmation_token = params[:confirmation_token]
     @requires_password = true
     self.resource = @confirmable
-    render new_user_confirmation_path
+    render 'users/confirmations/show'
   end
 
   def do_confirm
