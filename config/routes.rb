@@ -21,4 +21,7 @@ Rails.application.routes.draw do
                passwords: 'users/passwords',
                confirmations: 'users/confirmations'
              }
+  as :users do
+    patch '/auth/verification', to: 'users/confirmations#update', as: :update_user_confirmation
+  end
 end
