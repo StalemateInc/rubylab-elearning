@@ -20,41 +20,28 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # GET /resource/confirmation?confirmation_token=abcdef
   def show
     with_unconfirmed_confirmable do
-      if @confirmable.has_no_password?
-        do_show
-      else
-        do_confirm
-      end
+      do_show
     end
     unless @confirmable.errors.empty?
       self.resource = @confirmable
       render 'users/confirmations/show'
     end
   end
-
+  
   # PUT /resource/confirmation
   def update
     with_unconfirmed_confirmable do
-      if @confirmable.has_no_password?
-        @confirmable.attempt_set_password(params[:user])
-        if @confirmable.valid? and @confirmable.password_match?
-          do_confirm
-          if @confirmable.profile.nil?
-            @profile = @confirmable.build_profile(profile_params)
-            @confirmable.errors.add(:profile, 'failed to create a profile') unless @profile.save
-          end
-        else
-          do_show
-          @confirmable.errors.clear #so that we wont render :new
-        end
+      @profile = Profile.new(profile_params)
+      @confirmable.attempt_set_password(params[:user])
+      @profile.user = @confirmable
+      @confirmable.errors.add(:profile, 'failed to create a profile') unless @profile.valid?
+      if !@confirmable.errors.empty?
+        self.resource = @confirmable
+        do_show
       else
-        @confirmable.errors.add(:email, :password_already_set)
+        @profile.save
+        do_confirm
       end
-    end
-
-    if !@confirmable.errors.empty?
-      self.resource = @confirmable
-      render 'users/confirmations/new'
     end
   end
 
