@@ -27,14 +27,14 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
       render 'users/confirmations/show'
     end
   end
-  
+
   # PUT /resource/confirmation
   def update
     with_unconfirmed_confirmable do
       @profile = Profile.new(profile_params)
       @confirmable.attempt_set_password(params[:user])
       @profile.user = @confirmable
-      @confirmable.errors.add(:profile, 'failed to create a profile') unless @profile.valid?
+      @confirmable.errors.merge!(@profile.errors) unless @profile.valid?
       if !@confirmable.errors.empty?
         self.resource = @confirmable
         do_show
