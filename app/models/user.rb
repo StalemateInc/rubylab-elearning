@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_many :enrolled_courses, through: :participations, source: :course
   has_many :feedbacks
 
+  accepts_nested_attributes_for :profile
+
   def password_match?
     self.errors[:password] << I18n.t('errors.messages.blank') if password.blank?
     self.errors[:password_confirmation] << I18n.t('errors.messages.blank') if password_confirmation.blank?

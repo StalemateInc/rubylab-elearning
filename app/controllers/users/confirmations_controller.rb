@@ -39,6 +39,10 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         @confirmable.attempt_set_password(params[:user])
         if @confirmable.valid? and @confirmable.password_match?
           do_confirm
+          if @confirmable.profile.nil?
+            @profile = @confirmable.build_profile(profile_params)
+            @confirmable.errors.add(:profile, 'failed to create a profile') unless @profile.save
+          end
         else
           do_show
           @confirmable.errors.clear #so that we wont render :new
@@ -74,6 +78,10 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     @confirmable.confirm
     set_flash_message :notice, :confirmed
     sign_in_and_redirect(resource_name, @confirmable)
+  end
+
+  def profile_params
+    params.require(:profile).permit(%i[name surname nickname])
   end
 
   # The path used after resending confirmation instructions.
