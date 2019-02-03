@@ -45,7 +45,8 @@ gem 'jquery-ui-rails'
 gem 'devise'
 gem 'figaro'
 gem 'pundit'
-
+gem 'sidekiq'
+gem 'whenever', require: false
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
