@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 class OrganizationsController < ApplicationController
+  include Pundit
+  before_action :authenticate_user!, exept: %i[index]
   before_action :set_organization, except: %i[index create new]
 
   # GET /organizations
@@ -18,18 +22,24 @@ class OrganizationsController < ApplicationController
   end
 
   # GET /organizations/:id/edit
-  def edit; end
+  def edit
+    authorize @organization
+  end
 
   # GET /organizations/:id
-  def show; end
+  def show
+    authorize @organization
+  end
 
   # PATCH /organizations/:id
   def update
+    authorize @organization
     redirect_to @organization if @organization.update(organization_params)
   end
 
   # DELETE /organizations/:id
   def destroy
+    authorize @organization
     redirect_to organizations_path if @organization.destroy
   end
 

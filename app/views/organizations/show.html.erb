@@ -1,5 +1,5 @@
 <h1>Organization "<%= @organization.name %>"</h1>
 <p>Description: </p>
 <p><%= @organization.description %></p>
-<%= link_to 'Edit', edit_organization_path(@organization), class: 'btn btn-md btn-warning' %>
+<%= link_to 'Edit', edit_organization_path(@organization), class: 'btn btn-md btn-warning' if policy(@organization).edit? %>
 <%= link_to 'Back', organizations_path, class: 'btn btn-info btn-md' %>

@@ -8,4 +8,9 @@ class Organization < ApplicationRecord
 
   validates :name, presence: true, length: { in: 2..100 }
   validates :description, length: { maximum: 500 }
+
+  def org_admin_list
+    memberships.where(org_admin: true).map(&:user)
+  end
+
 end
