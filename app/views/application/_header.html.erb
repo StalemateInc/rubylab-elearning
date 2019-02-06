@@ -1,3 +1,5 @@
 <% if !user_signed_in? %>
   <%= render 'application/general-header' %>
+<% else %>
+  <%= render 'application/user-header' %>
 <% end %>
