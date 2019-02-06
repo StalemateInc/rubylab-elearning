@@ -27,9 +27,7 @@ class OrganizationsController < ApplicationController
   end
 
   # GET /organizations/:id
-  def show
-    authorize @organization
-  end
+  def show; end
 
   # PATCH /organizations/:id
   def update
