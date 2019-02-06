@@ -24,10 +24,14 @@ class OrganizationsController < ApplicationController
   def show; end
 
   # PATCH /organizations/:id
-  def update; end
+  def update
+    redirect_to @organization if @organization.update(organization_params)
+  end
 
   # DELETE /organizations/:id
-  def destroy; end
+  def destroy
+    redirect_to organizations_path if @organization.destroy
+  end
 
   private
 

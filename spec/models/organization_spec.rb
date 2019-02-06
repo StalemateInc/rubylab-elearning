@@ -6,7 +6,7 @@ RSpec.describe Organization, type: :model do
 
   module OrganizationConstants
     MINIMUM_NAME_LENGTH = 2
-    MAXIMUM_NAME_LENGTH = 20
+    MAXIMUM_NAME_LENGTH = 100
     MAXIMUM_DESCRIPTION_LENGTH = 500
   end
 
