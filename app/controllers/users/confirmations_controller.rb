@@ -22,6 +22,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     with_unconfirmed_confirmable do
       do_show
     end
+    (redirect_to :root and return) if @confirmable.confirmed?
     unless @confirmable.errors.empty?
       self.resource = @confirmable
       render 'users/confirmations/show'

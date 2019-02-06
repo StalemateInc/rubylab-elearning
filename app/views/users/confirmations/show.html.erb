@@ -1,22 +1,28 @@
 <h2>Account Activation</h2>
 
-<%= form_for resource, :as => resource_name, :url => update_user_confirmation_path, :html => {:method => 'patch'}, :id => 'activation-form' do |f| %>
-  <%= devise_error_messages! %>
-  <fieldset>
-    <legend>Account Activation for <%= resource.email %></legend>
+<% if !@confirmable.new_record? %>
+  <%= form_for resource, :as => resource_name, :url => update_user_confirmation_path, :html => {:method => 'patch'}, :id => 'activation-form' do |f| %>
+    <%= devise_error_messages! %>
+    <fieldset>
+      <legend>Account Activation for <%= resource.email %></legend>
 
-    <% if @requires_password %>
-      <p><%= f.label :password,'Choose a Password:' %> <%= f.password_field :password %></p>
-      <p><%= f.label :password_confirmation,'Password Confirmation:' %> <%= f.password_field :password_confirmation %></p>
-    <% end %>
+      <% if @requires_password %>
+        <p><%= f.label :password,'Choose a Password:' %> <%= f.password_field :password %></p>
+        <p><%= f.label :password_confirmation,'Password Confirmation:' %> <%= f.password_field :password_confirmation %></p>
+      <% end %>
 
-    <%= fields_for :profile do |pf| %>
-      <p><%= pf.label :name, 'Set name:' %> <%= pf.text_field :name %></p>
-      <p><%= pf.label :surname, 'Set surname' %> <%= pf.text_field :surname %></p>
-      <p><%= pf.label :nickname, 'Set nickname' %> <%= pf.text_field :nickname %></p>
-    <% end %>
+      <%= fields_for :profile do |pf| %>
+        <p><%= pf.label :name, 'Set name:' %> <%= pf.text_field :name %></p>
+        <p><%= pf.label :surname, 'Set surname' %> <%= pf.text_field :surname %></p>
+        <p><%= pf.label :nickname, 'Set nickname' %> <%= pf.text_field :nickname %></p>
+      <% end %>
 
-    <%= hidden_field_tag :confirmation_token, @confirmation_token %>
-    <p><%= f.submit "Activate" %></p>
-  </fieldset>
+      <%= hidden_field_tag :confirmation_token, @confirmation_token %>
+      <p><%= f.submit "Activate" %></p>
+    </fieldset>
+  <% end %>
+<% else %>
+  <p>Since like you've got here by accident, your account has already been confirmed.</p>
+  <p>Proceed to the cite and have a nice day!</p>
+  <%= link_to "Main page", root_path, class: 'btn btn-md btn-success' %>
 <% end %>
