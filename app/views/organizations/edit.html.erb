@@ -1,5 +1,5 @@
 <h1>Edit an organization: </h1>
-<%= simple_form_for(@organization, url: organization_path(@organization), method: :patch) do |f| %>
+<%= simple_form_for @organization, url: organization_path(@organization), method: :patch, validate: true do |f| %>
   <%= f.error_notification %>
 
   <%= f.input :name, label: 'Organization name', required: true, input_html: { autocomplete: 'name' } %>

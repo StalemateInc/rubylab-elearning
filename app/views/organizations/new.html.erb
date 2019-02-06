@@ -1,5 +1,5 @@
 <h1>Create an organization: </h1>
-<%= simple_form_for(@organization, url: organizations_path, method: :post) do |f| %>
+<%= simple_form_for @organization, url: organizations_path, method: :post, validate: true do |f| %>
   <%= f.error_notification %>
 
   <%= f.input :name, label: 'Organization name', required: true, input_html: { autocomplete: 'name' } %>
