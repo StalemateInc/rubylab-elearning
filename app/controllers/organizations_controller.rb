@@ -2,7 +2,7 @@
 
 class OrganizationsController < ApplicationController
   include Pundit
-  before_action :authenticate_user!, exept: %i[index]
+  before_action :authenticate_user!, except: %i[index show]
   before_action :set_organization, except: %i[index create new]
 
   # GET /organizations
