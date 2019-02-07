@@ -36,6 +36,12 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'bootstrap'
+gem 'font-awesome-sass'
+
+# add jquery if neccessary
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+
 gem 'devise'
 gem 'figaro'
 gem 'font-awesome-sass'
@@ -43,6 +49,8 @@ gem 'interactor', '~> 3.0'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'pundit'
+gem 'sidekiq'
+gem 'whenever', require: false
 
 # order matters, do not change
 gem 'simple_form'
