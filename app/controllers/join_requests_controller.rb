@@ -10,7 +10,6 @@ class JoinRequestsController < ApplicationController
     @join_requests = JoinRequest.where(organization: @organization, status: :pending)
   end
 
-  # make remote
   # POST organizations/:id/request/:request_id
   def accept
     result = AcceptJoinRequest.call(user: @join_request.user,
@@ -26,7 +25,6 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # make remote
   # DELETE organizations:/:id/request/:request_id
   def decline
     result = RejectJoinRequest.call(user: @join_request.user,

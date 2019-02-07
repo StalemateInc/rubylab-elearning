@@ -41,7 +41,6 @@ class OrganizationsController < ApplicationController
     redirect_to organizations_path if @organization.destroy
   end
 
-  # make remote
   # POST /organizations/:id/join
   def join
     if JoinRequest.create(user: current_user, organization: @organization, status: :pending)
