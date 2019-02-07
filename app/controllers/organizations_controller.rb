@@ -4,6 +4,7 @@ class OrganizationsController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_organization, except: %i[index create new]
+  after_action :clear_flash, only: :join
 
   # GET /organizations
   def index

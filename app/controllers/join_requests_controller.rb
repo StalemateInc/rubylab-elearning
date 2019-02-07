@@ -4,6 +4,7 @@ class JoinRequestsController < ApplicationController
 
   before_action :set_organization
   before_action :set_join_request, except: :index
+  after_action :clear_flash, only: %i[accept decline]
 
   # GET organizations/:id/request/:request_id
   def index

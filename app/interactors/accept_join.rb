@@ -7,7 +7,7 @@ class AcceptJoin < BaseInteractor
 
   def call
     if context.request.update(status: :accepted)
-      context.message = "User has been successfully added to an organization #{context.organization}"
+      context.message = "User has been successfully added to an organization \"#{context.organization.name}\""
     else
       fail_with_message('An error occurred while confirming the join request')
       content.errors.merge!(context.request.errors)

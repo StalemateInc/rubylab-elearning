@@ -1,0 +1,6 @@
+<%= link_to 'Join', join_organization_path(organization),
+            method: :post,
+            remote: true,
+            id: 'join-organization-button',
+            class: 'btn btn-md btn-primary ' +
+                (organization.memberships.find_by(user: current_user) || organization.join_requests.find_by(user: current_user, status: :pending) ? 'disabled' : '') %>

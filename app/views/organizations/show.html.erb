@@ -2,12 +2,15 @@
 <p>Description: </p>
 <p><%= @organization.description %></p>
 <% if current_user %>
-  <%= link_to 'Join', join_organization_path(@organization),
-              method: :post,
-              remote: true,
-              id: 'join-organization-button',
-              class: 'btn btn-md btn-primary ' +
-                  (@organization.memberships.find_by(user: current_user) || @organization.join_requests.find_by(user: current_user, status: :pending) ? 'disabled' : '') %>
+  <% if current_user.in?(@organization.users) %>
+    <%= link_to 'Leave organization', organization_membership_path(@organization),
+                method: :delete,
+                remote: true,
+                id: 'leave-organization-button',
+                class: 'btn btn-md btn-danger' %>
+  <% else %>
+    <%= render partial: 'organizations/join_button', locals: { organization: @organization } %>
+  <% end %>
 <% else %>
   <p>Log into your account to join this organization.</p>
 <% end %>

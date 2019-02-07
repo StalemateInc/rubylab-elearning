@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       post '/requests/:join_request_id', to: 'join_requests#accept', as: :accept_request
       delete '/requests/:join_request_id', to: 'join_requests#decline', as: :decline_request
     end
+    resource :membership, only: :destroy
   end
   resources :courses
 end
