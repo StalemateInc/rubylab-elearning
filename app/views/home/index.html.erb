@@ -7,3 +7,10 @@
 <% end %>
 <h1> Home page </h1>
 <h4> Welcome </h4>
+
+<%= link_to 'Organizations', organizations_path %>
+<br>
+<% if user_signed_in? %>
+  <%= link_to "Count of invite records #{current_user.invites.count}" , invites_path %>
+  <%#= current_user.invite.organization_name %>
+<% end %>

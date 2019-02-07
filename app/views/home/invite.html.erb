@@ -1,0 +1,7 @@
+<% current_user.invites.each do | t | %>
+  <p>
+    <%= t.organization_name %>
+    <%= link_to 'Yes', root_path %>
+    <%= link_to 'No', root_path %>
+  </p>
+<% end %>

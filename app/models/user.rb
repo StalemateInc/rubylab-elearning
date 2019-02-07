@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :participations, dependent: :destroy
   has_many :enrolled_courses, through: :participations, source: :course
   has_many :feedbacks
+  has_many :invites
 
   accepts_nested_attributes_for :profile
 
