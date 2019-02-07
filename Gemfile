@@ -42,6 +42,7 @@ gem 'font-awesome-sass'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'pundit'
+gem 'aasm'
 
 # order matters, do not change
 gem 'simple_form'
