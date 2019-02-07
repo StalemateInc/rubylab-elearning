@@ -1,0 +1,8 @@
+Hello <%= @user.email %>!
+<% if @organization.status == 'verified' %>
+  Congratulations! We approved your organization: <%= @organization.name %>
+  You can follow by link in the bottom for manage your organization.
+  <%= link_to @organization.name, organization_url(@organization.id) %>.
+<% else %>
+  Sorry, but your organization was rejected: <%= @message %>.
+<% end %>
