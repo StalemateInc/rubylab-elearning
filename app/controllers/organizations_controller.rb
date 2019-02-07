@@ -4,7 +4,7 @@ class OrganizationsController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_organization, except: %i[index create new]
-  after_action :clear_flash, only: :join
+  before_action :set_join_request, only: :show
 
   # GET /organizations
   def index
@@ -42,19 +42,11 @@ class OrganizationsController < ApplicationController
     redirect_to organizations_path if @organization.destroy
   end
 
-  # POST /organizations/:id/join
-  def join
-    if JoinRequest.create(user: current_user, organization: @organization, status: :pending)
-      flash[:success] = 'Request has been sent. Please await confirmation from the organization administrator.'
-    else
-      flash[:notice] = 'Error sending a request, please, try again later.'
-    end
-    respond_to do |format|
-      format.js
-    end
-  end
-
   private
+
+  def set_join_request
+    @join_request = @organization.join_requests.find_by(user: current_user, status: :pending)
+  end
 
   def set_organization
     @organization = Organization.find(params[:id])

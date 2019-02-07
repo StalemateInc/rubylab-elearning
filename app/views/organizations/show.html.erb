@@ -9,7 +9,7 @@
                 id: 'leave-organization-button',
                 class: 'btn btn-md btn-danger' %>
   <% else %>
-    <%= render partial: 'organizations/join_button', locals: { organization: @organization } %>
+    <%= render partial: 'organizations/join_button', locals: { organization: @organization, join_request: @join_request } %>
   <% end %>
 <% else %>
   <p>Log into your account to join this organization.</p>

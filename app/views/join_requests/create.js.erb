@@ -1,0 +1,4 @@
+let join_button = $('#join-organization-button');
+join_button.after($('<%= j render partial: 'organizations/join_button', locals: { organization: @organization, join_request: @join_request } %>'));
+join_button.remove();
+force_flash('<%= j render "layouts/flash" %>');

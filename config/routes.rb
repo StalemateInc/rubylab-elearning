@@ -31,10 +31,11 @@ Rails.application.routes.draw do
   end
   resources :organizations do
     member do
-      post '/join', to: 'organizations#join'
       get '/requests', to: 'join_requests#index', as: :requests
-      post '/requests/:join_request_id', to: 'join_requests#accept', as: :accept_request
-      delete '/requests/:join_request_id', to: 'join_requests#decline', as: :decline_request
+      post '/requests', to: 'join_requests#create', as: :create_request
+      put '/requests/:join_request_id/accept', to: 'join_requests#accept', as: :accept_request
+      put '/requests/:join_request_id/decline', to: 'join_requests#decline', as: :decline_request
+      delete '/requests/:join_request_id', to: 'join_requests#destroy', as: :cancel_request
     end
     resource :membership, only: :destroy
   end

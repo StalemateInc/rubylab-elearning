@@ -1,6 +1,13 @@
-<%= link_to 'Join', join_organization_path(organization),
-            method: :post,
-            remote: true,
-            id: 'join-organization-button',
-            class: 'btn btn-md btn-primary ' +
-                (organization.memberships.find_by(user: current_user) || organization.join_requests.find_by(user: current_user, status: :pending) ? 'disabled' : '') %>
+<% if join_request %>
+  <%= link_to 'Cancel join request', cancel_request_organization_path(organization, join_request),
+              method: :delete,
+              remote: :true,
+              id: 'cancel-organization-button',
+              class: 'btn btn-md btn-danger' %>
+<% else %>
+  <%= link_to 'Join', create_request_organization_path(organization),
+              method: :post,
+              remote: true,
+              id: 'join-organization-button',
+              class: 'btn btn-md btn-primary' %>
+<% end %>
