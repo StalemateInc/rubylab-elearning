@@ -37,9 +37,11 @@
       <%= Organization.find(session[:ownable_id]).name + '(Organization)' if session[:ownable_type] == 'Organization' %>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-      <a class="dropdown-item" href="#"><%= current_user.profile.nickname %>(User)</a>
+      <%= link_to current_user.profile.nickname + '(User)', change_operator_url(ownable_id: current_user.id, ownable_type: 'User'), 
+          method: :post, class: 'dropdown-item' %>
       <% current_user.organizations.map do |org| %>
-        <a class="dropdown-item" href="#"><%= org.name %>(Organization)</a>
+        <%= link_to org.name + '(Organization)', change_operator_url(ownable_id: org.id, ownable_type: 'Organization'), 
+          method: :post, class: 'dropdown-item' %>
       <% end %>
     </div>
   </li>

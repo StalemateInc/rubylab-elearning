@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     patch '/auth/verification', to: 'users/confirmations#update', as: :update_user_confirmation
   end
+  post '/change_operator', to: 'operator_switcher#change_operator'
   resources :organizations
   resources :courses
 end
