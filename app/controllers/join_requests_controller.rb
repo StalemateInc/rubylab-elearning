@@ -21,6 +21,9 @@ class JoinRequestsController < ApplicationController
     else
       flash[:notice] = result.errors
     end
+    respond_to do |format|
+      format.js
+    end
   end
 
   # make remote
@@ -33,6 +36,9 @@ class JoinRequestsController < ApplicationController
       flash[:success] = result.message
     else
       flash[:notice] = result.errors
+    end
+    respond_to do |format|
+      format.js
     end
   end
 

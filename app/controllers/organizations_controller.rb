@@ -49,6 +49,9 @@ class OrganizationsController < ApplicationController
     else
       flash[:notice] = 'Error sending a request, please, try again later.'
     end
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

@@ -2,11 +2,11 @@
 <% console %>
 <div>
   <% @join_requests.each do |request| %>
-    <div>
+    <div id="join-request-<%= request.id %>">
       <hr/>
       From: <%= request.user.profile.nickname %><br/>
-      <%= link_to 'Accept', accept_request_organization_path(@organization, request), method: :post, class: 'btn btn-md btn-success' %>
-      <%= link_to 'Decline', decline_request_organization_path(@organization, request), method: :delete, class: 'btn btn-md btn-danger' %>
+      <%= link_to 'Accept', accept_request_organization_path(@organization, request), method: :post, remote: :true, class: 'btn btn-md btn-success' %>
+      <%= link_to 'Decline', decline_request_organization_path(@organization, request), method: :delete, remote: :true, class: 'btn btn-md btn-danger' %>
       <hr/>
     </div>
   <% end %>
