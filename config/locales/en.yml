@@ -37,3 +37,8 @@ en:
       edit?: "You are not authorized to edit this organization"
       update?: "You are not authorized to update info about this organization"
       destroy?: "You are not authorized to delete this organization"
+    course_policy:
+      edit?: "You are not authorized to edit this course"
+      update?: "You are not authorized to update info about this course"
+      destroy?: "You are not authorized to delete this course"
+

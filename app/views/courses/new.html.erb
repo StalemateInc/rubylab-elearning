@@ -1,0 +1,13 @@
+<h1>Create a course: </h1>
+<%= simple_form_for @course, url: courses_path, method: :post, validate: true do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :name, label: 'Course name', required: true, input_html: { autocomplete: 'name' } %>
+  <%= f.input :duration, label: 'Course duration', required: true, input_html: { min: '0' } %>
+  <%= f.input :difficulty, label: 'Difficulty', collection: Course.difficulties.keys, include_blank: false %>
+
+  <div class="form-actions">
+    <%= f.button :submit, 'Create new course', class: 'btn btn-md btn-success' %>
+    <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>
+  </div>
+<% end %>

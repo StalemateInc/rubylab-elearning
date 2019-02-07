@@ -1,7 +1,11 @@
 # frozen_string_literal: true
+require 'sidekiq/web'
+Rails.application.routes.draw do]
+  root 'home#index'
 
-Rails.application.routes.draw do
-  root to: 'home#index'
+  authenticate :user, lambda { |u| u.admin } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   devise_for :users,
              path: 'auth',
@@ -30,4 +34,7 @@ Rails.application.routes.draw do
   get '/invites', to: 'invites#notificate', as: :invites
   post '/invites/:id', to: 'invites#accept', as: :accept_invite
   delete '/invites/:id', to: 'invites#destroy', as: :destroy_invite
+
+  resources :courses
+
 end

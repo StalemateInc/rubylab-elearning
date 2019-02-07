@@ -1,8 +1,5 @@
 class HomeController < ApplicationController
 
-  def index; end
-
-  def invite
+  def index
   end
-
 end
