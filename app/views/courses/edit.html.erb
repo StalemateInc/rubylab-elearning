@@ -1,0 +1,14 @@
+<h1>Edit a course: </h1>
+<%= simple_form_for @course, url: course_path(@course), method: :patch, validate: true do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :name, label: 'Course name', required: true, input_html: { autocomplete: 'name' } %>
+  <%= f.input :duration, label: 'Course duration', required: true, input_html: { min: '0' } %>
+  <%= f.input :difficulty, label: 'Difficulty', collection: Course.difficulties.keys, include_blank: false %>
+
+  <div class="form-actions">
+    <%= f.button :submit, 'Confirm changes', class: 'btn btn-md btn-success' %>
+    <%= link_to 'Delete course', course_path(@course), method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Back', course_path(@course), class: 'btn btn-info btn-md' %>
+  </div>
+<% end %>
