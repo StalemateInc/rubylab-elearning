@@ -22,6 +22,7 @@ class CoursesController < ApplicationController
 
   # GET /courses/:id/edit
   def edit
+    authorize @course
   end
 
   # GET /courses/:id
@@ -29,7 +30,6 @@ class CoursesController < ApplicationController
 
   # PATCH /courses/:id
   def update
-    authorize @course
     redirect_to @course if @course.update(course_params)
   end
 
