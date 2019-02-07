@@ -32,4 +32,5 @@ Rails.application.routes.draw do
       delete '/requests/:join_request_id', to: 'join_requests#decline', as: :decline_request
     end
   end
+  resources :courses
 end

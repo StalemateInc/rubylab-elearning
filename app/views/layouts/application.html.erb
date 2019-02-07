@@ -18,6 +18,9 @@
       <p class="alert alert-danger"><%= alert %></p>
     <% end %>
 
+    <%= render 'application/header' %>
+    <%= render 'application/notification' %>
+
     <%= yield %>
   </body>
 </html>
