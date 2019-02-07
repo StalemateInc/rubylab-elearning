@@ -24,5 +24,12 @@ Rails.application.routes.draw do
   devise_scope :user do
     patch '/auth/verification', to: 'users/confirmations#update', as: :update_user_confirmation
   end
-  resources :organizations
+  resources :organizations do
+    post '/join', to: 'organizations#join'
+    member do
+      get '/requests', to: 'join_requests#index'
+      post '/requests/:request_id', to: 'join_requests#accept'
+      delete '/requests/:request_id', to: 'join_request#decline'
+    end
+  end
 end
