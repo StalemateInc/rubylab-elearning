@@ -2,6 +2,6 @@
   <p>
     <%= invite.organization_name %>
     <%= link_to 'Yes', accept_invite_path(invite), method: :post %>
-    <%= link_to 'No', destroy_invite_path(invite), method: :delete %>
+    <%= link_to 'No', destroy_invite_path(invite),  remote: true, method: :delete %>
   </p>
 <% end %>

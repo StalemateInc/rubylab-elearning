@@ -22,6 +22,7 @@ class InvitesController < ApplicationController
       redirect_to root_path
     else
       Invite.destroy(invite.id)
+      redirect_to invites_path
     end
   end
 
