@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   root 'home#index'
 
   authenticate :user, lambda { |u| u.admin } do
-    mount Sidekiq::Web => '/sidekiq' 
-    
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   devise_for :users,
              path: 'auth',
              path_names: {
