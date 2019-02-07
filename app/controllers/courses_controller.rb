@@ -11,6 +11,7 @@ class CoursesController < ApplicationController
   # POST /courses
   def create
     @course = Course.new(course_params)
+    Ownership.create(ownable: current_user, course: @course) # TODO: change after operator switcher done
     redirect_to @course if @course.save
   end
 
