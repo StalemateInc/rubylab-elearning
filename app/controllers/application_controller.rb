@@ -10,4 +10,10 @@ class ApplicationController < ActionController::Base
     flash[:warning] = t "#{policy_name}.#{exception.query}", scope: 'pundit', default: :default
     redirect_to(request.referrer || root_path)
   end
+
+  def after_sign_in_path_for(resource_or_scope)
+    session[:ownable_id] = current_user.id
+    session[:ownable_type] = 'User'
+    root_path
+  end
 end
