@@ -2,6 +2,7 @@
 
 class Organization < ApplicationRecord
   include AASM
+  enum state: [:unverified, :verified, :archived]
 
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
@@ -15,7 +16,7 @@ class Organization < ApplicationRecord
     memberships.where(org_admin: true).map(&:user)
   end
 
-  aasm :column => 'state' do
+  aasm column: 'state' do
     state :unverified, initial: true
     state :verified
     state :archived
