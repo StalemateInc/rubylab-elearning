@@ -29,4 +29,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     patch '/auth/verification', to: 'users/confirmations#update', as: :update_user_confirmation
   end
+  resources :organizations
+  resources :courses
 end

@@ -1,0 +1,8 @@
+<h1>All organizations: </h1>
+<%= link_to 'I want to create an organization', new_organization_path, class: 'btn btn-md btn-primary' %>
+<% @organizations.each do |org| %>
+  <hr>
+  <strong>Name:</strong><%= org.name %><br/>
+  <strong>Surname:</strong><%= org.description %><br/>
+  <%= link_to 'More', organization_path(org), class: 'btn btn-md btn-primary' %>
+<% end %>

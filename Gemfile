@@ -44,9 +44,18 @@ gem 'jquery-ui-rails'
 
 gem 'devise'
 gem 'figaro'
+gem 'font-awesome-sass'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'pundit'
 gem 'sidekiq'
 gem 'whenever', require: false
+
+# order matters, do not change
+gem 'simple_form'
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 

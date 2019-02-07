@@ -1,0 +1,12 @@
+<h1>Create an organization: </h1>
+<%= simple_form_for @organization, url: organizations_path, method: :post, validate: true do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :name, label: 'Organization name', required: true, input_html: { autocomplete: 'name' } %>
+  <%= f.input :description, label: 'Describe your organization', required: true, input_html: { autocomplete: 'description'} %>
+
+  <div class="form-actions">
+    <%= f.button :submit, 'Request new organization creation', class: 'btn btn-md btn-success' %>
+    <%= link_to 'Back', organizations_path, class: 'btn btn-info btn-md' %>
+  </div>
+<% end %>
