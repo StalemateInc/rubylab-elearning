@@ -1,0 +1,13 @@
+<h1>All join requests</h1>
+<% console %>
+<div>
+  <% @join_requests.each do |request| %>
+    <div>
+      <hr/>
+      From: <%= request.user.profile.nickname %><br/>
+      <%= link_to 'Accept', accept_request_organization_path(@organization, request), method: :post, class: 'btn btn-md btn-success' %>
+      <%= link_to 'Decline', decline_request_organization_path(@organization, request), method: :delete, class: 'btn btn-md btn-danger' %>
+      <hr/>
+    </div>
+  <% end %>
+</div>

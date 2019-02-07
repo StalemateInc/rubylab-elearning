@@ -7,7 +7,7 @@ class JoinRequestsController < ApplicationController
 
   # GET organizations/:id/request/:request_id
   def index
-    @join_requests = JoinRequest.where(organization: @organization)
+    @join_requests = JoinRequest.where(organization: @organization, status: :pending)
   end
 
   # make remote
@@ -17,7 +17,7 @@ class JoinRequestsController < ApplicationController
                                     organization: @organization,
                                     request: @join_request)
     if result.success?
-      flash[:success] = context.message
+      flash[:success] = result.message
     else
       flash[:notice] = result.errors
     end
@@ -30,7 +30,7 @@ class JoinRequestsController < ApplicationController
                                     organization: @organization,
                                     request: @join_request)
     if result.success?
-      flash[:success] = context.message
+      flash[:success] = result.message
     else
       flash[:notice] = result.errors
     end
@@ -43,7 +43,7 @@ class JoinRequestsController < ApplicationController
   end
 
   def set_join_request
-    @join_request = JoinRequest.find(params[:request_id])
+    @join_request = JoinRequest.find(params[:join_request_id])
   end
 
 end

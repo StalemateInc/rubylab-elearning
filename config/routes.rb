@@ -25,11 +25,11 @@ Rails.application.routes.draw do
     patch '/auth/verification', to: 'users/confirmations#update', as: :update_user_confirmation
   end
   resources :organizations do
-    post '/join', to: 'organizations#join'
     member do
-      get '/requests', to: 'join_requests#index'
-      post '/requests/:request_id', to: 'join_requests#accept'
-      delete '/requests/:request_id', to: 'join_request#decline'
+      post '/join', to: 'organizations#join'
+      get '/requests', to: 'join_requests#index', as: :requests
+      post '/requests/:join_request_id', to: 'join_requests#accept', as: :accept_request
+      delete '/requests/:join_request_id', to: 'join_requests#decline', as: :decline_request
     end
   end
 end

@@ -3,5 +3,5 @@
 class JoinRequest < ApplicationRecord
   belongs_to :organization
   belongs_to :user
-  enum status: %i[pending accepted rejected]
+  enum status: %i[pending accepted declined]
 end
