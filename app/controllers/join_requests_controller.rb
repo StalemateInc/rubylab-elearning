@@ -2,7 +2,7 @@
 
 class JoinRequestsController < ApplicationController
 
-  before_action :set_organizations
+  before_action :set_organization
   before_action :set_join_request, except: :index
 
   # GET organizations/:id/request/:request_id
@@ -14,12 +14,12 @@ class JoinRequestsController < ApplicationController
   # POST organizations/:id/request/:request_id
   def accept
     result = AcceptJoinRequest.call(user: @join_request.user,
-                             organization: @organization,
-                             request: @join_request)
+                                    organization: @organization,
+                                    request: @join_request)
     if result.success?
       flash[:success] = context.message
     else
-      flash[:warning] = result.errors
+      flash[:notice] = result.errors
     end
   end
 
@@ -32,7 +32,7 @@ class JoinRequestsController < ApplicationController
     if result.success?
       flash[:success] = context.message
     else
-      flash[:warning] = result.errors
+      flash[:notice] = result.errors
     end
   end
 

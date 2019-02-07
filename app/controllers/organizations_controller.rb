@@ -41,6 +41,16 @@ class OrganizationsController < ApplicationController
     redirect_to organizations_path if @organization.destroy
   end
 
+  # make remote
+  # POST /organizations/:id/join
+  def join
+    if JoinRequest.create(user: current_user, organization: @organization, status: :pending)
+      flash[:success] = 'Request has been sent. Please await confirmation from the organization administrator.'
+    else
+      flash[:notice] = 'Error sending a request, please, try again later.'
+    end
+  end
+
   private
 
   def set_organization
