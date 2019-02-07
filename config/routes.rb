@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   root to: 'home#index'
-  get 'home/invite', to: 'home#invite', as: 'invites'
+
   devise_for :users,
              path: 'auth',
              path_names: {
@@ -26,4 +26,7 @@ Rails.application.routes.draw do
     patch '/auth/verification', to: 'users/confirmations#update', as: :update_user_confirmation
   end
   resources :organizations
+
+  get '/invites', to: 'invites#notificate', as: :invites
+  post '/invites/:id', to: 'invites#accept', as: :accept_invite
 end

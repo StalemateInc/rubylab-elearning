@@ -1,0 +1,7 @@
+<% current_user.invites.each do | invite | %>
+  <p>
+    <%= invite.organization_name %>
+    <%= link_to 'Yes', accept_invite_path(invite), method: 'post' %>
+    <%= link_to 'No', root_path %>
+  </p>
+<% end %>
