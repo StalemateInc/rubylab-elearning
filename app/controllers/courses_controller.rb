@@ -29,11 +29,13 @@ class CoursesController < ApplicationController
 
   # PATCH /courses/:id
   def update
+    authorize @course
     redirect_to @course if @course.update(course_params)
   end
 
   # DELETE /courses/:id
   def destroy
+    authorize @course
     redirect_to courses_path if @course.destroy
   end
 

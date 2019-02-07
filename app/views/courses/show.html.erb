@@ -4,5 +4,5 @@
 
 <p>Difficulty: <%= @course.difficulty %></p>
 
-<%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning'%>
+<%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>
