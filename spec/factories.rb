@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  factory :join_request do
+    status { 0 }
+  end
 
   factory :user do
     trait :admin do

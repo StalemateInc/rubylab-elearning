@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_162434) do
+ActiveRecord::Schema.define(version: 2019_02_07_123417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 2019_01_29_162434) do
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_feedbacks_on_course_id"
     t.index ["user_id"], name: "index_feedbacks_on_user_id"
+  end
+
+  create_table "join_requests", force: :cascade do |t|
+    t.text "comment"
+    t.integer "status", default: 0
+    t.bigint "user_id"
+    t.bigint "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_join_requests_on_organization_id"
+    t.index ["user_id"], name: "index_join_requests_on_user_id"
   end
 
   create_table "memberships", force: :cascade do |t|
