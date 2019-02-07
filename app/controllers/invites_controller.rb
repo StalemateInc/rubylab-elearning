@@ -17,6 +17,15 @@ class InvitesController < ApplicationController
     end
   end
 
+  def destroy
+    if invite.nil?
+      redirect_to root_path
+    else
+      Invite.destroy(invite.id)
+    end
+  end
+
+
   private
 
   def invite

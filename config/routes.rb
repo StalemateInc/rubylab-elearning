@@ -29,4 +29,5 @@ Rails.application.routes.draw do
 
   get '/invites', to: 'invites#notificate', as: :invites
   post '/invites/:id', to: 'invites#accept', as: :accept_invite
+  delete '/invites/:id', to: 'invites#destroy', as: :destroy_invite
 end
