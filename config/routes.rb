@@ -29,12 +29,22 @@ Rails.application.routes.draw do
   devise_scope :user do
     patch '/auth/verification', to: 'users/confirmations#update', as: :update_user_confirmation
   end
-  resources :organizations
 
   get '/invites', to: 'invites#index', as: :invites
   post '/invites/:id', to: 'invites#accept', as: :accept_invite
   delete '/invites/:id', to: 'invites#destroy', as: :destroy_invite
 
+
+  resources :organizations do
+    member do
+      get '/requests', to: 'join_requests#index', as: :requests
+      post '/requests', to: 'join_requests#create', as: :create_request
+      put '/requests/:join_request_id/accept', to: 'join_requests#accept', as: :accept_request
+      put '/requests/:join_request_id/decline', to: 'join_requests#decline', as: :decline_request
+      delete '/requests/:join_request_id', to: 'join_requests#destroy', as: :cancel_request
+    end
+    resource :membership, only: :destroy
+  end
   resources :courses
 
 end

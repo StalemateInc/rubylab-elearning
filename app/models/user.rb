@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :organizations, through: :memberships
   has_many :participations, dependent: :destroy
   has_many :enrolled_courses, through: :participations, source: :course
+  has_many :join_requests, dependent: :destroy
   has_many :feedbacks
   has_many :invites
 

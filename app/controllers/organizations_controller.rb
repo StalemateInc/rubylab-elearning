@@ -4,6 +4,7 @@ class OrganizationsController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_organization, except: %i[index create new]
+  before_action :set_join_request, only: :show
 
   # GET /organizations
   def index
@@ -42,6 +43,10 @@ class OrganizationsController < ApplicationController
   end
 
   private
+
+  def set_join_request
+    @join_request = @organization.join_requests.find_by(user: current_user, status: :pending)
+  end
 
   def set_organization
     @organization = Organization.find(params[:id])

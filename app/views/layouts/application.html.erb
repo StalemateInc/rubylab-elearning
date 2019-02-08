@@ -4,6 +4,7 @@
     <title>Elearning</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -11,8 +12,12 @@
 
   <body>
     <%= render 'application/header' %>
-    <%= render 'application/notification' %>
+    <div id="notification-area" class="m-2">
+      <%= render 'layouts/flash' %>
+    </div>
+
     <%= yield %>
+
     <%= render 'application/footer' %>
   </body>
 </html>
