@@ -5,7 +5,6 @@ class Course < ApplicationRecord
   has_one :ownership, dependent: :destroy
   has_many :participations, dependent: :destroy
   has_many :students, through: :participations, source: :user
-  has_many :feedbacks
   enum difficulty: %i[unspecified novice intermediate advanced professional]
 
   validates :name, presence: true, length: { in: 4..20 }
