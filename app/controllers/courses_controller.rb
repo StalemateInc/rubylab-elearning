@@ -11,13 +11,23 @@ class CoursesController < ApplicationController
   # POST /courses
   def create
     @course = Course.new(course_params)
-    Ownership.create(ownable: current_user, course: @course) # TODO: change after operator switcher done
+    if params[:is_org_creator]
+      ownable_type = 'Organization'
+      ownable_id = params[:course][:owner]
+      Ownership.create(ownable_type: ownable_type, ownable_id: ownable_id, course: @course)
+    else
+      Ownership.create(ownable: current_user, course: @course)
+    end
     redirect_to @course if @course.save
   end
 
   # GET /courses/new
   def new
     @course = Course.new
+    @organizations = {}
+    current_user.organizations.to_a.map do |org|
+      @organizations["#{org.name}"] = org.id if current_user.in?(org.org_admin_list)
+    end
   end
 
   # GET /courses/:id/edit
