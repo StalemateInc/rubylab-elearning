@@ -4,11 +4,13 @@
 
 $(document).on 'turbolinks:load', ->
 	$('#is_org_creator').change ->
-	  if @checked
-	    document.getElementById('course_owner').classList.remove 'd-none', 'disabled'
-	    document.getElementById('course_owner').disabled = false
+	  selector = $('#course_owner')
+	  div = $('.course_owner_div')	
+	  if @checked    
+	    div.removeClass('d-none')
+	    selector.prop('disabled', false)
 	  else
-	    document.getElementById('course_owner').classList.add 'd-none', 'disabled'
-	    document.getElementById('course_owner').disabled = true
+	    div.addClass('d-none')
+	    selector.prop('disabled', true)
 	  return	
   return
