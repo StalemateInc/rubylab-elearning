@@ -1,0 +1,2 @@
+class CompletionRecord < ApplicationRecord
+end
