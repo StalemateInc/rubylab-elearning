@@ -85,6 +85,17 @@ ActiveRecord::Schema.define(version: 2019_02_07_202234) do
     t.index ["target_user_id"], name: "index_impersonation_histories_on_target_user_id"
   end
 
+  create_table "join_requests", force: :cascade do |t|
+    t.text "comment"
+    t.integer "status", default: 0
+    t.bigint "user_id"
+    t.bigint "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_join_requests_on_organization_id"
+    t.index ["user_id"], name: "index_join_requests_on_user_id"
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "organization_id"

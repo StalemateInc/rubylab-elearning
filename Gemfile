@@ -39,15 +39,12 @@ gem 'aasm'
 gem 'bootstrap'
 gem 'font-awesome-sass'
 
-# add jquery if neccessary
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
 gem 'devise'
 gem 'figaro'
-gem 'font-awesome-sass'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'interactor', '~> 3.0'
 gem 'pundit'
 gem 'sidekiq'
 gem 'whenever', require: false

@@ -1,34 +1,47 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+
+  factory :join_request do
+    status { 0 }
+  end
+
   factory :impersonation_history do
     started_at { "2019-02-07 14:35:32" }
     ended_at { "2019-02-07 14:35:32" }
   end
+  
   factory :course_access do
     
   end
+  
   factory :user_answer do
     answer { "MyString" }
   end
+  
   factory :favorite_course do
     
   end
+  
   factory :completion_record do
     score { 1 }
     status { 1 }
     date { "2019-02-07 14:21:47" }
   end
+  
   factory :certificate do
     filename { "MyString" }
   end
+  
   factory :question do
     content { "MyText" }
     type { 1 }
   end
+  
   factory :answer_list do
     correct_answers { "MyString" }
   end
+  
   factory :page do
     html { "MyText" }
     css { "MyText" }

@@ -21,3 +21,8 @@
 //= require rails.validations
 //= require rails.validations.simple_form.bootstrap4
 //= require_tree .
+
+window.force_flash = function(flash_element_string) {
+    let notification_area = $('#notification-area');
+    notification_area.empty().append($(flash_element_string));
+};

@@ -1,0 +1,4 @@
+let cancel_button = $('#cancel-organization-button');
+cancel_button.after('<%= j render partial: 'organizations/join_button', locals: { organization: @organization, join_request: nil } %>');
+cancel_button.remove();
+force_flash('<%= j render 'layouts/flash' %>');
