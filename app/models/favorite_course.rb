@@ -1,0 +1,2 @@
+class FavoriteCourse < ApplicationRecord
+end
