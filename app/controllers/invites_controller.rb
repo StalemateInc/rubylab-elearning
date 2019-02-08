@@ -6,15 +6,11 @@ class InvitesController < ApplicationController
   def index; end
 
   def accept
-    if @invite.nil?
-      redirect_to root_path
-    else
-      @organization_id = @invite.organization_id
-      user_id = @invite.user_id
-      Membership.create(organization_id: @organization_id, user_id: user_id)
-      @invite.destroy
-      redirect_to organization
-    end
+    @organization_id = @invite.organization_id
+    user_id = @invite.user_id
+    Membership.create(organization_id: @organization_id, user_id: user_id)
+    @invite.destroy
+    redirect_to organization
   end
 
   def destroy
