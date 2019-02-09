@@ -1,12 +1,12 @@
 <div class="container-fluid">
   <div class="row mx-3">
     <div class="col-lg-2">
-      <div class="nav flex-column nav-pills scrolling-wrapper-flexbox" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a class="nav-link active tab-scroll" id="v-pills-dashboard-tab" data-toggle="pill" href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">Dashboard</a>
-        <a class="nav-link tab-scroll" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">My Profile</a>
-        <a class="nav-link tab-scroll" id="v-pills-courses-tab" data-toggle="pill" href="#v-pills-courses" role="tab" aria-controls="v-pills-courses" aria-selected="false">My Courses</a>
-        <a class="nav-link tab-scroll" id="v-pills-certificates-tab" data-toggle="pill" href="#v-pills-certificates" role="tab" aria-controls="v-pills-certificates" aria-selected="false">My Certificates</a>
-        <a class="nav-link tab-scroll" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Private Messages</a>
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+        <a class="nav-link active tab-scroll" id="v-pills-dashboard-tab" href="<%= user_dashboard_path %>">Dashboard</a>
+        <a class="nav-link tab-scroll" id="v-pills-profile-tab" href="<%= profile_path %>">My Profile</a>
+        <a class="nav-link tab-scroll" id="v-pills-courses-tab" href="<%= participations_path %>">My Courses</a>
+        <a class="nav-link tab-scroll" id="v-pills-certificates-tab" href="<%= certificates_path %>">My Certificates</a>
+        <a class="nav-link tab-scroll" id="v-pills-messages-tab" href="#">Private Messages</a>
       </div>
     </div>
     <div class="col-lg-10">
@@ -44,10 +44,10 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">Profile</div>
-        <div class="tab-pane fade" id="v-pills-courses" role="tabpanel" aria-labelledby="v-pills-courses-tab">Courses</div>
-        <div class="tab-pane fade" id="v-pills-certificates" role="tabpanel" aria-labelledby="v-pills-certificates-tab">Certificates</div>
-        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">Messages</div>
+<!--        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">Profile</div>-->
+<!--        <div class="tab-pane fade" id="v-pills-courses" role="tabpanel" aria-labelledby="v-pills-courses-tab">Courses</div>-->
+<!--        <div class="tab-pane fade" id="v-pills-certificates" role="tabpanel" aria-labelledby="v-pills-certificates-tab">Certificates</div>-->
+<!--        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">Messages</div>-->
       </div>
     </div>
   </div>

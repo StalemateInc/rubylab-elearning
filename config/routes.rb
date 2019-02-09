@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'sidekiq/web'
 Rails.application.routes.draw do
+  get 'participations/index'
+  get 'participations/destroy'
   root 'home#index'
 
   authenticate :user, lambda { |u| u.admin } do
@@ -42,7 +44,7 @@ Rails.application.routes.draw do
   resources :courses
   scope :user do
     get '/', to: 'user_dashboard#index', as: :user_dashboard
-    resource :profile, only: %i[show update]
+    resource :profile, only: %i[show edit update]
     resources :participations, only: %i[index destroy]
     resources :certificates, only: %i[index show]
   end

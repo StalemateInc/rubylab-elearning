@@ -1,0 +1,56 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+        <a class="nav-link tab-scroll" id="v-pills-dashboard-tab" href="<%= user_dashboard_path %>">Dashboard</a>
+        <a class="nav-link active tab-scroll" id="v-pills-profile-tab" href="<%= profile_path %>">My Profile</a>
+        <a class="nav-link tab-scroll" id="v-pills-courses-tab" href="<%= participations_path %>">My Courses</a>
+        <a class="nav-link tab-scroll" id="v-pills-certificates-tab" href="<%= certificates_path %>">My Certificates</a>
+        <a class="nav-link tab-scroll" id="v-pills-messages-tab" href="#">Private Messages</a>
+      </div>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+          Profile
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <p><strong>Name: </strong><%= @profile.name %></p>
+                <p><strong>Surname: </strong><%= @profile.surname %></p>
+                <p><strong>Nickname: </strong>@<%= @profile.nickname %></p>
+                <p><strong>Address: </strong><%= @profile.address %></p>
+                <p><strong>Birthday: </strong><%= @profile.birthday %></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <%= link_to 'Edit your profile', edit_profile_path, class: 'btn btn-md btn-warning' %>
+                <%= link_to 'Back', :back, class: 'btn btn-md btn-primary' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= content_for :dashboard_panel_resizer do %>
+  <script>
+      function dashboardNavigatorPanel() {
+          let windowWidth = document.body.clientWidth;
+          let pills_tab = $('#v-pills-tab');
+          if (windowWidth < 992) {
+              pills_tab.removeClass('flex-column');
+              pills_tab.addClass('flex-row');
+          } else if (windowWidth >= 922) {
+              pills_tab.removeClass('flex-row');
+              pills_tab.addClass('flex-column');
+          }
+      }
+      $(window).resize(function() {
+          dashboardNavigatorPanel();
+      });
+      $(document).on('turbolinks:load', dashboardNavigatorPanel);
+  </script>
+<% end %>
