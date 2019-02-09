@@ -1,0 +1,2 @@
+class AnswerList < ApplicationRecord
+end

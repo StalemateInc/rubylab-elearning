@@ -10,29 +10,90 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_162434) do
+ActiveRecord::Schema.define(version: 2019_02_07_202234) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "plpgsql"
+
+  create_table "answer_lists", force: :cascade do |t|
+    t.hstore "answers", null: false
+    t.string "correct_answers", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "certificates", force: :cascade do |t|
+    t.string "filename", null: false
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_certificates_on_course_id"
+  end
+
+  create_table "completion_records", force: :cascade do |t|
+    t.integer "score", null: false
+    t.integer "status", null: false
+    t.datetime "date"
+    t.bigint "certificate_id"
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["certificate_id"], name: "index_completion_records_on_certificate_id"
+    t.index ["course_id"], name: "index_completion_records_on_course_id"
+    t.index ["user_id"], name: "index_completion_records_on_user_id"
+  end
+
+  create_table "course_accesses", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_accesses_on_course_id"
+    t.index ["user_id"], name: "index_course_accesses_on_user_id"
+  end
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.integer "duration"
     t.integer "difficulty", default: 0
-    t.integer "views", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
+    t.integer "status"
+    t.integer "visibility"
   end
 
-  create_table "feedbacks", force: :cascade do |t|
-    t.integer "rating"
-    t.text "content"
+  create_table "favorite_courses", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_feedbacks_on_course_id"
-    t.index ["user_id"], name: "index_feedbacks_on_user_id"
+    t.index ["course_id"], name: "index_favorite_courses_on_course_id"
+    t.index ["user_id"], name: "index_favorite_courses_on_user_id"
+  end
+
+  create_table "impersonation_histories", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.bigint "impersonator_id"
+    t.bigint "target_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["impersonator_id"], name: "index_impersonation_histories_on_impersonator_id"
+    t.index ["target_user_id"], name: "index_impersonation_histories_on_target_user_id"
+  end
+
+  create_table "join_requests", force: :cascade do |t|
+    t.text "comment"
+    t.integer "status", default: 0
+    t.bigint "user_id"
+    t.bigint "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_join_requests_on_organization_id"
+    t.index ["user_id"], name: "index_join_requests_on_user_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -50,6 +111,7 @@ ActiveRecord::Schema.define(version: 2019_01_29_162434) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "state"
     t.index ["name"], name: "index_organizations_on_name", unique: true
   end
 
@@ -63,12 +125,26 @@ ActiveRecord::Schema.define(version: 2019_01_29_162434) do
     t.index ["ownable_type", "ownable_id"], name: "index_ownerships_on_ownable_type_and_ownable_id"
   end
 
+  create_table "pages", force: :cascade do |t|
+    t.text "html", null: false
+    t.text "css", null: false
+    t.bigint "previous_page_id"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_pages_on_course_id"
+    t.index ["previous_page_id"], name: "index_pages_on_previous_page_id"
+  end
+
   create_table "participations", force: :cascade do |t|
     t.bigint "course_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "await_check"
+    t.bigint "page_id"
     t.index ["course_id"], name: "index_participations_on_course_id"
+    t.index ["page_id"], name: "index_participations_on_page_id"
     t.index ["user_id"], name: "index_participations_on_user_id"
   end
 
@@ -83,6 +159,29 @@ ActiveRecord::Schema.define(version: 2019_01_29_162434) do
     t.datetime "updated_at", null: false
     t.index ["nickname"], name: "index_profiles_on_nickname", unique: true
     t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.text "content", null: false
+    t.integer "type"
+    t.bigint "page_id"
+    t.bigint "answer_list_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_list_id"], name: "index_questions_on_answer_list_id"
+    t.index ["page_id"], name: "index_questions_on_page_id"
+  end
+
+  create_table "user_answers", force: :cascade do |t|
+    t.string "answer", null: false
+    t.bigint "question_id"
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_user_answers_on_course_id"
+    t.index ["question_id"], name: "index_user_answers_on_question_id"
+    t.index ["user_id"], name: "index_user_answers_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -102,8 +201,6 @@ ActiveRecord::Schema.define(version: 2019_01_29_162434) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "feedbacks", "courses"
-  add_foreign_key "feedbacks", "users"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
   add_foreign_key "ownerships", "courses"
