@@ -14,12 +14,8 @@ class InvitesController < ApplicationController
   end
 
   def destroy
-    if @invite.nil?
-      redirect_to root_path
-    else
-      @invite.destroy
-      redirect_to invites_path
-    end
+    @invite.destroy
+    redirect_to invites_path
   end
 
 
