@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on 'turbolinks:load', ->
-	$('#is_org_creator').change ->
+	$('#course_is_org_creator').change ->
 	  selector = $('#course_owner')
 	  div = $('.course_owner_div')	
 	  if @checked    

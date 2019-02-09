@@ -11,7 +11,7 @@ class CoursesController < ApplicationController
   # POST /courses
   def create
     @course = Course.new(course_params)
-    if params[:is_org_creator]
+    if params[:course][:is_org_creator]
       ownable_type = 'Organization'
       ownable_id = params[:course][:owner]
       Ownership.create(ownable_type: ownable_type, ownable_id: ownable_id, course: @course)
