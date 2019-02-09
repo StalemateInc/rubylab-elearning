@@ -1,7 +1,6 @@
 class CoursePolicy < ApplicationPolicy
-  # TODO: change policy after operator switcher done
   def edit?
-    user.admin? || record.owner == user
+    user.admin? || check_owner
   end
 
   def update?
@@ -9,6 +8,16 @@ class CoursePolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.admin? || record.owner == user
+    user.admin? || check_owner
+  end
+
+  private
+
+  def check_owner
+    if record.owner.instance_of?(User)
+      record.owner == user
+    else
+      user.in?(record.owner.org_admin_list)
+    end
   end
 end
