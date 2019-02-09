@@ -9,7 +9,6 @@ class Course < ApplicationRecord
 
   validates :name, presence: true, length: { in: 4..20 }
   validates :duration, presence: true, numericality: { only_integer: true, greater_than: 0 }
-  validates :views, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :difficulty, presence: true, inclusion: { in: difficulties.keys }
 
   def owner
