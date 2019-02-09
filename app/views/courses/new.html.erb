@@ -1,5 +1,5 @@
 <h1>Create a course: </h1>
-<%= simple_form_for @course, url: courses_path, method: :post, validate: true do |f| %>
+<%= simple_form_for @course do |f| %>
   <%= f.error_notification %>
 
   <%= f.input :name, label: 'Course name', required: true, input_html: { autocomplete: 'name' } %>

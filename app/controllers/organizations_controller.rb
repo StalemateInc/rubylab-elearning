@@ -42,6 +42,12 @@ class OrganizationsController < ApplicationController
     redirect_to organizations_path if @organization.destroy
   end
 
+  def new_import
+  end
+
+  def create_import
+  end
+
   private
 
   def set_join_request

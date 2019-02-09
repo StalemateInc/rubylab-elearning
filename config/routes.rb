@@ -36,6 +36,8 @@ Rails.application.routes.draw do
       put '/requests/:join_request_id/accept', to: 'join_requests#accept', as: :accept_request
       put '/requests/:join_request_id/decline', to: 'join_requests#decline', as: :decline_request
       delete '/requests/:join_request_id', to: 'join_requests#destroy', as: :cancel_request
+      get '/import', to: 'organizations#new_import', as: :new_import
+      post '/import', to: 'organizations#create_import', as: :create_import
     end
     resource :membership, only: :destroy
   end

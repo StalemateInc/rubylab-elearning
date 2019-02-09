@@ -1,0 +1,13 @@
+<%= simple_form_for @organization, url: create_import_organization_path, method: :post, validate: true do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :file, as: :file, label: 'CSV file for upload', class: 'form-control' %>
+  
+  <%= button_tag "Add user's email", type: 'button', id:
+    'email-from-input', class: 'btn btn-md btn-success' %> 
+  <div class='custom-emails'></div>
+  <div class="form-actions">
+    <%= f.button :submit, 'Upload emails', class: 'btn btn-md btn-success' %>
+    <%= link_to 'Back', organizations_path, class: 'btn btn-info btn-md' %>
+  </div>
+<% end %>
