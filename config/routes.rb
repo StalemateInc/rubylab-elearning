@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 require 'sidekiq/web'
 Rails.application.routes.draw do
-  get 'participations/index'
-  get 'participations/destroy'
   root 'home#index'
 
   authenticate :user, lambda { |u| u.admin } do
