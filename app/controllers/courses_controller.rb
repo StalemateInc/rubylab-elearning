@@ -25,7 +25,7 @@ class CoursesController < ApplicationController
   def new
     @course = Course.new
     @organizations = {}
-    current_user.organizations.to_a.map do |org|
+    current_user.organizations.map do |org|
       @organizations["#{org.name}"] = org.id if current_user.in?(org.org_admin_list)
     end
   end
