@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   end
 
   get '/invites', to: 'invites#index', as: :invites
-  post '/invites/:id', to: 'invites#accept', as: :accept_invite
+  post '/invites/:id', to: 'invites#create', as: :accept_invite
   delete '/invites/:id', to: 'invites#destroy', as: :destroy_invite
 
 

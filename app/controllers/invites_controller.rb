@@ -3,9 +3,11 @@
 class InvitesController < ApplicationController
   before_action :set_invite
 
+  # GET /invites
   def index; end
 
-  def accept
+  # POST /organization/:id
+  def create
     @organization_id = @invite.organization_id
     user_id = @invite.user_id
     Membership.create(organization_id: @organization_id, user_id: user_id)
@@ -13,6 +15,7 @@ class InvitesController < ApplicationController
     redirect_to organization
   end
 
+  # DELETE /invites/:id
   def destroy
     @invite.destroy
     redirect_to invites_path
