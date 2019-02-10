@@ -1,0 +1,10 @@
+<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+  <a class="nav-link tab-scroll" id="v-pills-dashboard-tab" href="<%= user_dashboard_path %>">Dashboard</a>
+  <a class="nav-link tab-scroll" id="v-pills-profile-tab" href="<%= profile_path %>">My Profile</a>
+  <a class="nav-link tab-scroll" id="v-pills-courses-tab" href="<%= participations_path %>">My Courses</a>
+  <a class="nav-link tab-scroll" id="v-pills-certificates-tab" href="<%= certificates_path %>">My Certificates</a>
+  <a class="nav-link tab-scroll" id="v-pills-messages-tab" href="#">Private Messages</a>
+</div>
+<script>
+  $('#<%= get_id_for_active_menu_item(active) %>').addClass('active');
+</script>
