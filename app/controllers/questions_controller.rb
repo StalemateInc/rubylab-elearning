@@ -1,3 +1,5 @@
 class QuestionsController < ApplicationController
-  def new; end
+  def new
+    @question = Question.new
+  end
 end
