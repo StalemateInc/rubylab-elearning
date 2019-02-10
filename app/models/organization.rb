@@ -6,7 +6,7 @@ class Organization < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
-  has_many :ownerships, as: :ownable
+  has_many :ownerships, as: :ownable, dependent: :destroy
   has_many :created_courses, through: :ownerships, source: :course
   has_many :join_requests, dependent: :destroy
 
