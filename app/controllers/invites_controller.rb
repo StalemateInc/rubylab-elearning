@@ -1,23 +1,20 @@
 # frozen_string_literal: true
 
 class InvitesController < ApplicationController
-  before_action :set_invite
+  before_action :set_invite, only: [:destroy, :create]
+  after_action :delete_invite, only: [:destroy, :create]
 
   # GET /invites
   def index; end
 
   # POST /organization/:id
   def create
-    @organization_id = @invite.organization_id
-    user_id = @invite.user_id
-    Membership.create(organization_id: @organization_id, user_id: user_id)
-    @invite.destroy
-    redirect_to organization
+    Membership.create(organization_id: @invite.organization.id, user_id: @invite.user.id)
+    redirect_to @invite.organization
   end
 
   # DELETE /invites/:id
   def destroy
-    @invite.destroy
     redirect_to invites_path
   end
 
@@ -31,7 +28,7 @@ class InvitesController < ApplicationController
     end
   end
 
-  def organization
-    Organization.find(@organization_id)
+  def delete_invite
+    @invite.destroy
   end
 end
