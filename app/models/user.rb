@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :certificates, through: :completion_records
   has_many :user_answers, dependent: :destroy
   has_many :course_accesses, dependent: :destroy
+  has_many :allowed_courses, through: :course_accesses, source: :course
   has_many :favorite_courses, dependent: :destroy
   has_many :impersonation_histories, class_name: 'ImpersonationHistory', foreign_key: :impersonator_id
 
