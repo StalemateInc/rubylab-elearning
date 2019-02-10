@@ -1,9 +1,9 @@
-<% form_for @question do |f| %>
+<%= form_for @question do |f| %>
   <p><%= f.label :content, 'Set question:' %> <%= f.text_field :content %></p>
   <div class="answers">
-    <% fields_for :answers do |ans| %>
+    <%= fields_for :answers do |ans| %>
       <p><%= ans.label :answer_text,'Write the answer:' %> <%= ans.text_field :answer_text %></p>
     <% end %>
   </div>
-  <p><%= f.submit "Activate" %></p>
+  <p><%= f.submit "Save question" %></p>
 <% end %>

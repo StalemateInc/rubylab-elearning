@@ -40,5 +40,5 @@ Rails.application.routes.draw do
     resource :membership, only: :destroy
   end
   resources :courses
-  resources :questions, only: :new
+  resources :questions, only: %i[new index]
 end
