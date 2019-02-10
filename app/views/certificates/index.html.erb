@@ -25,22 +25,3 @@
     </div>
   </div>
 </div>
-<%= content_for :dashboard_panel_resizer do %>
-  <script>
-      function dashboardNavigatorPanel() {
-          let windowWidth = document.body.clientWidth;
-          let pills_tab = $('#v-pills-tab');
-          if (windowWidth < 992) {
-              pills_tab.removeClass('flex-column');
-              pills_tab.addClass('flex-row');
-          } else if (windowWidth >= 922) {
-              pills_tab.removeClass('flex-row');
-              pills_tab.addClass('flex-column');
-          }
-      }
-      $(window).resize(function() {
-          dashboardNavigatorPanel();
-      });
-      $(document).on('turbolinks:load', dashboardNavigatorPanel);
-  </script>
-<% end %>

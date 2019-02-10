@@ -38,30 +38,7 @@
             </div>
           </div>
         </div>
-<!--        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">Profile</div>-->
-<!--        <div class="tab-pane fade" id="v-pills-courses" role="tabpanel" aria-labelledby="v-pills-courses-tab">Courses</div>-->
-<!--        <div class="tab-pane fade" id="v-pills-certificates" role="tabpanel" aria-labelledby="v-pills-certificates-tab">Certificates</div>-->
-<!--        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">Messages</div>-->
       </div>
     </div>
   </div>
 </div>
-<%= content_for :dashboard_panel_resizer do %>
-  <script>
-      function dashboardNavigatorPanel() {
-          let windowWidth = document.body.clientWidth;
-          let pills_tab = $('#v-pills-tab');
-          if (windowWidth < 992) {
-              pills_tab.removeClass('flex-column');
-              pills_tab.addClass('flex-row');
-          } else if (windowWidth >= 922) {
-              pills_tab.removeClass('flex-row');
-              pills_tab.addClass('flex-column');
-          }
-      }
-      $(window).resize(function() {
-          dashboardNavigatorPanel();
-      });
-      $(document).on('turbolinks:load', dashboardNavigatorPanel);
-  </script>
-<% end %>
