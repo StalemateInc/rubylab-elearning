@@ -1,0 +1,7 @@
+<% form_for @question do |f| %>
+  <p><%= f.label :content, 'Set question:' %> <%= f.text_field :content %></p>
+  <div class="answers">
+
+  </div>
+  <%= link_to 'add answer' %>
+<% end %>
