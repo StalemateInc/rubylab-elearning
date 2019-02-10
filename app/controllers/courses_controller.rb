@@ -56,6 +56,6 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(%i[name duration difficulty])
+    params.require(:course).permit(%i[name duration difficulty visibility])
   end
 end

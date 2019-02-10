@@ -4,13 +4,29 @@
 
 $(document).on 'turbolinks:load', ->
 	$('#course_is_org_creator').change ->
-	  selector = $('#course_owner')
-	  div = $('.course_owner_div')	
-	  if @checked    
-	    div.removeClass('d-none')
-	    selector.prop('disabled', false)
+
+	  orgSelector = $('#course_owner')
+	  orgSelectorDiv = $('.course_owner_div')
+	  userVisibilitySelector = $('#course_visibility_user')
+	  userVisibilityDiv = $('.course_visibility_user_div')
+	  orgVisibilitySelector = $('#course_visibility_org')
+	  orgVisibilityDiv = $('.course_visibility_org_div')
+
+	  if @checked    	
+	    orgSelectorDiv.removeClass('d-none')
+	    orgSelector.prop('disabled', false)
+
+	    userVisibilitySelector.prop('disabled', true)
+	    orgVisibilitySelector.prop('disabled', false)
+	    userVisibilityDiv.addClass('d-none')
+	    orgVisibilityDiv.removeClass('d-none')
 	  else
-	    div.addClass('d-none')
-	    selector.prop('disabled', true)
+	    orgSelectorDiv.addClass('d-none')
+	    orgSelector.prop('disabled', true)
+
+	    userVisibilitySelector.prop('disabled', false)
+	    orgVisibilitySelector.prop('disabled', true)
+	    userVisibilityDiv.removeClass('d-none')
+	    orgVisibilityDiv.addClass('d-none')
 	  return	
   return

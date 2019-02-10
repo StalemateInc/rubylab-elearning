@@ -14,7 +14,7 @@ class Course < ApplicationRecord
   has_many :allowed_users, through: :course_accesses, source: :user
 
   enum difficulty: %i[unspecified novice intermediate advanced professional]
-  enum visibility: %i[everyone organizations individuals]
+  enum visibility: %i[everyone organization individuals]
   enum status: %i[drafted published archived]
 
   validates :name, presence: true, length: { in: 4..20 }
@@ -29,7 +29,7 @@ class Course < ApplicationRecord
   end
 
   def check_visibility_and_owner
-    if !owner.instance_of?(Organization) && organizations?
+    if !owner.instance_of?(Organization) && organization?
       errors.add(:visibility, "Can't be created only for organizations if the user is not an organization admin.")
     end
   end
