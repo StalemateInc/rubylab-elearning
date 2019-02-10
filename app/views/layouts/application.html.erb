@@ -12,13 +12,21 @@
   </head>
 
   <body>
-    <%= render 'application/header' %>
-    <div id="notification-area" class="m-2">
-      <%= render 'layouts/flash' %>
+    <div id="container">
+      <div id="header">
+        <%= render 'application/header' %>
+      </div>
+      <div id="body">
+        <div id="notification-area" class="m-2">
+          <%= render 'layouts/flash' %>
+        </div>
+        <%= yield %>
+      </div>
+
+      <div id="footer">
+        <%= render 'application/footer' %>
+      </div>
     </div>
 
-    <%= yield %>
-
-    <%= render 'application/footer' %>
   </body>
 </html>

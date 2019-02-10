@@ -1,0 +1,27 @@
+$footer_height: 111px;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height:100%;
+}
+
+#container {
+  min-height: 100%;
+  position:relative;
+}
+
+#header {
+  padding-bottom: 10px;
+}
+
+#body {
+  padding:5px 5px $footer_height;
+}
+
+#footer {
+  position:absolute;
+  bottom: 0;
+  width: 100%;
+  height: $footer_height;
+}
