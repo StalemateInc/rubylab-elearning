@@ -11,6 +11,7 @@ class CoursesController < ApplicationController
   # POST /courses
   def create
     @course = Course.new(course_params)
+    allowed_users_ids = params[:course][:allowed_users] ? params[:course][:allowed_users].drop(1) : []
     if params[:course][:is_org_creator]
       ownable_type = 'Organization'
       ownable_id = params[:course][:owner]
@@ -18,12 +19,20 @@ class CoursesController < ApplicationController
     else
       Ownership.create(ownable: current_user, course: @course)
     end
+    allowed_users_ids.map do |user_id|
+      user = User.find(user_id)
+      CourseAccess.create(user: user, course: @course) if user
+    end
     redirect_to @course if @course.save
   end
 
   # GET /courses/new
   def new
     @course = Course.new
+    @users = {}
+    User.all.map do |user|
+      @users["#{user.email}"] = user.id unless user == current_user
+    end
     @organizations = {}
     current_user.organizations.map do |org|
       @organizations["#{org.name}"] = org.id if current_user.in?(org.org_admin_list)
@@ -56,6 +65,6 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(%i[name duration difficulty visibility])
+    params.require(:course).permit(%i[name description duration difficulty visibility])
   end
 end

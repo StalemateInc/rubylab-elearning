@@ -7,26 +7,35 @@ $(document).on 'turbolinks:load', ->
 
 	  orgSelector = $('#course_owner')
 	  orgSelectorDiv = $('.course_owner_div')
-	  userVisibilitySelector = $('#course_visibility_user')
-	  userVisibilityDiv = $('.course_visibility_user_div')
-	  orgVisibilitySelector = $('#course_visibility_org')
-	  orgVisibilityDiv = $('.course_visibility_org_div')
+	  visibilitySelector = $('#course_visibility')
 
 	  if @checked    	
 	    orgSelectorDiv.removeClass('d-none')
 	    orgSelector.prop('disabled', false)
 
-	    userVisibilitySelector.prop('disabled', true)
-	    orgVisibilitySelector.prop('disabled', false)
-	    userVisibilityDiv.addClass('d-none')
-	    orgVisibilityDiv.removeClass('d-none')
+	    visibilitySelector.append '<option value="organization">organization</option>'
 	  else
 	    orgSelectorDiv.addClass('d-none')
 	    orgSelector.prop('disabled', true)
 
-	    userVisibilitySelector.prop('disabled', false)
-	    orgVisibilitySelector.prop('disabled', true)
-	    userVisibilityDiv.removeClass('d-none')
-	    orgVisibilityDiv.addClass('d-none')
+	    $('#course_visibility option[value=\'organization\']').remove()
 	  return	
+
+	$('#course_visibility').change ->
+	  allowedUsersSelector = $('#course_allowed_users_selector')
+	  allowedUsersDiv = $('.course_allowed_users_selector_div')
+
+	  if $('#course_visibility :selected').text() == 'individuals'
+	  	allowedUsersSelector.prop('disabled', false)
+	  	allowedUsersDiv.removeClass('d-none')
+	  else
+	  	allowedUsersSelector.prop('disabled', true)
+	  	allowedUsersDiv.addClass('d-none')
+	  return	
+
+	$(document).ready ->
+	  $('.js-example-basic-multiple').select2
+	    theme: "bootstrap"
+	    width: '100%'
+	  return
   return

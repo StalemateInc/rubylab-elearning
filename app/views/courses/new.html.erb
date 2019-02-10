@@ -3,15 +3,14 @@
   <%= f.error_notification %>
 
   <%= f.input :name, label: 'Course name', required: true, input_html: { autocomplete: 'name' } %>
+  <%= f.input :description, label: 'Describe your course', required: true, input_html: { autocomplete: 'description'} %>
   <%= f.input :duration, label: 'Course duration', required: true, input_html: { min: '0' } %>
   <%= f.input :difficulty, label: 'Difficulty', collection: Course.difficulties.keys, include_blank: false %>
-  <div class='course_visibility_org_div d-none'>
-    <%= f.input :visibility, label: 'Visibile for: ', collection: Course.visibilities.keys, 
-                include_blank: false, disabled: true, input_html: { id: 'course_visibility_org' } %>
-  </div>
-  <div class='course_visibility_user_div'>
-    <%= f.input :visibility, label: 'Visibile for: ', collection: Course.visibilities.except('organization').keys, 
-                include_blank: false, input_html: { id: 'course_visibility_user' } %>
+  <%= f.input :visibility, label: 'Visibile for: ', collection: Course.visibilities.except('organization').keys, 
+                include_blank: false, input_html: { id: 'course_visibility' } %>
+  <div class='course_allowed_users_selector_div d-none'>
+  <%= f.input :allowed_users, label:'Select allowed users', collection: @users, disabled: true,
+              input_html: { class: 'js-example-basic-multiple', multiple: 'multiple', id: 'course_allowed_users_selector' } %>
   </div>
   <% unless @organizations.empty? %>
     <label>Set creator to organization</label>
@@ -27,3 +26,4 @@
     <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>
   </div>
 <% end %>
+

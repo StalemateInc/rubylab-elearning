@@ -1,9 +1,9 @@
-/*
- *= require jquery-ui
- */
+@import "jquery-ui";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "bootstrap";
 @import "application/application";
 @import "application/footer";
 @import "user_dashboard";
+@import "select2";
+@import "select2-bootstrap";
