@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_07_202234) do
+ActiveRecord::Schema.define(version: 2019_02_09_171955) do
 
 
   # These are extensions that must be enabled in order to support this database
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 2019_02_07_202234) do
     t.string "correct_answers", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "question_id"
+    t.index ["question_id"], name: "index_answer_lists_on_question_id"
   end
 
   create_table "certificates", force: :cascade do |t|
@@ -29,6 +31,8 @@ ActiveRecord::Schema.define(version: 2019_02_07_202234) do
     t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "completion_record_id"
+    t.index ["completion_record_id"], name: "index_certificates_on_completion_record_id"
     t.index ["course_id"], name: "index_certificates_on_course_id"
   end
 
@@ -36,12 +40,10 @@ ActiveRecord::Schema.define(version: 2019_02_07_202234) do
     t.integer "score", null: false
     t.integer "status", null: false
     t.datetime "date"
-    t.bigint "certificate_id"
     t.bigint "user_id"
     t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["certificate_id"], name: "index_completion_records_on_certificate_id"
     t.index ["course_id"], name: "index_completion_records_on_course_id"
     t.index ["user_id"], name: "index_completion_records_on_user_id"
   end
@@ -171,10 +173,8 @@ ActiveRecord::Schema.define(version: 2019_02_07_202234) do
     t.text "content", null: false
     t.integer "type"
     t.bigint "page_id"
-    t.bigint "answer_list_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["answer_list_id"], name: "index_questions_on_answer_list_id"
     t.index ["page_id"], name: "index_questions_on_page_id"
   end
 
