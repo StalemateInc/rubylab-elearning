@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_many :user_answers, dependent: :destroy
   has_many :course_accesses, dependent: :destroy
   has_many :favorite_courses, dependent: :destroy
-  #has_many :impersonation_histories, source: :impersonator TODO: needs to be rewritten
+  has_many :impersonation_histories, class_name: 'ImpersonationHistory', foreign_key: :impersonator_id
 
   accepts_nested_attributes_for :profile
 
