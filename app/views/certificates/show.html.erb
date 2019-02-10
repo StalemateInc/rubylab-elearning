@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: "user_dashboard/menu", locals: { active: :certificates } %>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-certificates" role="tabpanel" aria-labelledby="v-pills-certificates-tab">
+          <h1>Certificate: <%= @certificate.course.name %> </h1>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <div id="certificate-display" class="panel-stub"></div>
+                <p><strong>Earned at:</strong><%= @certificate.completion_record.date %></p>
+                <p><strong>Score:</strong><%= @certificate.completion_record.score %>%</p>
+              </div>
+            </div>
+            <div class="row">
+              <%= link_to "Back", :back, class: 'btn btn-md btn-primary' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
