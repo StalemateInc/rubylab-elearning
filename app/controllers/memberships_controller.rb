@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MembershipsController < ApplicationController
   before_action :set_organization
   before_action :set_membership, only: :destroy

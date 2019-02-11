@@ -1,12 +1,27 @@
-<h1>All join requests</h1>
-<div>
-  <% @join_requests.each do |request| %>
-    <div id="join-request-<%= request.id %>">
-      <hr/>
-      From: <%= request.user.profile.nickname %><br/>
-      <%= link_to 'Accept', accept_request_organization_path(@organization, request), method: :put, remote: :true, class: 'btn btn-md btn-success' %>
-      <%= link_to 'Decline', decline_request_organization_path(@organization, request), method: :put, remote: :true, class: 'btn btn-md btn-danger' %>
-      <hr/>
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: "organization_dashboard/menu", locals: { organization: @organization } %>
     </div>
-  <% end %>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-org-requests" role="tabpanel" aria-labelledby="v-pills-org-requests-tab">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <h1>All join requests: </h1>
+                <% if @join_requests.empty? %>
+                  <h3>No pending join requests found.</h3>
+                <% else %>
+                  <% @join_requests.each do |request| %>
+                    <%= render partial: 'join_requests/card', locals: { request: request } %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
