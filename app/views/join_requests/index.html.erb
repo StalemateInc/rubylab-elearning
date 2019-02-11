@@ -11,7 +11,7 @@
               <div class="col">
                 <h1>All join requests: </h1>
                 <% if @join_requests.empty? %>
-                  <h3>No pending join requests found.</h3>
+                  <h4>No pending join requests found.</h4>
                 <% else %>
                   <% @join_requests.each do |request| %>
                     <%= render partial: 'join_requests/card', locals: { request: request } %>

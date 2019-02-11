@@ -8,7 +8,6 @@ class ParticipationsController < ApplicationController
     @participations = current_user.participations
   end
 
-  # make remote
   # DELETE /user/participations/:id
   def destroy
     if @participation.destroy
