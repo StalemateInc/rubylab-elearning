@@ -1,9 +1,5 @@
 <h1>All courses: </h1>
 <%= link_to 'Create course', new_course_path, class: 'btn btn-md btn-primary' %>
 <% @courses.each do |course| %>
-  <hr>
-  <strong>Name:</strong><%= course.name %><br/>
-  <strong>Duration:</strong><%= course.duration %><br/>
-  <strong>Difficulty:</strong><%= course.difficulty %><br/>
-  <%= link_to 'More', course_path(course), class: 'btn btn-md btn-primary' %>
+  <%= render partial: 'courses/card', locals: {course: course } %>
 <% end %>

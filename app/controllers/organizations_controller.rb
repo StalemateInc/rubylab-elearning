@@ -42,6 +42,19 @@ class OrganizationsController < ApplicationController
     redirect_to organizations_path if @organization.destroy
   end
 
+  # POST organizations/:id/leave
+  def leave
+    membership = @organization.memberships.find_by(user: current_user)
+    if membership.destroy
+      flash[:success] = 'You have successfully left the organization.'
+    else
+      flash[:notice] = 'Error occurred while leaving the group.'
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
   def set_join_request

@@ -3,7 +3,7 @@
 <p><%= @organization.description %></p>
 <% if current_user %>
   <% if current_user.in?(@organization.users) %>
-    <%= link_to 'Leave organization', organization_membership_path(@organization),
+    <%= link_to 'Leave organization', leave_organization_path(@organization),
                 method: :delete,
                 remote: true,
                 id: 'leave-organization-button',

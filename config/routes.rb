@@ -31,13 +31,26 @@ Rails.application.routes.draw do
   end
   resources :organizations do
     member do
-      get '/requests', to: 'join_requests#index', as: :requests
-      post '/requests', to: 'join_requests#create', as: :create_request
-      put '/requests/:join_request_id/accept', to: 'join_requests#accept', as: :accept_request
-      put '/requests/:join_request_id/decline', to: 'join_requests#decline', as: :decline_request
-      delete '/requests/:join_request_id', to: 'join_requests#destroy', as: :cancel_request
+      # user actions for organizations
+      delete '/leave', to: 'organizations#leave', as: :leave
+      # org_admin actions for organizations
+      scope :manage do
+        get '/', to: 'organization_dashboard#index', as: :home_dashboard
+        scope :requests do
+          get '/', to: 'join_requests#index', as: :requests
+          post '/', to: 'join_requests#create', as: :create_request
+          put '/:join_request_id/accept', to: 'join_requests#accept', as: :accept_request
+          put '/:join_request_id/decline', to: 'join_requests#decline', as: :decline_request
+          delete '/:join_request_id', to: 'join_requests#destroy', as: :cancel_request
+        end
+        scope :invites do; end
+        scope :reports do
+          get '/', to: 'reports#index', as: :reports
+        end
+        get '/memberships', to: 'memberships#index', as: :memberships
+        delete '/memberships/:membership_id', to: 'memberships#destroy', as: :destroy_membership
+      end
     end
-    resource :membership, only: :destroy
   end
   resources :courses
   scope :user do
