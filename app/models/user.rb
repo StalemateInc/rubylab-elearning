@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :participations, dependent: :destroy
   has_many :enrolled_courses, through: :participations, source: :course
   has_many :join_requests, dependent: :destroy
-  has_many :feedbacks
+  has_many :feedbacks, dependent: :destroy
   has_many :invites, dependent: :destroy
   has_many :completion_records
   has_many :certificates, through: :completion_records
