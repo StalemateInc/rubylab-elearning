@@ -2,7 +2,7 @@
 
 module UserDashboardHelper
 
-  def get_id_for_active_menu_item(active)
+  def id_for_selected_menu_user(active)
     case active
     when :dashboard
       'v-pills-dashboard-tab'

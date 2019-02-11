@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row mx-3">
     <div class="col-lg-2">
-      <%= render partial: "organization_dashboard/menu", locals: { organization: @organization } %>
+      <%= render partial: "organization_dashboard/menu", locals: { organization: @organization, active: :requests } %>
     </div>
     <div class="col-lg-10">
       <div class="tab-content" id="v-pills-tabContent">

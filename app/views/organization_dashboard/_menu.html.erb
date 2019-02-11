@@ -5,3 +5,6 @@
   <a class="nav-link tab-scroll" id="v-pills-org-requests-tab" href="<%= requests_organization_path(organization) %>">Join requests</a>
   <a class="nav-link tab-scroll" id="v-pills-org-reports-tab" href="<%= reports_organization_path(organization) %>">Reports</a>
 </div>
+<script>
+  window.set_active_class('<%= id_for_selected_menu_organization(active) %>');
+</script>

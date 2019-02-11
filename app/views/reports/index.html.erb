@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: "organization_dashboard/menu", locals: { organization: @organization, active: :reports } %>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-org-reports" role="tabpanel" aria-labelledby="v-pills-org-reports-tab">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <h1>Organization reports and statistics:</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
