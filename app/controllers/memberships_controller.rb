@@ -8,14 +8,15 @@ class MembershipsController < ApplicationController
     @memberships = @organization.memberships.where.not(org_admin: true)
   end
 
-  # TODO: make remote
   # DELETE /organizations/:id/manage/memberships/:membership_id
   def destroy
-    user = @membership.user
     if @membership.destroy
-      flash[:success] = "User @#{user.nickname} was successfully kicked from the organization"
+      flash[:success] = "User @#{@membership.user.profile.nickname} was successfully kicked from the organization"
     else
       flash[:notice] = 'Error kicking a user from an organization'
+    end
+    respond_to do |format|
+      format.js
     end
   end
 
