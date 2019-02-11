@@ -3,10 +3,13 @@
 class ProfilesController < ApplicationController
   before_action :set_profile
 
+  # GET /user/profile
   def show; end
 
+  # GET /user/profile/edit
   def edit; end
 
+  # PATCH /user/profile
   def update
     if @profile.update(profile_params)
       flash[:success] = 'You have successfully updated your profile'

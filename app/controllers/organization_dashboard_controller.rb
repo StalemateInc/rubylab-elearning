@@ -3,6 +3,7 @@
 class OrganizationDashboardController < ApplicationController
   before_action :set_organization
 
+  # GET /organizations/:id/manage
   def index
     @courses = @organization.created_courses
   end

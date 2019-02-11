@@ -4,6 +4,7 @@ class ReportsController < ApplicationController
 
   before_action :set_organization
 
+  # GET organizations/:id/manage/reports
   def index; end
 
   private

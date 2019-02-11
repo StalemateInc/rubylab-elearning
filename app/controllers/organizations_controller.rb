@@ -42,7 +42,7 @@ class OrganizationsController < ApplicationController
     redirect_to organizations_path if @organization.destroy
   end
 
-  # POST organizations/:id/leave
+  # POST /organizations/:id/leave
   def leave
     membership = @organization.memberships.find_by(user: current_user)
     if membership.destroy

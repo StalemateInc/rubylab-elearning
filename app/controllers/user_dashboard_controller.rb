@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 class UserDashboardController < ApplicationController
 
-  def index
-
-  end
+  # GET /user
+  def index; end
 
 end

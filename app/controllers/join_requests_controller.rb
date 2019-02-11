@@ -11,7 +11,7 @@ class JoinRequestsController < ApplicationController
     @join_requests = JoinRequest.where(organization: @organization, status: :pending)
   end
 
-  # POST organizations/:id/requests
+  # POST /organizations/:id/requests
   def create
     @join_request = JoinRequest.new(user: current_user, organization: @organization, status: :pending)
     if @join_request.save
@@ -24,7 +24,7 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # PUT organizations/:id/requests/:request_id/accept
+  # PUT /organizations/:id/requests/:request_id/accept
   def accept
     result = AcceptJoinRequest.call(user: @join_request.user,
                                     organization: @organization,
@@ -39,7 +39,7 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # PUT organizations:/:id/requests/:request_id/decline
+  # PUT /organizations:/:id/requests/:request_id/decline
   def decline
     result = RejectJoinRequest.call(user: @join_request.user,
                                     organization: @organization,
@@ -54,7 +54,7 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # DELETE organizations:/:id/requests/:request_id
+  # DELETE /organizations:/:id/requests/:request_id
   def destroy
     if @join_request.destroy
       flash[:success] = 'Join request successfully cancelled.'
