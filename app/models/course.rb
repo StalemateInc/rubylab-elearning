@@ -33,4 +33,12 @@ class Course < ApplicationRecord
       errors.add(:visibility, "Can't be created only for organizations if the user is not an organization admin.")
     end
   end
+
+  def owner?(user)
+    if owner.instance_of?(User)
+      owner == user
+    else
+      user.in?(owner.org_admin_list)
+    end
+  end
 end
