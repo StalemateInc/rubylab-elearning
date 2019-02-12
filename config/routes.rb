@@ -42,6 +42,7 @@ Rails.application.routes.draw do
           get '/:join_request_id/specify', to: 'organizations/join_requests#specify_reason', as: :specify_reason_request
           put '/:join_request_id/accept', to: 'organizations/join_requests#accept', as: :accept_request
           put '/:join_request_id/decline', to: 'organizations/join_requests#decline', as: :decline_request
+          delete '/:join_request_id', to: 'organizations/join_requests#destroy', as: :destroy_request
         end
         scope :invites do; end
         scope :reports do
