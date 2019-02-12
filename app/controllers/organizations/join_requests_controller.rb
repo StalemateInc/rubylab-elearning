@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class JoinRequestsController < ApplicationController
+class Organizations::JoinRequestsController < ApplicationController
 
   before_action :set_organization
   before_action :set_join_request, except: %i[index create]

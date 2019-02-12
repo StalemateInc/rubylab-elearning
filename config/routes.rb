@@ -37,12 +37,11 @@ Rails.application.routes.draw do
       scope :manage do
         get '/', to: 'organization_dashboard#index', as: :home_dashboard
         scope :requests do
-          get '/', to: 'join_requests#index', as: :requests
-          post '/', to: 'join_requests#create', as: :create_request
-          get '/:join_request_id/specify', to: 'join_requests#specify_reason', as: :specify_reason_request
-          put '/:join_request_id/accept', to: 'join_requests#accept', as: :accept_request
-          put '/:join_request_id/decline', to: 'join_requests#decline', as: :decline_request
-          delete '/:join_request_id', to: 'join_requests#destroy', as: :cancel_request
+          get '/', to: 'organizations/join_requests#index', as: :requests
+          post '/', to: 'organizations/join_requests#create', as: :create_request
+          get '/:join_request_id/specify', to: 'organizations/join_requests#specify_reason', as: :specify_reason_request
+          put '/:join_request_id/accept', to: 'organizations/join_requests#accept', as: :accept_request
+          put '/:join_request_id/decline', to: 'organizations/join_requests#decline', as: :decline_request
         end
         scope :invites do; end
         scope :reports do
@@ -59,5 +58,7 @@ Rails.application.routes.draw do
     resource :profile, only: %i[show edit update]
     resources :participations, only: %i[index destroy]
     resources :certificates, only: %i[index show]
+    get '/requests', to: 'users/join_requests#index', as: :requests_history
+    delete '/requests/:join_request_id', to: 'users/join_requests#destroy', as: :cancel_request
   end
 end

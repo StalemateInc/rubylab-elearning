@@ -1,0 +1,8 @@
+<div class="user-request-history-item">
+  <span><%= "[#{request.created_at}]" %></span>
+  <a href="<%= organization_path(request.organization) %>"><%= request.organization.name %></a>
+  <span><%= " has #{request.accepted? ? 'accepted' : 'rejected'} your join request" %></span>
+  <% if request.comment %>
+    <p>Reason: <%= request.comment %></p>
+  <% end %>
+</div>

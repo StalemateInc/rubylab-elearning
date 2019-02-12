@@ -1,4 +1,4 @@
 var declineRequestButton = $('#join-request-<%= @join_request.id %>').children('.decline-request-button');
 declineRequestButton.addClass('d-none');
 var requestCommentSection = $('#join-request-<%= @join_request.id %>-comment');
-requestCommentSection.append($('<%= j render partial: 'join_requests/form', locals: { request: @join_request } %>'));
+requestCommentSection.append($('<%= j render partial: 'organizations/join_requests/form', locals: { request: @join_request } %>'));

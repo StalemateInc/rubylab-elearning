@@ -14,7 +14,7 @@
                   <h4>No pending join requests found.</h4>
                 <% else %>
                   <% @join_requests.each do |request| %>
-                    <%= render partial: 'join_requests/card', locals: { request: request } %>
+                    <%= render partial: 'organizations/join_requests/card', locals: { request: request } %>
                   <% end %>
                 <% end %>
               </div>
