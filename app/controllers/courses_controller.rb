@@ -5,13 +5,18 @@ class CoursesController < ApplicationController
 
   # GET /courses
   def index
-    @courses = Course.all
+    public_courses = Course.where(visibility: :everyone)
+    allowed_courses = current_user ? current_user.allowed_courses : []
+    org_courses = current_user ? current_user.organizations.map(&:created_courses) : []
+    org_courses.flatten!
+
+    @courses = public_courses + allowed_courses + org_courses
   end
 
   # POST /courses
   def create
     @course = Course.new(course_params)
-    allowed_users_ids = params[:course][:allowed_users] ? params[:course][:allowed_users].drop(1) : []
+    allowed_users_ids = params[:course][:allowed_users] || []
     if params[:course][:is_org_creator]
       ownable_type = 'Organization'
       ownable_id = params[:course][:owner]
@@ -31,17 +36,22 @@ class CoursesController < ApplicationController
     @course = Course.new
     @users = {}
     User.all.map do |user|
-      @users["#{user.email}"] = user.id unless user == current_user
+      @users[user.email] = user.id unless user == current_user
     end
     @organizations = {}
     current_user.organizations.map do |org|
-      @organizations["#{org.name}"] = org.id if current_user.in?(org.org_admin_list)
+      @organizations[org.name] = org.id if current_user.in?(org.org_admin_list) && org.verified?
     end
   end
 
   # GET /courses/:id/edit
   def edit
     authorize @course
+
+    @users = {}
+    User.all.map do |user|
+      @users[user.email] = user.id unless user == current_user
+    end
   end
 
   # GET /courses/:id
