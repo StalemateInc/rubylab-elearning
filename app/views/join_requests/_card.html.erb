@@ -1,7 +1,14 @@
 <div id="join-request-<%= request.id %>">
   <hr/>
   From: <%= request.user.profile.nickname %><br/>
-  <%= link_to 'Accept', accept_request_organization_path(@organization, request), method: :put, remote: :true, class: 'btn btn-md btn-success' %>
-  <%= link_to 'Decline', decline_request_organization_path(@organization, request), method: :put, remote: :true, class: 'btn btn-md btn-danger' %>
+  <%= link_to 'Accept', accept_request_organization_path(@organization, request),
+              method: :put,
+              remote: :true,
+              class: 'btn btn-md btn-success' %>
+  <%= link_to 'Decline', specify_reason_request_organization_path(@organization, request),
+              method: :get,
+              remote: :true,
+              class: 'btn btn-md btn-danger decline-request-button' %>
+  <div id="join-request-<%= request.id %>-comment" class="mt-2"></div>
   <hr/>
 </div>

@@ -24,7 +24,7 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # PUT /organizations/:id/requests/:request_id/accept
+  # PUT /organizations/:id/requests/:join_request_id/accept
   def accept
     result = AcceptJoinRequest.call(user: @join_request.user,
                                     organization: @organization,
@@ -39,9 +39,11 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # PUT /organizations:/:id/requests/:request_id/decline
+  # PUT /organizations/:id/requests/:join_request_id/decline
   def decline
+    comment = decline_request_params[:comment]
     result = RejectJoinRequest.call(user: @join_request.user,
+                                    comment: comment,
                                     organization: @organization,
                                     request: @join_request)
     if result.success?
@@ -54,7 +56,7 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # DELETE /organizations:/:id/requests/:request_id
+  # DELETE /organizations/:id/requests/:join_request_id
   def destroy
     if @join_request.destroy
       flash[:success] = 'Join request successfully cancelled.'
@@ -66,6 +68,9 @@ class JoinRequestsController < ApplicationController
     end
   end
 
+  # GET /organizations/:id/requests/:join_request_id/specify
+  def specify_reason; end
+
   private
 
   def set_organization
@@ -74,6 +79,10 @@ class JoinRequestsController < ApplicationController
 
   def set_join_request
     @join_request = JoinRequest.find(params[:join_request_id])
+  end
+
+  def decline_request_params
+    params.require(:join_request).permit(:comment)
   end
 
 end
