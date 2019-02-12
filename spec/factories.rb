@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  factory :invite do
+    
+  end
 
   factory :join_request do
     status { 0 }

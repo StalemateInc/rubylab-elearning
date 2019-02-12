@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2019_02_09_171955) do
 
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -96,6 +97,11 @@ ActiveRecord::Schema.define(version: 2019_02_09_171955) do
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_join_requests_on_organization_id"
     t.index ["user_id"], name: "index_join_requests_on_user_id"
+  end
+
+  create_table "invites", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "organization_id"
   end
 
   create_table "memberships", force: :cascade do |t|
