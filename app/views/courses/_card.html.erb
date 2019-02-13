@@ -2,4 +2,6 @@
 <strong>Name:</strong><%= course.name %><br/>
 <strong>Duration:</strong><%= course.duration %><br/>
 <strong>Difficulty:</strong><%= course.difficulty %><br/>
+<strong>Owner:</strong><%= course.owner.instance_of?(User) ? "#{course.owner.profile.name} #{course.owner.profile.surname}" : course.owner.name %><br/>
+<br/>
 <%= link_to 'More', course_path(course), class: 'btn btn-md btn-primary' %>
