@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-
+  include Pundit
   before_action :set_organization
 
   # GET organizations/:id/manage/reports
-  def index; end
+  def index
+    authorize @organization, policy_class: ReportPolicy
+  end
 
   private
 
