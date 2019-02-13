@@ -10,9 +10,9 @@
                 class: 'btn btn-md btn-danger' %>
   <% else %>
     <%= render partial: 'organizations/join_button', locals: { organization: @organization, join_request: @join_request } %>
+    <%= link_to 'Edit', edit_organization_path(@organization), class: 'btn btn-md btn-warning' if policy(@organization).edit? %>
   <% end %>
 <% else %>
   <p>Log into your account to join this organization.</p>
 <% end %>
-<%= link_to 'Edit', edit_organization_path(@organization), class: 'btn btn-md btn-warning' if policy(@organization).edit? %>
 <%= link_to 'Back', organizations_path, class: 'btn btn-info btn-md' %>

@@ -3,6 +3,7 @@
 <p>Duration: <%= @course.duration %></p>
 
 <p>Difficulty: <%= @course.difficulty %></p>
-
-<%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
+<% if user_signed_in? %>
+  <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
+<% end %>
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>
