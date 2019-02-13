@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Organizations::JoinRequestsController < ApplicationController
-
+  include Pundit
+  before_action :authenticate_user!
   before_action :set_organization
+  before_action :authorize_through_organization
   before_action :set_join_request, except: %i[index create]
   after_action :clear_flash, only: %i[create accept decline destroy]
 
@@ -79,6 +81,10 @@ class Organizations::JoinRequestsController < ApplicationController
 
   def set_join_request
     @join_request = JoinRequest.find(params[:join_request_id])
+  end
+
+  def authorize_through_organization
+    authorize @organization, policy_class: Organizations::JoinRequestPolicy
   end
 
   def decline_request_params

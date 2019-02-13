@@ -2,6 +2,7 @@
 
 class OrganizationDashboardController < ApplicationController
   include Pundit
+  before_action :authenticate_user!
   before_action :set_organization
 
   # GET /organizations/:id/manage

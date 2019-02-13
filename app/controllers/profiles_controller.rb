@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ProfilesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_profile
 
   # GET /user/profile

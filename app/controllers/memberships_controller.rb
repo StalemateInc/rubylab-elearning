@@ -2,6 +2,7 @@
 
 class MembershipsController < ApplicationController
   include Pundit
+  before_action :authenticate_user!
   before_action :set_organization
   before_action :set_membership, only: :destroy
   after_action :clear_flash, only: :destroy

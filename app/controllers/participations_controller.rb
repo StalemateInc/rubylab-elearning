@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ParticipationsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_participation, except: :index
 
   # GET /user/participations
