@@ -7,7 +7,7 @@ class MembershipsController < ApplicationController
 
   # GET /organizations/:id/manage/memberships
   def index
-    @memberships = @organization.memberships.where.not(org_admin: true)
+    @memberships = @organization.memberships.order('org_admin DESC')
   end
 
   # DELETE /organizations/:id/manage/memberships/:membership_id

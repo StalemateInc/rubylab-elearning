@@ -1,6 +1,11 @@
 <%- profile = membership.user.profile %>
 <div id="organization-member-<%= membership.id %>" class="my-2">
-  <%= profile.name %> <%= profile.surname %> (@<%= profile.nickname %>)
+  <% if membership.org_admin? %>
+    <strong>[Administrator]</strong>
+  <% end %>
+  <%= "#{profile.name} #{profile.surname} (@#{profile.nickname})" %>
   <a href="#" class="btn btn-md btn-primary">Impersonate</a>
-  <%= link_to "Kick user", destroy_membership_organization_path(@organization, membership), method: :delete, remote: true, class: 'btn btn-md btn-danger' %>
+  <% unless membership.org_admin? %>
+    <%= link_to 'Kick user', destroy_membership_organization_path(@organization, membership), method: :delete, remote: true, class: 'btn btn-md btn-danger' %>
+  <% end %>
 </div>
