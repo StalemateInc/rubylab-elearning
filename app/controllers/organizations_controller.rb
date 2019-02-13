@@ -55,15 +55,13 @@ class OrganizationsController < ApplicationController
     result = ImportUsersForOrganization.call(import_params)
     if result.success?
       @users = @organization.users
-      # respond_to do |format|
-      #   format.json { @users }
-      # end
-      redirect_to root_url
+      respond_to do |format|
+        format.js { @users }
+      end
     else
-      # respond_to do |format|
-      #   format.json { "#{result.message}" }
-      # end
-      redirect_to root_url
+      respond_to do |format|
+        format.json { redirect_to @organization }
+      end
     end
   end
 
