@@ -3,8 +3,60 @@
   <%= f.error_notification %>
 
   <%= f.input :name, label: 'Course name', required: true, input_html: { autocomplete: 'name' } %>
+  <%= f.input :description, label: 'Describe your course', required: true, input_html: { autocomplete: 'description'} %>
   <%= f.input :duration, label: 'Course duration', required: true, input_html: { min: '0' } %>
   <%= f.input :difficulty, label: 'Difficulty', collection: Course.difficulties.keys, include_blank: false %>
+
+  <% if @course.owner.instance_of?(User) %>
+    <%= f.input :visibility, label: 'Visibile for: ', collection: Course.visibilities.except('organization').keys, 
+                  include_blank: false, input_html: { id: 'course_visibility' } %>
+  <% else %>
+    <%= f.input :visibility, label: 'Visibile for: ', collection: Course.visibilities.keys, 
+                  include_blank: false, input_html: { id: 'course_visibility' } %>
+  <% end %>
+
+  <% if @course.individuals? %>
+    <div class='course_allowed_users_selector_div'>
+      <select class="js-example-basic-multiple" name="allowed_users[]" id="course_allowed_users_selector" multiple>
+        <% @users.each do |key, value| %>
+          <% if value.in?(@course.allowed_users.pluck(:id)) %>
+            <option value="<%= value %>" selected><%= key %></option>
+          <% else %>
+            <option value="<%= value %>"><%= key %></option>
+          <% end %>
+        <% end %>
+      </select>
+    </div>
+  <% else %>
+    <div class='course_allowed_users_selector_div d-none'>
+      <select class="js-example-basic-multiple" name="allowed_users[]" id="course_allowed_users_selector" multiple disabled>
+        <% @users.each do |key, value| %>
+          <% if value.in?(@course.allowed_users.pluck(:id)) %>
+            <option value="<%= value %>" selected><%= key %></option>
+          <% else %>
+            <option value="<%= value %>"><%= key %></option>
+          <% end %>
+        <% end %>
+      </select>
+    </div>
+  <% end %>
+
+  <% unless @organizations.empty? %>
+    <label>Set creator to organization</label>
+    <% if @course.owner.instance_of?(Organization) %>
+      <%= check_box_tag 'course[is_org_creator]', nil, nil, id: 'course_is_org_creator', checked: true %>
+      <div class='course_owner_div'>
+        <label>Select organization</label>
+        <%= f.input :owner, label: false, collection: @organizations, include_blank: false %>
+      </div>
+    <% else %>
+      <%= check_box_tag 'course[is_org_creator]', nil, nil, id: 'course_is_org_creator', checked: false %>
+      <div class='course_owner_div d-none'>
+        <label>Select organization</label>
+        <%= f.input :owner, label: false, collection: @organizations, include_blank: false, disabled: true %>
+      </div>
+    <% end %>
+  <% end %>
 
   <div class="form-actions">
     <%= f.button :submit, 'Confirm changes', class: 'btn btn-md btn-success' %>

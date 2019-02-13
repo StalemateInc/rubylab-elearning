@@ -8,11 +8,21 @@ class CoursesController < ApplicationController
   # GET /courses
   def index
     @courses = Course.all
+
+    @courses = @courses.reject do |course|
+      if course.individuals?
+        !course.owner?(current_user) && !current_user.in?(course.allowed_users)
+      elsif course.organization?
+        !course.owner?(current_user) && !current_user.in?(course.owner.users)
+      end
+    end
   end
 
   # POST /courses
   def create
     @course = Course.new(course_params)
+    allowed_users_ids = params[:course][:allowed_users] || []
+
     if params[:course][:is_org_creator]
       ownable_type = 'Organization'
       ownable_id = params[:course][:owner]
@@ -20,28 +30,64 @@ class CoursesController < ApplicationController
     else
       Ownership.create(ownable: current_user, course: @course)
     end
+
+    allowed_users_ids.map do |user_id|
+      user = User.find(user_id)
+      CourseAccess.create(user: user, course: @course) if user
+    end
+
     redirect_to @course if @course.save
   end
 
   # GET /courses/new
   def new
     @course = Course.new
+    @users = {}
+    User.all.map do |user|
+      @users[user.email] = user.id unless user == current_user
+    end
     @organizations = {}
     current_user.organizations.map do |org|
-      @organizations["#{org.name}"] = org.id if current_user.in?(org.org_admin_list)
+      @organizations[org.name] = org.id if current_user.in?(org.org_admin_list) && org.verified?
     end
   end
 
   # GET /courses/:id/edit
   def edit
     authorize @course
+
+    @users = {}
+    User.all.map do |user|
+      @users[user.email] = user.id unless user == current_user
+    end
+
+    @organizations = {}
+    current_user.organizations.map do |org|
+      @organizations[org.name] = org.id if current_user.in?(org.org_admin_list) && org.verified?
+    end
   end
 
   # GET /courses/:id
   def show; end
 
   # PATCH /courses/:id
-  def update
+  def update 
+    allowed_users_ids = params[:allowed_users] || []
+    ownership = Ownership.where(course: @course)
+    CourseAccess.where(course: @course).destroy_all
+
+    if params[:course][:is_org_creator]
+      org = Organization.find(params[:course][:owner])
+      ownership.update(ownable: org)
+    else
+      ownership.update(ownable: current_user)
+    end
+
+    allowed_users_ids.map do |user_id|
+      user = User.find(user_id)
+      CourseAccess.create(user: user, course: @course) if user
+    end
+
     redirect_to @course if @course.update(course_params)
   end
 
@@ -58,6 +104,6 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(%i[name duration difficulty])
+    params.require(:course).permit(%i[name description duration difficulty visibility])
   end
 end

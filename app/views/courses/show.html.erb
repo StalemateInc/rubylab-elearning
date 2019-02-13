@@ -1,8 +1,10 @@
 <h1>Course "<%= @course.name %>"</h1>
 
+<p>Description: <%= @course.description %></p>
 <p>Duration: <%= @course.duration %></p>
-
 <p>Difficulty: <%= @course.difficulty %></p>
+<p>Visibility: <%= @course.visibility %></p>
+<p>Author: <%= @course.owner.instance_of?(User) ? "#{@course.owner.profile.name} #{@course.owner.profile.surname}" : @course.owner.name %></p>
 <% if user_signed_in? %>
   <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
 <% end %>
