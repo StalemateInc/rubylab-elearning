@@ -46,6 +46,25 @@ class OrganizationsController < ApplicationController
   end
 
   def create_import
+    import_params = {}
+    if params[:organization][:file] && params[:organization][:file].content_type == 'text/csv'
+      import_params[:file] = params[:organization][:file]
+    end
+    import_params[:email] = params[:organization][:email] if params[:organization][:email] != [""]
+    import_params[:organization_id] = params[:id]
+    result = ImportUsersForOrganization.call(import_params)
+    if result.success?
+      @users = @organization.users
+      # respond_to do |format|
+      #   format.json { @users }
+      # end
+      redirect_to root_url
+    else
+      # respond_to do |format|
+      #   format.json { "#{result.message}" }
+      # end
+      redirect_to root_url
+    end
   end
 
   private

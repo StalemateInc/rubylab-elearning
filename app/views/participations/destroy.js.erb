@@ -1,0 +1,3 @@
+let participation_record = $('#div-participation-<%= @participation.id %>');
+participation_record.remove();
+force_flash('<%= j render partial: "layouts/flash" %>');

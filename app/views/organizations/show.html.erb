@@ -16,7 +16,7 @@
 <% end %>
 <%= link_to 'Edit', edit_organization_path(@organization), class: 'btn btn-md btn-warning' if policy(@organization).edit? %>
 <%= link_to 'Back', organizations_path, class: 'btn btn-info btn-md' %>
-<div class='csv-import'>
-  <%= link_to 'Add users to organization', new_import_organization_path(@organization), 
+<%= link_to 'Add users to organization', new_import_organization_path(@organization), 
     remote: true, class: 'btn btn-md btn-info', id: 'csv-import' %>
+<div class='csv-import'>
 </div>

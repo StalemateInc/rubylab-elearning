@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: "user_dashboard/menu", locals: { active: :participations } %>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-courses" role="tabpanel" aria-labelledby="v-pills-courses-tab">
+          <div class="container-fluid">
+            <div id="participations-list">
+              <h1>You are currently a member of this courses: </h1>
+              <% if @participations.empty? %>
+                <h4>Sorry, no courses found.</h4>
+              <% else %>
+                <% @participations.each do |participation| %>
+                  <div id="div-participation-<%= participation.id %>">
+                    <hr/>
+                    <%= participation.course.name %>
+                    <div class="participation-actions">
+                      <%= link_to 'Leave course', participation_path(participation), method: :delete, remote: :true, class: 'btn btn-md btn-danger' %>
+                    </div>
+                    <hr/>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

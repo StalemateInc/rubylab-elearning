@@ -42,4 +42,10 @@ Rails.application.routes.draw do
     resource :membership, only: :destroy
   end
   resources :courses
+  scope :user do
+    get '/', to: 'user_dashboard#index', as: :user_dashboard
+    resource :profile, only: %i[show edit update]
+    resources :participations, only: %i[index destroy]
+    resources :certificates, only: %i[index show]
+  end
 end

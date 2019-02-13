@@ -1,6 +1,6 @@
-<%= simple_form_for @organization, url: create_import_organization_path, method: :post, validate: true do |f| %>
+<%= simple_form_for @organization, url: create_import_organization_path, method: :post, validate: true, :html => { id: 'form-import' }, remote: true do |f| %>
   <%= f.error_notification %>
-
+ 
   <%= f.input :file, as: :file, label: 'CSV file for upload', class: 'form-control' %>
   
   <%= button_tag "Add user's email", type: 'button', id:

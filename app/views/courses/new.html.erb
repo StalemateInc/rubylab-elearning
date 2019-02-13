@@ -5,6 +5,14 @@
   <%= f.input :name, label: 'Course name', required: true, input_html: { autocomplete: 'name' } %>
   <%= f.input :duration, label: 'Course duration', required: true, input_html: { min: '0' } %>
   <%= f.input :difficulty, label: 'Difficulty', collection: Course.difficulties.keys, include_blank: false %>
+  <% unless @organizations.empty? %>
+    <label>Set creator to organization</label>
+    <%= check_box_tag 'course[is_org_creator]', true, false, id: 'course_is_org_creator' %>
+    <div class='course_owner_div d-none'>
+      <label>Select organization</label>
+      <%= f.input :owner, label: false, collection: @organizations, include_blank: false, disabled: true %>
+    </div>
+  <% end %>
 
   <div class="form-actions">
     <%= f.button :submit, 'Create new course', class: 'btn btn-md btn-success' %>

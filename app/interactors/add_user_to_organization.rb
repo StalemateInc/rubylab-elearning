@@ -6,6 +6,7 @@ class AddUserToOrganization < BaseInteractor
   # user: User, organization: Organization
 
   def call
+    binding.pry
     membership = Membership.new(user: context.user, organization: context.organization)
     if membership.valid?
       membership.save!
