@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     resource :membership, only: :destroy
   end
   resources :courses
+  post '/courses/:id/enroll', to: 'participations#create', as: :create_participation
   scope :user do
     get '/', to: 'user_dashboard#index', as: :user_dashboard
     resource :profile, only: %i[show edit update]
