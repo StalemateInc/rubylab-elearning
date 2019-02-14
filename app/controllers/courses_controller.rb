@@ -66,7 +66,9 @@ class CoursesController < ApplicationController
   end
 
   # GET /courses/:id
-  def show; end
+  def show
+    @participation = Participation.where(user: current_user, course: @course)
+  end
 
   # PATCH /courses/:id
   def update 
