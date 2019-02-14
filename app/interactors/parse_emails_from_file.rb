@@ -10,11 +10,12 @@ class ParseEmailsFromFile
         emails = context.file.read do |line|
            line
         end
-        emails = emails.split("\n")
+        emails = emails.split("\n") if emails.index("\n")
+        emails = emails.split if emails.index(" ")
         emails.each do |email|
           email.downcase!
           if email =~ context.regexp
-            context.emails.push(email)
+            context.emails.push(email) unless context.emails.index(email)
           end
         end
       end

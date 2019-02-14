@@ -10,7 +10,7 @@ class InvitePeopleFromEmailWorker
         Membership.create(user_id: user.id, organization_id: organization_id)
       end
       organization = Organization.find_by(id: organization_id)
-      OrganizationMailer.invite_to_organization(email, organization).deliver_later
+      OrganizationMailer.invite_to_organization(email, organization).deliver_now
     end
   end
 end
