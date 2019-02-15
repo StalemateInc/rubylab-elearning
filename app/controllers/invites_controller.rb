@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class InvitesController < ApplicationController
-  before_action :set_invite, only: [:destroy, :create]
-  after_action :delete_invite, only: [:destroy, :create]
+  before_action :set_invite, only: %i[destroy create]
+  after_action :delete_invite, only: %i[destroy create]
 
   # GET /invites
   def index; end
@@ -18,14 +18,10 @@ class InvitesController < ApplicationController
     redirect_to invites_path
   end
 
-
   private
 
   def set_invite
-    id = params[:id]
-    if !id.nil?
-      @invite = Invite.find(id)
-    end
+    @invite = Invite.find(params[:id])
   end
 
   def delete_invite
