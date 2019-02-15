@@ -27,7 +27,6 @@ describe ParseEmailsFromFile do
         'guru@mail.ru', 'village@gmail.com', 'hello@mail.ru', 'creater@gmail.ru',
         'saha@gmail.com', 'rusik@gmail.com', 'ryla@gmail.com'])
       end
-
     end
   end
 

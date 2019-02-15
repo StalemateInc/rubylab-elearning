@@ -5,7 +5,8 @@ class SendInvintation
 
   def call
     begin
-      InvitePeopleFromEmailWorker.perform_async(context.emails, context.organization_id.to_i)
+      InvitePeopleFromEmailWorker.perform_async(context.emails,
+       context.organization_id.to_i)
     rescue => e
       context.fail!(message: e)
     end
