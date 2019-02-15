@@ -3,7 +3,8 @@
 class Users::InvitesController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :set_invite, only: %i[accept destroy]
+  before_action :set_invite, except: :index
+  after_action :clear_flash, except: :index
 
   # GET user/invites
   def index
@@ -11,21 +12,18 @@ class Users::InvitesController < ApplicationController
   end
 
   # PUT user/invites/:id/accept
-  # make remote
   def accept
     membership = Membership.new(user: current_user, organization: @invite.organization)
     @invite.destroy
     if membership.save
       flash[:success] = "You have successfully joined the \"#{@invite.organization.name}\" organization"
     else
-      flash[:notice] = 'An error occured while joining the organization.'
+      flash[:notice] = 'An error occurred while joining the organization.'
     end
-    # accept invite here
   end
 
   # PUT user/invites/:id/decline
-  # make remote
-  def destroy
+  def decline
     if @invite.destroy
       flash[:success] = 'You have successfully declined the invitation'
     else

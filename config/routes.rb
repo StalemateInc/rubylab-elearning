@@ -67,8 +67,8 @@ Rails.application.routes.draw do
     resources :certificates, only: %i[index show]
     scope :invites do
       get '/', to: 'users/invites#index', as: :invites_user
-      put '/:invite_id/accept', to: 'users/invites#accept', as: :accept_invite_user
-      put '/:invite_id/decline', to: 'users/invites#decline', as: :decline_invite_user
+      put '/:id/accept', to: 'users/invites#accept', as: :accept_invite_user
+      put '/:id/decline', to: 'users/invites#decline', as: :decline_invite_user
     end
     get '/requests', to: 'users/join_requests#index', as: :requests_history
     delete '/requests/:join_request_id', to: 'users/join_requests#destroy', as: :cancel_request
