@@ -1,6 +1,8 @@
 <%= form_for @question, to: add_question_path do |f| %>
-  <p><%= f.label :content, 'Set question:' %> <%= f.text_field :content %></p>
-  <div class="answers"></div>
-  <p class="btn btn-outline-danger" id="add-answer">Add answer</p>
-  <p><%= f.submit "Save question" %></p>
+  <div>
+    <p><%= f.label :content, 'Set question:' %> <%= f.text_field :content %></p>
+    <div class="answers"></div>
+    <p class="btn btn-outline-danger add-answer" type="checkbox" id="add-answer">Add answer</p>
+    <p><%= f.submit "Save question" %></p>
+  </div>
 <% end %>
