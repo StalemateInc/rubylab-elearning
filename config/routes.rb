@@ -41,4 +41,5 @@ Rails.application.routes.draw do
   end
   resources :courses
   resources :questions, only: %i[new index]
+  post '/questions', to: 'questions#test', as: :add_question
 end
