@@ -14,6 +14,7 @@ class ParticipationsController < ApplicationController
     else
       flash[:notice] = 'An error occurred while leaving the course'
     end
+    redirect_back(fallback_location: root_path)
   end
 
   # POST /courses/:id/enroll
@@ -30,9 +31,6 @@ class ParticipationsController < ApplicationController
   private
 
   def set_participation
-    
-    binding.pry
-    
     @participation = Participation.find(params[:id])
   end
 end
