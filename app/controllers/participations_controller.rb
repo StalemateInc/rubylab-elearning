@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ParticipationsController < ApplicationController
+  include Pundit
   before_action :set_participation, except: %i[index create]
 
   def index
@@ -9,23 +10,25 @@ class ParticipationsController < ApplicationController
 
   # make remote
   def destroy
+    @course = Course.find(@participation.course_id)
     if @participation.destroy
       flash[:success] = 'You have successfully left this course'
     else
       flash[:notice] = 'An error occurred while leaving the course'
     end
-    redirect_back(fallback_location: root_path)
   end
 
   # POST /courses/:id/enroll
   def create
-    course = Course.find(params[:id])
-    if Participation.create(user: current_user, course: course)
+    @course = Course.find(params[:id])
+    authorize @course, policy_class: ParticipationPolicy
+
+    @participation = [Participation.create(user: current_user, course: @course)]
+    if !@participation.empty?
       flash[:success] = 'You have successfully enrolled this course'
     else
       flash[:notice] = 'An error occurred while enrolling the course'
     end
-    redirect_back(fallback_location: root_path)
   end
 
   private
