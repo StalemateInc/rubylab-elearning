@@ -1,8 +1,6 @@
 <%= form_for @question, to: add_question_path do |f| %>
   <p><%= f.label :content, 'Set question:' %> <%= f.text_field :content %></p>
-  <%= fields_for :answers do |m| %>
-    <div class="answers"></div>
-  <% end %>
+  <div class="answers"></div>
   <p class="btn btn-outline-danger" id="add-answer">Add answer</p>
   <p><%= f.submit "Save question" %></p>
 <% end %>
