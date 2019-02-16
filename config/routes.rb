@@ -30,11 +30,6 @@ Rails.application.routes.draw do
     patch '/auth/verification', to: 'users/confirmations#update', as: :update_user_confirmation
   end
 
-  # get '/invites', to: 'invites#index', as: :invites
-  # post '/invites/:id', to: 'invites#create', as: :accept_invite
-  # delete '/invites/:id', to: 'invites#destroy', as: :destroy_invite
-
-
   resources :organizations do
     member do
       # user actions for organizations
