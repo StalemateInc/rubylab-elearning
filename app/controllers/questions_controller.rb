@@ -3,5 +3,21 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
-  def test; end
+  def test
+    answer_list = AnswerList.new(answer_list_params)
+    answer_list.answers = params[:answer_list][:answers]
+    answer_list.question = create_question
+    answer_list.save
+  end
+
+  private
+
+  def create_question
+    question_content = params[:question][:content]
+    Question.create(content: question_content)
+  end
+
+  def answer_list_params
+    params.require(:answer_list).permit(%i[answers correct_answers])
+  end
 end

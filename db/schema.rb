@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_07_202234) do
+ActiveRecord::Schema.define(version: 2019_02_16_170321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 2019_02_07_202234) do
     t.string "correct_answers", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "question_id"
+    t.index ["question_id"], name: "index_answer_lists_on_question_id"
   end
 
   create_table "certificates", force: :cascade do |t|
@@ -201,6 +203,7 @@ ActiveRecord::Schema.define(version: 2019_02_07_202234) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "answer_lists", "questions"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
   add_foreign_key "ownerships", "courses"

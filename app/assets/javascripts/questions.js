@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     var answerIndex = 0;
     var answerButtons = document.querySelectorAll('.add-answer');
@@ -15,8 +14,8 @@ function addAnswer(type, answerIndex, answersContainer) {
     newAnswerBlock.classList.add('answer');
     var newAnswer = document.createElement('input');
     var rightAnswer = document.createElement('input');
-    newAnswer.setAttribute('name', 'answer[' + answerIndex + ']');
-    rightAnswer.setAttribute('name', 'right-answer[]');
+    newAnswer.setAttribute('name', 'answer_list[answers][' + answerIndex + ']');
+    rightAnswer.setAttribute('name', 'answer_list[correct_answers]');
     rightAnswer.setAttribute('type', type);
     rightAnswer.setAttribute('value', answerIndex);
     newAnswer.setAttribute('type', 'text');
