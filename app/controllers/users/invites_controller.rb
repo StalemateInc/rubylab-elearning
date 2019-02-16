@@ -34,7 +34,7 @@ class Users::InvitesController < ApplicationController
   private
 
   def set_invite
-    @invite = Invite.find(params[:id])
+    @invite = Invite.find(params[:invite_id])
   end
 
 end

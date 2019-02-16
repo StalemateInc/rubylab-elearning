@@ -50,7 +50,10 @@ Rails.application.routes.draw do
           put '/:join_request_id/decline', to: 'organizations/join_requests#decline', as: :decline_request
           delete '/:join_request_id', to: 'organizations/join_requests#destroy', as: :destroy_request
         end
-        scope :invites do; end
+        scope :invites do
+          get '/', to: 'organizations/invites#index', as: :invites
+          delete '/:invite_id', to: 'organizations/invites#destroy', as: :destroy_invite
+        end
         scope :reports do
           get '/', to: 'reports#index', as: :reports
         end
@@ -67,8 +70,8 @@ Rails.application.routes.draw do
     resources :certificates, only: %i[index show]
     scope :invites do
       get '/', to: 'users/invites#index', as: :invites_user
-      put '/:id/accept', to: 'users/invites#accept', as: :accept_invite_user
-      put '/:id/decline', to: 'users/invites#decline', as: :decline_invite_user
+      put '/:invite_id/accept', to: 'users/invites#accept', as: :accept_invite_user
+      put '/:invite_id/decline', to: 'users/invites#decline', as: :decline_invite_user
     end
     get '/requests', to: 'users/join_requests#index', as: :requests_history
     delete '/requests/:join_request_id', to: 'users/join_requests#destroy', as: :cancel_request

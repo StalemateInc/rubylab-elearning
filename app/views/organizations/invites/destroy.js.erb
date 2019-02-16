@@ -1,0 +1,3 @@
+var invite_div = $('#invite-<%= @invite.id %>');
+invite_div.remove();
+force_flash('<%= j render partial: 'layouts/flash' %>');

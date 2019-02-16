@@ -1,0 +1,9 @@
+<div id="invite-<%= invite.id %>">
+  <hr/>
+  To: @<%= invite.user.profile.nickname %><br/>
+  <%= link_to 'Cancel', destroy_invite_organization_path(@organization, invite),
+              method: :delete,
+              remote: :true,
+              class: 'btn btn-md btn-danger' %>
+  <hr/>
+</div>
