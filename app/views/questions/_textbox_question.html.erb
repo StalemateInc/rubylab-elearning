@@ -1,9 +1,8 @@
 <%= form_for @question, to: add_question_path do |f| %>
   <p><%= f.label :content, 'Set question:' %> <%= f.text_field :content %></p>
   <div class="answers">
-    <%= fields_for :answer do |ans| %>
-      <p><%= ans.label :answer_text,'Write the answer:' %> <%= ans.text_field :answer_text %></p>
-    <% end %>
+    <input type="text" name="answer_list[answers][0]" value="this is a textbox question" style="display: none">
+    <input type="text" name="answer_list[correct_answers][]" value="write the answer">
   </div>
   <p><%= f.submit "Save question" %></p>
 <% end %>
