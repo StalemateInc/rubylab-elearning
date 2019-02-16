@@ -3,6 +3,7 @@
     <p><%= f.label :content, 'Set question:' %> <%= f.text_field :content %></p>
     <div class="answers"></div>
     <p class="btn btn-outline-danger add-answer" type="radio" id="add-answer">Add answer</p>
+    <input name="question[question_type]" style="display: none" value="0">
     <p><%= f.submit "Add question" %></p>
   </div>
 <% end %>

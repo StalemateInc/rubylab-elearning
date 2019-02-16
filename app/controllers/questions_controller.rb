@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
 
   def create_question
     question_content = params[:question][:content]
-    Question.create(content: question_content, page_id: Page.first.id) #stub
+    question_type = params[:question][:question_type].to_i
+    Question.create(content: question_content, page_id: Page.first.id, question_type: question_type) #stub
   end
 end
