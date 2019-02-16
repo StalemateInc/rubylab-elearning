@@ -5,6 +5,7 @@ class Organizations::InvitesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_organization
   before_action :set_invite, except: :index
+  before_action :authorize_through_organization
   after_action :clear_flash, except: :index
 
   # GET /organizations/:id/manage/invites
@@ -25,6 +26,10 @@ class Organizations::InvitesController < ApplicationController
   end
 
   private
+
+  def authorize_through_organization
+    authorize @organization, policy_class: Organizations::InvitePolicy
+  end
 
   def set_organization
     @organization = Organization.find(params[:id])

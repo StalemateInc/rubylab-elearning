@@ -4,22 +4,22 @@ class Organizations::JoinRequestPolicy < ApplicationPolicy
   end
 
   def create?
-    index
+    index?
   end
 
   def accept?
-    index
+    index?
   end
 
   def decline?
-    index
+    index?
   end
 
   def destroy?
-    index
+    index?
   end
 
   def specify_reason?
-    index
+    index?
   end
 end
