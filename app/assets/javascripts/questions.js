@@ -15,7 +15,7 @@ function addAnswer(type, answerIndex, answersContainer) {
     var newAnswer = document.createElement('input');
     var rightAnswer = document.createElement('input');
     newAnswer.setAttribute('name', 'answer_list[answers][' + answerIndex + ']');
-    rightAnswer.setAttribute('name', 'answer_list[correct_answers]');
+    rightAnswer.setAttribute('name', 'answer_list[correct_answers][]');
     rightAnswer.setAttribute('type', type);
     rightAnswer.setAttribute('value', answerIndex);
     newAnswer.setAttribute('type', 'text');
