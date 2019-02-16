@@ -1,6 +1,6 @@
 <div id="invite-<%= invite.id %>">
   <hr/>
-  To: @<%= invite.user.profile.nickname %><br/>
+  To: <%= invite.user.profile.present? ? "@#{invite.user.profile.nickname}" : invite.user.email.to_s %><br/>
   <%= link_to 'Cancel', destroy_invite_organization_path(@organization, invite),
               method: :delete,
               remote: :true,

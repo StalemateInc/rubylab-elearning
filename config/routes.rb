@@ -52,6 +52,7 @@ Rails.application.routes.draw do
         end
         scope :invites do
           get '/', to: 'organizations/invites#index', as: :invites
+          post '/', to: 'organizations/invites#create', as: :create_invite
           delete '/:invite_id', to: 'organizations/invites#destroy', as: :destroy_invite
         end
         scope :reports do

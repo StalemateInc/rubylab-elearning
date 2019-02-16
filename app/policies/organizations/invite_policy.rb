@@ -3,6 +3,10 @@ class Organizations::InvitePolicy < ApplicationPolicy
     user.admin? || user.in?(record.org_admin_list)
   end
 
+  def create?
+    index?
+  end
+
   def destroy?
     index?
   end
