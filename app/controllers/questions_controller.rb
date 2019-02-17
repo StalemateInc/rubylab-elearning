@@ -9,6 +9,9 @@ class QuestionsController < ApplicationController
     answer_list.correct_answers = params[:answer_list][:correct_answers].join(' ')
     answer_list.question = create_question
     answer_list.save
+    respond_to do |format|
+      format.json { render json: { test: true } }
+    end
   end
 
   private
