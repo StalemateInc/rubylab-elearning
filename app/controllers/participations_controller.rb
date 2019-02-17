@@ -2,8 +2,8 @@
 
 class ParticipationsController < ApplicationController
   include Pundit
-  before_action :set_participation, except: %i[index create]
   before_action :authenticate_user!
+  before_action :set_participation, except: %i[index create]
   after_action :clear_flash, except: :index
   
   def index
@@ -26,7 +26,7 @@ class ParticipationsController < ApplicationController
     authorize @course, policy_class: ParticipationPolicy
 
     @participation = Participation.create(user: current_user, course: @course)
-    if !@participation.nil?
+    if @participation
       flash[:success] = 'You have successfully enrolled this course'
     else
       flash[:notice] = 'An error occurred while enrolling the course'
