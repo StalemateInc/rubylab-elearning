@@ -8,7 +8,11 @@
 
 <% if user_signed_in? %>
   <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } %>
-  <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
+  <% if !@course.archived? %>
+    <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
+    <% if current_user.admin? || @course.owner?(current_user) && !@course.published? %>
+      <%= link_to 'Publish', publish_course_path(@course), method: :patch, class: 'btn btn-md btn-primary course_publish' %>
+    <% end %>
+  <% end %>
 <% end %>
-
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>

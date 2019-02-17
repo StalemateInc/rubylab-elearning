@@ -15,6 +15,8 @@ class CoursesController < ApplicationController
       elsif course.organization?
         !course.owner?(current_user) && !current_user.in?(course.owner.users)
       end
+    end.reject do |course|
+      course.drafted? && !course.owner?(current_user)
     end
   end
 
@@ -99,17 +101,25 @@ class CoursesController < ApplicationController
     redirect_to @course if @course.update(course_params)
   end
 
-  # DELETE /courses/:id
-  def destroy
+  # PATCH /courses/:id/archive
+  def archive
     authorize @course
 
-    if @course.destroy
+    if @course.archived!
       flash[:success] = 'You have successfully archived the course'
       redirect_to courses_path
     else
       flash[:notice] = 'An error occurred while archiving the course'
       redirect_back(fallback_location: root_path)
     end
+  end
+
+  # PATCH /courses/:id/publish
+  def publish
+    authorize @course
+
+    @course.published!
+    flash[:success] = 'Course successfully published'
   end
 
   private

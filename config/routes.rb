@@ -60,6 +60,8 @@ Rails.application.routes.draw do
   end
   resources :courses
   post '/courses/:id/enroll', to: 'participations#create', as: :create_participation
+  patch '/courses/:id/publish', to: 'courses#publish', as: :publish_course
+  patch '/courses/:id/archive', to: 'courses#archive', as: :archive_course
   scope :user do
     get '/', to: 'user_dashboard#index', as: :user_dashboard
     resource :profile, only: %i[show edit update]
