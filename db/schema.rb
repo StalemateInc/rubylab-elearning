@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(version: 2019_02_15_144928) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "await_check"
+    t.boolean "await_check", default: false
     t.bigint "page_id"
     t.index ["course_id"], name: "index_participations_on_course_id"
     t.index ["page_id"], name: "index_participations_on_page_id"

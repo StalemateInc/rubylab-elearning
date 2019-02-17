@@ -36,7 +36,13 @@ class CoursesController < ApplicationController
       CourseAccess.create(user: user, course: @course) if user
     end
 
-    redirect_to @course if @course.save
+    if @course.save
+      flash[:success] = 'You have successfully created the course'
+      redirect_to @course
+    else
+      flash[:notice] = 'An error occurred while creating the course'
+      redirect_back(fallback_location: root_path)
+    end
   end
 
   # GET /courses/new
@@ -68,12 +74,14 @@ class CoursesController < ApplicationController
   end
 
   # GET /courses/:id
-  def show; end
+  def show
+    @participation = Participation.find_by(user: current_user, course: @course)
+  end
 
   # PATCH /courses/:id
   def update 
     allowed_users_ids = params[:allowed_users] || []
-    ownership = Ownership.where(course: @course)
+    ownership = @course.ownership
     CourseAccess.where(course: @course).destroy_all
 
     if params[:course][:is_org_creator]
@@ -94,7 +102,14 @@ class CoursesController < ApplicationController
   # DELETE /courses/:id
   def destroy
     authorize @course
-    redirect_to courses_path if @course.destroy
+
+    if @course.destroy
+      flash[:success] = 'You have successfully archived the course'
+      redirect_to courses_path
+    else
+      flash[:notice] = 'An error occurred while archiving the course'
+      redirect_back(fallback_location: root_path)
+    end
   end
 
   private

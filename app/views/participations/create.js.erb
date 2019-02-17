@@ -1,0 +1,4 @@
+var enroll_button = $('.course_enroll');
+enroll_button.after($('<%= j render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } %>'));
+enroll_button.remove();
+force_flash('<%= j render "layouts/flash" %>');
