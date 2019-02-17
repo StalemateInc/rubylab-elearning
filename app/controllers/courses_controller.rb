@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CoursesController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]

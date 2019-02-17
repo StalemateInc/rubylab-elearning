@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: "user_dashboard/menu", locals: { active: :invites } %>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-invites" role="tabpanel" aria-labelledby="v-pills-invites-tab">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <h3>Pending invites:</h3>
+                <div id="user-invite-pending">
+                  <% if !@invites.empty? %>
+                    <% @invites.each do |invite| %>
+                      <%= render partial: 'invite_item', locals: { invite: invite } %>
+                    <% end %>
+                  <% else %>
+                    <h4>No invites.</h4>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

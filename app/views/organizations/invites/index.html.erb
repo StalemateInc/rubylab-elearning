@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: 'organization_dashboard/menu', locals: { organization: @organization, active: :invites } %>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-org-invites" role="tabpanel" aria-labelledby="v-pills-org-invites-tab">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <h1>Invite user: </h1>
+                <%= simple_form_for :user, remote: true do |f| %>
+                  <%= f.input :email %>
+                  <%= f.button :submit, 'Invite' %>
+                <% end %>
+              </div>
+            </div>
+            <br/>
+            <div class="row">
+              <div id="invites-div" class="col">
+                <h1>All invites: </h1>
+                <% if @invites.empty? %>
+                  <h4>No invites found.</h4>
+                <% else %>
+                  <% @invites.each do |invite| %>
+                    <%= render partial: 'organizations/invites/card', locals: { invite: invite } %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,8 @@
 <% if join_request %>
-  <%= link_to 'Cancel join request', cancel_request_organization_path(organization, join_request),
+  <%= link_to 'Cancel join request', destroy_request_organization_path(organization, join_request),
               method: :delete,
               remote: :true,
+              data: { source: "org" },
               id: 'cancel-organization-button',
               class: 'btn btn-md btn-danger' %>
 <% else %>
