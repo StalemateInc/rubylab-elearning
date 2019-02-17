@@ -4,7 +4,7 @@ class Organizations::JoinRequestPolicy < ApplicationPolicy
   end
 
   def create?
-    index?
+    true
   end
 
   def accept?
@@ -16,7 +16,7 @@ class Organizations::JoinRequestPolicy < ApplicationPolicy
   end
 
   def destroy?
-    index?
+    true
   end
 
   def specify_reason?

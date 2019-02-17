@@ -12,6 +12,9 @@
     <%= render partial: 'organizations/join_button', locals: { organization: @organization, join_request: @join_request } %>
     <%= link_to 'Edit', edit_organization_path(@organization), class: 'btn btn-md btn-warning' if policy(@organization).edit? %>
   <% end %>
+  <% if OrganizationDashboardPolicy.new(current_user, @organization).index? %>
+    <%= link_to 'To dashboard', home_dashboard_organization_path(@organization), class: 'btn btm-md btn-primary' %>
+  <% end %>
 <% else %>
   <p>Log into your account to join this organization.</p>
 <% end %>
