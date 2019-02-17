@@ -1,7 +1,7 @@
-<% if participation.empty? %>
-        <%= link_to 'Enroll', create_participation_path(course), method: :post, 
-                    remote: true, class: 'btn btn-md btn-primary course_enroll' if course.published? %>
+<% if participation.nil? %>
+    <%= link_to 'Enroll', create_participation_path(course), method: :post, 
+                remote: true, class: 'btn btn-md btn-primary course_enroll' if course.published? %>
 <% else %>
-    <%= link_to 'Leave course', participation_path(participation.first.id),
+    <%= link_to 'Leave course', participation_path(participation.id),
                 method: :delete, remote: :true, class: 'btn btn-md btn-danger course_leave' %>
 <% end %>

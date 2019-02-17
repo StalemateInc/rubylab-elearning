@@ -73,13 +73,13 @@ class CoursesController < ApplicationController
 
   # GET /courses/:id
   def show
-    @participation = Participation.where(user: current_user, course: @course)
+    @participation = Participation.where(user: current_user, course: @course).first
   end
 
   # PATCH /courses/:id
   def update 
     allowed_users_ids = params[:allowed_users] || []
-    ownership = Ownership.where(course: @course)
+    ownership = @course.ownership.first
     CourseAccess.where(course: @course).destroy_all
 
     if params[:course][:is_org_creator]

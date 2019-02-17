@@ -3,14 +3,16 @@
 class ParticipationsController < ApplicationController
   include Pundit
   before_action :set_participation, except: %i[index create]
-
+  before_action :authenticate_user!
+  after_action :clear_flash, except: :index
+  
   def index
     @participations = current_user.participations
   end
 
   # make remote
   def destroy
-    @course = Course.find(@participation.course_id)
+    @course = @participation.course
     if @participation.destroy
       flash[:success] = 'You have successfully left this course'
     else
@@ -23,8 +25,8 @@ class ParticipationsController < ApplicationController
     @course = Course.find(params[:id])
     authorize @course, policy_class: ParticipationPolicy
 
-    @participation = [Participation.create(user: current_user, course: @course)]
-    if !@participation.empty?
+    @participation = Participation.create(user: current_user, course: @course)
+    if !@participation.nil?
       flash[:success] = 'You have successfully enrolled this course'
     else
       flash[:notice] = 'An error occurred while enrolling the course'
