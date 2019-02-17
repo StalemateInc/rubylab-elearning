@@ -1,3 +1,6 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+$(document).on 'click', '.cancel-decline-button', (e) ->
+  e.preventDefault()
+  id = $(this).data('id')
+  decline_button = $("#join-request-#{id} .decline-request-button")
+  decline_button.removeClass('d-none')
+  $(this).closest('.comment-form').remove()

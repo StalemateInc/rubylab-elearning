@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_14_180726) do
+ActiveRecord::Schema.define(version: 2019_02_15_144928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(version: 2019_02_14_180726) do
   create_table "invites", force: :cascade do |t|
     t.integer "user_id"
     t.integer "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "join_requests", force: :cascade do |t|

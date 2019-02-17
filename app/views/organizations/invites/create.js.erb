@@ -1,0 +1,4 @@
+var allInvitesDiv = $('#invites-div');
+allInvitesDiv.append('<%= j render partial: 'organizations/invites/card', locals: { invite: @invite } %>');
+$('#user_email').val('');
+force_flash('<%= j render partial: 'layouts/flash' %>');

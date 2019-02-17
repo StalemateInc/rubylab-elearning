@@ -2,7 +2,7 @@
 
 module UserDashboardHelper
 
-  def get_id_for_active_menu_item(active)
+  def id_for_selected_menu_user(active)
     case active
     when :dashboard
       'v-pills-dashboard-tab'
@@ -10,6 +10,10 @@ module UserDashboardHelper
       'v-pills-profile-tab'
     when :participations
       'v-pills-courses-tab'
+    when :requests
+      'v-pills-requests-tab'
+    when :invites
+      'v-pills-invites-tab'
     when :certificates
       'v-pills-certificates-tab'
     when :messages

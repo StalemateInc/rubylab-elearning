@@ -1,4 +1,7 @@
 var participation_record = $('#div-participation-<%= @participation.id %>');
+<% if current_user.participations.empty? %>
+  participation_record.after('<h4>Sorry, no courses found.</h4>');
+<% end %>                      
 participation_record.remove();
 
 var leave_button = $('.course_leave');

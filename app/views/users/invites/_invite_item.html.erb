@@ -1,0 +1,11 @@
+<div id="user-invite-<%= invite.id %>" class="user-invite-item">
+  <p><%= "[#{invite.created_at}] Received invite from \"#{invite.organization.name}\"" %></p>
+  <%= link_to "Accept",  accept_invite_user_path(invite),
+              remote: true,
+              method: :put,
+              class: 'btn btn-md btn-success' %>
+  <%= link_to "Decline", decline_invite_user_path(invite),
+              remote: :true,
+              method: :put,
+              class: 'btn btn-md btn-danger' %>
+</div>

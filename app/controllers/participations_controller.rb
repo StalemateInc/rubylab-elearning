@@ -5,12 +5,13 @@ class ParticipationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_participation, except: %i[index create]
   after_action :clear_flash, except: :index
-  
+
+  # GET /user/participations
   def index
     @participations = current_user.participations
   end
 
-  # make remote
+  # DELETE /user/participations/:id
   def destroy
     @course = @participation.course
     if @participation.destroy

@@ -6,7 +6,9 @@
 <p>Visibility: <%= @course.visibility %></p>
 <p>Author: <%= @course.owner.instance_of?(User) ? "#{@course.owner.profile.name} #{@course.owner.profile.surname}" : @course.owner.name %></p>
 
-<%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } %>
+<% if user_signed_in? %>
+  <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } %>
+  <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
+<% end %>
 
-<%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>

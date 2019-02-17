@@ -14,7 +14,7 @@
               <% else %>
               <div class="col-md-3">
                 <% @certificates.each do |certificate| %>
-                  <%= render partial: "certificates/certificate-card", locals: { certificate: certificate } %>
+                  <%= render partial: "certificates/card", locals: { certificate: certificate } %>
                 <% end %>
               <% end %>
               </div>

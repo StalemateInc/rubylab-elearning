@@ -1,4 +1,3 @@
-let leave_button = $('#leave-organization-button');
-leave_button.after($('<%= j render partial: 'organizations/join_button', locals: { organization: @organization, join_request: nil } %>'));
-leave_button.remove();
-force_flash('<%= j render "layouts/flash" %>');
+let membership_div = $('#organization-member-<%= @membership.id %>');
+membership_div.remove();
+force_flash('<%= j render 'layouts/flash' %>');
