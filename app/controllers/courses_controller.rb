@@ -112,6 +112,11 @@ class CoursesController < ApplicationController
     end
   end
 
+  def publish
+    @course.published!
+    flash[:success] = 'Course successfully published'
+  end
+
   private
 
   def set_course
