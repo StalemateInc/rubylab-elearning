@@ -15,7 +15,7 @@ class CoursesController < ApplicationController
       elsif course.organization?
         !course.owner?(current_user) && !current_user.in?(course.owner.users)
       end
-    end.reject do |course| 
+    end.reject do |course|
       course.drafted? && !course.owner?(current_user)
     end
   end
@@ -101,7 +101,7 @@ class CoursesController < ApplicationController
     redirect_to @course if @course.update(course_params)
   end
 
-  # PATCH /courses/:id
+  # PATCH /courses/:id/archive
   def archive
     authorize @course
 
@@ -116,6 +116,8 @@ class CoursesController < ApplicationController
 
   # PATCH /courses/:id/publish
   def publish
+    authorize @course
+
     @course.published!
     flash[:success] = 'Course successfully published'
   end
