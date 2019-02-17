@@ -7,7 +7,7 @@ class CoursePolicy < ApplicationPolicy
     edit?
   end
 
-  def destroy?
+  def archive?
     user.admin? || record.owner?(user)
   end
 end

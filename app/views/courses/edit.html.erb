@@ -60,7 +60,7 @@
 
   <div class="form-actions">
     <%= f.button :submit, 'Confirm changes', class: 'btn btn-md btn-success' %>
-    <%= link_to 'Delete course', course_path(@course), method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Delete course', archive_course_path(@course), method: :patch, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?' } %>
     <%= link_to 'Back', course_path(@course), class: 'btn btn-info btn-md' %>
   </div>
 <% end %>
