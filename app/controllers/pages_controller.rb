@@ -13,7 +13,29 @@ class PagesController < ApplicationController
     end
   end
 
+  # GET /courses/:id/pages/new
+  def new
+    @page = Page.new
+  end
+
+  # POST /courses/:id/pages
+  def create
+    # @page = Page.create(page_params)
+  end
+
+  def edit; end
+
+  def update; end
+
+  def destroy; end
+
+  private
+
+  def page_params
+    params.require(:page).permit(:html)
+  end
+
   def set_course
-    @course = Course.find(params[:course_id])
+    @course = Course.find(params[:id])
   end
 end
