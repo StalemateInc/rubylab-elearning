@@ -17,8 +17,12 @@ class QuestionsController < ApplicationController
   private
 
   def create_question
-    question_content = params[:question][:content]
-    question_type = params[:question][:question_type].to_i
-    Question.create(content: question_content, page_id: Page.first.id, question_type: question_type) #stub
+    question = Question.new(question_params)
+    question.page = Page.first #stub
+    question
+  end
+
+  def question_params
+    params.require(:question).permit(:content, :question_type)
   end
 end
