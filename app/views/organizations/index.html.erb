@@ -1,8 +1,32 @@
-<h1>All organizations: </h1>
-<%= link_to 'I want to create an organization', new_organization_path, class: 'btn btn-md btn-primary' %>
-<% @organizations.each do |org| %>
-  <hr>
-  <strong>Name:</strong><%= org.name %><br/>
-  <strong>Surname:</strong><%= org.description %><br/>
-  <%= link_to 'More', organization_path(org), class: 'btn btn-md btn-primary' %>
-<% end %>
+<div class="container">
+  <div class="text-center">
+    <h1>Organization</h1>
+  </div>
+  <ul class="list-group list-group-flush">
+    <% @organizations.each do |org| %>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-3">
+            <%= image_tag('ela.png', widht: '50', height: '90') %>
+          </div>
+          <div class="col-md-6">
+            <div class="text-center">
+              <h2><%= org.name %></h2>
+              <small class="text-muted"><%= org.description %></small>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="container">
+              <i class="fas fa-child"></i>
+              <%= org.memberships.count %>
+            </div>
+            <div class="container">
+              <i class="fas fa-book"></i>
+              <%= org.created_courses.count %>
+            </div>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
