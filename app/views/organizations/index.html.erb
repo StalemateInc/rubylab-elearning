@@ -2,7 +2,7 @@
   <div class="text-center">
     <h1>Organization</h1>
   </div>
-  <ul class="list-group list-group-flush">
+  <ul class="list-group list-group-flush my-5">
     <% @organizations.each do |org| %>
       <li class="list-group-item">
         <div class="row">
@@ -29,5 +29,11 @@
       </li>
     <% end %>
   </ul>
-  <%= will_paginate @organizations %>
+
+  <div class="row my-5">
+    <div class="col-md-5"></div>
+    <div class="col-md-6">
+      <%= will_paginate @organizations, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+    </div>
+  </div>
 </div>
