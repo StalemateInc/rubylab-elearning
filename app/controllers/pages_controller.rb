@@ -5,12 +5,7 @@ class PagesController < ApplicationController
 
   # GET /courses/:id/pages
   def index
-    @pages = []
-    current_page = Page.find_by(course: @course, previous_page: nil)
-    while current_page
-      @pages << current_page
-      current_page = current_page.next_page
-    end
+    @pages = build_page_sequence
   end
 
   # POST /courses/:id/pages
@@ -18,9 +13,13 @@ class PagesController < ApplicationController
     @page = Page.new(page_params)
     @page.course = @course
 
-    last_page = Page.find_by(course: @course, next_page: nil)
-    @page.previous_page = last_page
-
+    pages = build_page_sequence
+    page_index = params[:page_index].to_i
+    @page.previous_page = (page_index - 2).negative? ? nil : pages[page_index - 2]
+    @page.next_page = pages[page_index - 1]
+    
+    binding.pry
+    
     @page.html = ''
     @page.css = ''
 
@@ -40,11 +39,21 @@ class PagesController < ApplicationController
 
   private
 
+  def build_page_sequence
+    pages = []
+    current_page = Page.find_by(course: @course, previous_page: nil)
+    while current_page
+      pages << current_page
+      current_page = current_page.next_page
+    end
+    pages
+  end
+
   def set_course
     @course = Course.find(params[:course_id])
   end
 
   def page_params
-    params.require(:page).permit(%i[course previous_page next_page html css])
+    params.require(:page).permit(%i[course previous_page next_page html css page_id])
   end
 end
