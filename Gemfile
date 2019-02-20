@@ -49,7 +49,7 @@ gem 'interactor', '~> 3.0'
 gem 'pundit'
 gem 'sidekiq'
 gem 'whenever', require: false
-
+gem 'will_paginate'
 # order matters, do not change
 gem 'simple_form'
 gem 'client_side_validations'

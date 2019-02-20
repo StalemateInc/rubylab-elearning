@@ -8,7 +8,7 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations
   def index
-    @organizations = Organization.all
+    @organizations = Organization.paginate(page: params[:page], per_page: 10)
   end
 
   # POST /organizations
