@@ -3,6 +3,7 @@ class PagesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_course
   before_action :set_page, except: %i[index new create]
+  after_action :clear_flash, only: :destroy
 
   # GET /courses/:id/pages
   def index
@@ -51,7 +52,22 @@ class PagesController < ApplicationController
   end
 
   # GET /courses/:id/pages/:page_id
-  def show; end
+  def show
+    # TODO: check if user has answered the questions, set it to variable
+    # forbid going to next page until user answers the questions
+    # create UserAnswers record if we've got answers
+
+    result = MemorizeLastVisitedPage.call(user: current_user, course: @course, page: @page)
+
+    if result.remaining_pages.empty?
+      # go test user answers
+      # if no user answers present or all the values can be tested
+      #   create CompletionRecord with values
+      # if not all the values can be tested
+      #   set await_check to true
+    end
+
+  end
 
   private
 

@@ -4,6 +4,14 @@
       <div class="content-wrapper">
         <%= render inline: @page.html %>
       </div>
+      <div class="navigation-buttons">
+        <% if @page.previous_page %>
+          <%= link_to 'Previous page', page_course_path(@course, @page.previous_page), class: 'btn btn-md btn-primary float-left' %>
+        <% end %>
+        <% if @page.next_page %>
+          <%= link_to 'Next page', page_course_path(@course, @page.next_page), class: 'btn btn-md btn-primary float-right' %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
