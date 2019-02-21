@@ -1,6 +1,15 @@
 <h1>Pages: </h1>
 <% @pages.each do |page| %>
-  <p>Page <%= @pages.index(page) + 1 %></p>
+  <div id="page-item-<%= page.id %>" class="page-item">
+    <p>Page <%= @pages.index(page) + 1 %></p>
+    <%= link_to 'Edit', edit_page_course_path(@course, page), class: 'btn btn-md btn-warning' %>
+    <%= link_to page_course_path(@course, page),
+                method: :delete,
+                class: 'btn btn-md btn-danger',
+                data: { confirm: 'Are you sure want to delete this page?' } do %>
+      <i class="fas fa-trash-alt"></i>
+    <% end %>
+  </div>
 <% end %>
 <br />
 <%= link_to 'Back', course_path(@course), class: 'btn btn-info btn-md' %> <br />

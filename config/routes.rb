@@ -65,6 +65,10 @@ Rails.application.routes.draw do
       get '/pages', to: 'pages#index', as: :pages
       post '/pages', to: 'pages#create'
       get '/pages/new', to: 'pages#new', as: :new_page
+      get '/pages/:page_id/edit', to: 'pages#edit', as: :edit_page
+      get '/pages/:page_id', to: 'pages#show', as: :page
+      patch '/pages/:page_id', to: 'pages#update'
+      delete '/pages/:page_id', to: 'pages#destroy'
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_19_230556) do
+ActiveRecord::Schema.define(version: 2019_02_21_062926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -148,7 +148,6 @@ ActiveRecord::Schema.define(version: 2019_02_19_230556) do
 
   create_table "pages", force: :cascade do |t|
     t.text "html", null: false
-    t.text "css", null: false
     t.bigint "previous_page_id"
     t.bigint "course_id"
     t.datetime "created_at", null: false
