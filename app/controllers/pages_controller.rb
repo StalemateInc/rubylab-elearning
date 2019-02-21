@@ -2,22 +2,22 @@ class PagesController < ApplicationController
   include Pundit
   before_action :authenticate_user!
   before_action :set_course, except: :delete
-  before_action :set_page, only: :delete
+  before_action :set_page, only: %i[delete edit]
 
-  # GET /courses/:id/pages
+  # GET /courses/:course_id/pages
   def index
     @pages = build_page_sequence
   end
 
-  # POST /courses/:id/pages
+  # POST /courses/:course_id/pages
   def create
     @page = Page.new(page_params)
     @page.course = @course
 
-    pages = build_page_sequence
     page_index = params[:page_index].to_i
-    @page.previous_page = (page_index - 2).negative? ? nil : pages[page_index - 2]
-    @page.next_page = pages[page_index - 1]
+    insert_page(page_index)
+    # @page.previous_page = (page_index - 2).negative? ? nil : pages[page_index - 2]
+    # @page.next_page = pages[page_index - 1]
 
     @page.html = ''
     @page.css = ''
@@ -31,12 +31,12 @@ class PagesController < ApplicationController
     end
   end
 
-  # GET /courses/:id/pages/new
+  # GET /courses/:course_id/pages/new
   def new
     @page = Page.new
   end
 
-  # DELETE /courses/:id/pages/:id
+  # DELETE /courses/:course_id/pages/:id
   def delete
     if @page.destroy
       flash[:success] = 'Page was successfully removed'
@@ -49,13 +49,14 @@ class PagesController < ApplicationController
   private
 
   def build_page_sequence
-    pages = []
-    current_page = Page.find_by(course: @course, previous_page: nil)
-    while current_page
-      pages << current_page
-      current_page = current_page.next_page
-    end
-    pages
+    first_page = Page.find_by(course: @course, previous_page: nil)
+    first_page ? first_page.full_sequence : []
+  end
+
+  def insert_page(index)
+    pages = build_page_sequence
+    @page.previous_page = (index - 2).negative? ? nil : pages[index - 2]
+    @page.next_page = pages[index - 1]
   end
 
   def set_page

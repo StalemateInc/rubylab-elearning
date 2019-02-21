@@ -3,10 +3,10 @@ class Page < ApplicationRecord
   belongs_to :course
   belongs_to :previous_page, class_name: 'Page', optional: true
   belongs_to :next_page, class_name: 'Page', optional: true
-  before_save :set_page
-  before_destroy :remove_page
+  before_save :set_pages
+  before_destroy :remove_pages
 
-  def set_page
+  def set_pages
     page_prev = previous_page
     page_next = next_page
 
@@ -16,7 +16,7 @@ class Page < ApplicationRecord
     end
   end
 
-  def remove_page
+  def remove_pages
     page_prev = previous_page
     page_next = next_page
 
