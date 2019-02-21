@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
   include Pundit
   before_action :authenticate_user!
-  before_action :set_course
+  before_action :set_course, except: :delete
+  before_action :set_page, only: :delete
 
   # GET /courses/:id/pages
   def index
@@ -17,9 +18,7 @@ class PagesController < ApplicationController
     page_index = params[:page_index].to_i
     @page.previous_page = (page_index - 2).negative? ? nil : pages[page_index - 2]
     @page.next_page = pages[page_index - 1]
-    
-    binding.pry
-    
+
     @page.html = ''
     @page.css = ''
 
@@ -28,13 +27,23 @@ class PagesController < ApplicationController
       redirect_to(course_pages_path)
     else
       flash[:notice] = 'An error occured while creating the page'
-      redirect_back(fallback_locatoin: root_path)
+      redirect_back(fallback_location: root_path)
     end
   end
 
   # GET /courses/:id/pages/new
   def new
     @page = Page.new
+  end
+
+  # DELETE /courses/:id/pages/:id
+  def delete
+    if @page.destroy
+      flash[:success] = 'Page was successfully removed'
+      redirect_back(fallback_location: root_path)
+    else
+      flash[:notice] = 'An error occured while removing the page'
+    end
   end
 
   private
@@ -47,6 +56,10 @@ class PagesController < ApplicationController
       current_page = current_page.next_page
     end
     pages
+  end
+
+  def set_page
+    @page = Page.find(params[:id])
   end
 
   def set_course
