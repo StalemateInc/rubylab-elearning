@@ -16,8 +16,6 @@ class PagesController < ApplicationController
 
     page_index = params[:page_index].to_i
     insert_page(page_index)
-    # @page.previous_page = (page_index - 2).negative? ? nil : pages[page_index - 2]
-    # @page.next_page = pages[page_index - 1]
 
     @page.html = ''
     @page.css = ''
