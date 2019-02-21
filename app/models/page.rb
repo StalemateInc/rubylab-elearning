@@ -25,4 +25,36 @@ class Page < ApplicationRecord
       page_next.update(previous_page: page_prev) if page_next
     end
   end
+
+  def full_sequence
+    [self].concat(Page.find_by_sql(recursive_tree_children_sql))
+  end
+
+  private
+
+  def recursive_tree_children_sql
+    columns = self.class.column_names
+    columns_joined = columns.join(',')
+    sql =
+    "
+      WITH RECURSIVE page_tree (#{columns_joined}, level)
+      AS (
+        SELECT
+          #{columns_joined}, 0
+        FROM pages
+        WHERE id=#{id}
+
+        UNION ALL
+        SELECT
+          #{columns.map { |col| 'pag.' + col }.join(',') },
+          pt.level + 1
+        FROM pages pag, page_tree pt
+        WHERE pag.previous_page_id = pt.id
+      )
+      SELECT * FROM page_tree
+      WHERE level > 0
+      ORDER BY level, next_page_id;
+    "
+    sql.chomp
+  end
 end
