@@ -2,51 +2,11 @@
   <div class="text-center">
     <h1>Organization</h1>
   </div>
-  <div class="btn-group">
-    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Sort by
-    </button>
-    <div class="dropdown-menu">
-      <%= link_to 'Words A-Z' , organizations_path({keyword: 'wordsA'}), class: 'dropdown-item' %>
-      <%= link_to 'Words Z-A' , organizations_path({keyword: 'wordsZ'}), class: 'dropdown-item' %>
-      <%= link_to 'Courses' , organizations_path({keyword: 'course'}), class: 'dropdown-item' %>
-      <%= link_to 'Members' , organizations_path({keyword: 'members'}), class: 'dropdown-item' %>
-      <%= link_to 'Newest' , organizations_path({keyword: 'new'}), class: 'dropdown-item' %>
-      <%= link_to 'Oldest' , organizations_path({keyword: 'old'}), class: 'dropdown-item' %>
-    </div>
-  </div>
+  <%= render 'organizations/sort_list' %>
   <ul class="list-group list-group-flush my-5">
     <% @organizations.each do |org| %>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col-md-3">
-            <%= image_tag('ela.png', widht: '50', height: '90') %>
-          </div>
-          <div class="col-md-6">
-            <div class="text-center">
-              <h2><%= org.name %></h2>
-              <small class="text-muted"><%= org.description %></small>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="container">
-              <i class="fas fa-child"></i>
-              <%= org.memberships.count %>
-            </div>
-            <div class="container">
-              <i class="fas fa-book"></i>
-              <%= org.created_courses.count %>
-            </div>
-          </div>
-        </div>
-      </li>
+      <%= render 'organizations/organization_list_unit', organization: org %>
     <% end %>
   </ul>
-
-  <div class="row my-5">
-    <div class="col-md-5"></div>
-    <div class="col-md-6">
-      <%= will_paginate @organizations, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
-    </div>
-  </div>
+  <%= render 'organizations/pagination', collection: @organizations %>
 </div>

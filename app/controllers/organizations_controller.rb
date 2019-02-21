@@ -64,17 +64,9 @@ class OrganizationsController < ApplicationController
     when "wordsZ"
       @organizations = Organization.order(name: :desc).paginate(page: params[:page], per_page: 10)
     when "course"
-      #select organizations.id, organizations.name, organizations.state, organizations.updated_at,
-      #organizations.created_at, organizations.description from organizations
-      #left join ownerships on ownerships.ownable_id = organizations.id
-      #group by organizations.id
-      #order by count(ownerships) desc ;
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) DESC').paginate(page: params[:page], per_page: 10)
     when "members"
-      #select organizations.id, organizations.name, organizations.state, organizations.updated_at,
-      #organizations.created_at, organizations.description from organizations
-      #join memberships on memberships.organization_id = organizations.id
-      #group by organizations.id
-      #order by count(memberships) desc ;
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) DESC').paginate(page: params[:page], per_page: 10)
     when "new"
       @organizations = Organization.order(:created_at).paginate(page: params[:page], per_page: 10)
     when "old"

@@ -1,0 +1,23 @@
+<li class="list-group-item">
+  <div class="row">
+    <div class="col-md-3">
+      <%= image_tag('ela.png', widht: '50', height: '90') %>
+    </div>
+    <div class="col-md-6">
+      <div class="text-center">
+        <h2><%= organization.name %></h2>
+        <small class="text-muted"><%= organization.description %></small>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="container">
+        <i class="fas fa-child"></i>
+        <%= organization.memberships.count %>
+      </div>
+      <div class="container">
+        <i class="fas fa-book"></i>
+        <%= organization.created_courses.count %>
+      </div>
+    </div>
+  </div>
+</li>
