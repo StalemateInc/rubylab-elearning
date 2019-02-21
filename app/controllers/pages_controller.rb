@@ -40,7 +40,6 @@ class PagesController < ApplicationController
     redirect_to pages_course_path(@course)
   end
 
-  # make remote
   # DELETE /courses/:id/pages/:page_id
   def destroy
     if @page.destroy
@@ -50,6 +49,9 @@ class PagesController < ApplicationController
     end
     redirect_to pages_course_path(@course)
   end
+
+  # GET /courses/:id/pages/:page_id
+  def show; end
 
   private
 
