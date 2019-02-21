@@ -7,6 +7,7 @@ class PagesController < ApplicationController
 
   # GET /courses/:id/pages
   def index
+    authorize Page.new(course: @course)
     @pages = []
     current_page = Page.find_by(course: @course, previous_page: nil)
     while current_page
@@ -17,22 +18,27 @@ class PagesController < ApplicationController
 
   # GET /courses/:id/pages/new
   def new
-    @page = Page.new
+    @page = Page.new(course: @course)
+    authorize @page
   end
 
   # POST /courses/:id/pages
   def create
+    authorize Page.new
     @page = Page.create(page_params.merge(course: @course))
     respond_to do |format|
       format.html { redirect_to pages_course_path(@course) }
     end
   end
 
-  # GET /courses/:id/pages
-  def edit; end
+  # GET /courses/:id/pages/:page_id/edit
+  def edit
+    authorize @page
+  end
 
   # PATCH /courses/:id/pages/:page_id
   def update
+    authorize @page
     if @page.update(page_params)
       flash[:success] = 'Page update successful.'
     else
@@ -43,6 +49,7 @@ class PagesController < ApplicationController
 
   # DELETE /courses/:id/pages/:page_id
   def destroy
+    authorize @page
     if @page.destroy
       flash[:success] = 'Successfully deleted a page.'
     else
@@ -53,6 +60,7 @@ class PagesController < ApplicationController
 
   # GET /courses/:id/pages/:page_id
   def show
+    authorize @page
     # TODO: check if user has answered the questions, set it to variable
     # forbid going to next page until user answers the questions
     # create UserAnswers record if we've got answers
