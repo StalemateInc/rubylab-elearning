@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   include Pundit
   before_action :authenticate_user!
   before_action :set_course, except: :delete
-  before_action :set_page, only: %i[delete edit]
+  before_action :set_page, only: :delete
 
   # GET /courses/:course_id/pages
   def index
