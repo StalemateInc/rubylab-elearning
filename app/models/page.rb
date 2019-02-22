@@ -3,11 +3,13 @@ class Page < ApplicationRecord
   belongs_to :course
   belongs_to :previous_page, class_name: 'Page', optional: true
   belongs_to :next_page, class_name: 'Page', optional: true
-  before_save :set_page
-  before_destroy :remove_page
+  before_save :set_pages
+  before_destroy :remove_pages
 
-  def last_page_of?(sequence)
-    sequence.last == self
+  scope :starting_for, ->(course) { find_by(course: course, previous_page: nil) }
+  scope :all_for, ->(course) do
+    start_page = starting_for(course)
+    start_page.blank? ? [] : start_page.full_sequence
   end
 
   def before?(target, sequence)
@@ -20,7 +22,7 @@ class Page < ApplicationRecord
 
   private
 
-  def set_page
+  def set_pages
     page_prev = previous_page
     page_next = next_page
 
@@ -30,7 +32,7 @@ class Page < ApplicationRecord
     end
   end
 
-  def remove_page
+  def remove_pages
     page_prev = previous_page
     page_next = next_page
 

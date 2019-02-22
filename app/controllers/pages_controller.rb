@@ -8,12 +8,13 @@ class PagesController < ApplicationController
   # GET /courses/:id/pages
   def index
     authorize Page.new(course: @course)
-    @pages = []
-    current_page = Page.find_by(course: @course, previous_page: nil)
-    while current_page
-      @pages << current_page
-      current_page = current_page.next_page
-    end
+    # @pages = []
+    # current_page = Page.find_by(course: @course, previous_page: nil)
+    # while current_page
+    #   @pages << current_page
+    #   current_page = current_page.next_page
+    # end
+    @pages = Page.all_for(@course)
   end
 
   # GET /courses/:id/pages/new
@@ -25,9 +26,16 @@ class PagesController < ApplicationController
   # POST /courses/:id/pages
   def create
     authorize Page.new(course: @course)
-    @page = Page.create(page_params.merge(course: @course))
-    respond_to do |format|
-      format.html { redirect_to pages_course_path(@course) }
+
+    result = ConfigurePageBeforeInsertion.call(course: @course, index: params[:page_index].to_i)
+    @page = Page.new(page_params.merge(course: @course, previous_page: result.previous_page, next_page: result.next_page))
+
+    if @page.save
+      flash[:success] = 'Page was successfully created'
+      redirect_to pages_course_path(@course)
+    else
+      flash[:notice] = 'An error occurred while creating the page'
+      redirect_back(fallback_location: root_path)
     end
   end
 
