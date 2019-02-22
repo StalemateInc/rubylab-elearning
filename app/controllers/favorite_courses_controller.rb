@@ -2,7 +2,7 @@ class FavoriteCoursesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_course
 
-  # POST /courses/:id/to_favorite
+  # POST /courses/:id/add_favorite
   def create
     @favorite_course = FavoriteCourse.new(course: @course, user: current_user)
 
