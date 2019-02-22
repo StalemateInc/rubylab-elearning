@@ -6,7 +6,10 @@ class Page < ApplicationRecord
   before_save :set_pages
   before_destroy :remove_pages
 
-  def set_pages
+  scope :starting_for, ->(course) { find_by(course: course, previous_page: nil) }
+  scope :all_for, ->(course) { starting_for(course).full_sequence }
+
+  def set_page
     page_prev = previous_page
     page_next = next_page
 
