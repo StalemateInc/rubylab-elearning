@@ -81,10 +81,6 @@ class PagesController < ApplicationController
 
   private
 
-  def page_params
-    params.require(:page).permit(%i[html name])
-  end
-
   def set_page
     @page = Page.find(params[:page_id])
   end
@@ -94,6 +90,6 @@ class PagesController < ApplicationController
   end
 
   def page_params
-    params.require(:page).permit(%i[html])
+    params.require(:page).permit(%i[html name])
   end
 end
