@@ -32,3 +32,6 @@
 .idea/
 Gemfile.lock
 .ruby-version
+
+#ignore public uploaded files
+/public/uploads/*
