@@ -46,13 +46,14 @@ class Page < ApplicationRecord
     columns = self.class.column_names
     columns_joined = columns.join(',')
     sql =
-        "
+    "
       WITH RECURSIVE page_tree (#{columns_joined}, level)
       AS (
         SELECT
           #{columns_joined}, 0
         FROM pages
         WHERE id=#{id}
+
         UNION ALL
         SELECT
           #{columns.map { |col| 'pag.' + col }.join(',') },

@@ -5,15 +5,9 @@ class PagesController < ApplicationController
   before_action :set_page, except: %i[index new create]
   after_action :clear_flash, only: :destroy
 
-  # GET /courses/:id/pages
+  # GET /courses/:course_id/pages
   def index
     authorize Page.new(course: @course)
-    # @pages = []
-    # current_page = Page.find_by(course: @course, previous_page: nil)
-    # while current_page
-    #   @pages << current_page
-    #   current_page = current_page.next_page
-    # end
     @pages = Page.all_for(@course)
   end
 
@@ -97,5 +91,9 @@ class PagesController < ApplicationController
 
   def set_course
     @course = Course.find(params[:id])
+  end
+
+  def page_params
+    params.require(:page).permit(%i[html])
   end
 end

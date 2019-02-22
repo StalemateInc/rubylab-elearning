@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <h1>Pages: </h1>
 <% if @pages.empty? %>
   <h3>No pages found.</h3>
@@ -16,6 +17,7 @@
     </div>
   <% end %>
 <% end %>
+<%= link_to '+', course_new_page_path(@course), class: 'btn btn-primary btn-lg' %> <br />
 <br />
 <%= link_to 'Add page', new_page_course_path(@course), class: 'btn btn-md btn-primary' %>
 <%= link_to 'Back', course_path(@course), class: 'btn btn-info btn-md' %> <br />
