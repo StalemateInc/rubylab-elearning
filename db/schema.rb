@@ -35,6 +35,18 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
     t.index ["course_id"], name: "index_certificates_on_course_id"
   end
 
+  create_table "ckeditor_assets", force: :cascade do |t|
+    t.string "data_file_name", null: false
+    t.string "data_content_type"
+    t.integer "data_file_size"
+    t.string "type", limit: 30
+    t.integer "width"
+    t.integer "height"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_ckeditor_assets_on_type"
+  end
+
   create_table "completion_records", force: :cascade do |t|
     t.integer "score", null: false
     t.integer "status", null: false
@@ -90,6 +102,8 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
   create_table "invites", force: :cascade do |t|
     t.integer "user_id"
     t.integer "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "join_requests", force: :cascade do |t|
@@ -134,12 +148,14 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
 
   create_table "pages", force: :cascade do |t|
     t.text "html", null: false
-    t.text "css", null: false
     t.bigint "previous_page_id"
     t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "next_page_id"
+    t.string "name"
     t.index ["course_id"], name: "index_pages_on_course_id"
+    t.index ["next_page_id"], name: "index_pages_on_next_page_id"
     t.index ["previous_page_id"], name: "index_pages_on_previous_page_id"
   end
 
@@ -148,7 +164,7 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "await_check"
+    t.boolean "await_check", default: false
     t.bigint "page_id"
     t.index ["course_id"], name: "index_participations_on_course_id"
     t.index ["page_id"], name: "index_participations_on_page_id"

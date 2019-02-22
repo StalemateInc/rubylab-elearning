@@ -1,14 +1,25 @@
+# frozen_string_literal: true
+
 class MembershipsController < ApplicationController
+  include Pundit
+  before_action :authenticate_user!
   before_action :set_organization
+  before_action :set_membership, only: :destroy
   after_action :clear_flash, only: :destroy
 
-  # DELETE /organizations/:organization_id/membership
+  # GET /organizations/:id/manage/memberships
+  def index
+    authorize @organization, policy_class: MembershipPolicy
+    @memberships = @organization.memberships.order('org_admin DESC')
+  end
+
+  # DELETE /organizations/:id/manage/memberships/:membership_id
   def destroy
-    membership = @organization.memberships.find_by(user: current_user)
-    if membership.destroy
-      flash[:success] = 'You have successfully left the organization.'
+    authorize @organization, policy_class: MembershipPolicy
+    if @membership.destroy
+      flash[:success] = "User @#{@membership.user.profile.nickname} was successfully kicked from the organization"
     else
-      flash[:notice] = 'Error occurred while leaving the group.'
+      flash[:notice] = 'Error kicking a user from an organization'
     end
     respond_to do |format|
       format.js
@@ -17,7 +28,11 @@ class MembershipsController < ApplicationController
 
   private
 
+  def set_membership
+    @membership = Membership.find(params[:membership_id])
+  end
+
   def set_organization
-    @organization = Organization.find(params[:organization_id])
+    @organization = Organization.find(params[:id])
   end
 end

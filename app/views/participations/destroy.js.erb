@@ -1,3 +1,11 @@
-let participation_record = $('#div-participation-<%= @participation.id %>');
+var participation_record = $('#div-participation-<%= @participation.id %>');
+<% if current_user.participations.empty? %>
+  participation_record.after('<h4>Sorry, no courses found.</h4>');
+<% end %>                      
 participation_record.remove();
+
+var leave_button = $('.course_leave');
+leave_button.after($('<%= j render partial: 'courses/enroll_button', locals: { course: @course, participation: nil } %>'));
+leave_button.remove();
+
 force_flash('<%= j render partial: "layouts/flash" %>');

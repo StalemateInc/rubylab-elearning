@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class UserDashboardController < ApplicationController
+  before_action :authenticate_user!
 
-  def index
-
-  end
+  # GET /user
+  def index; end
 
 end

@@ -1,14 +1,30 @@
-<h1>All courses: </h1>
-<%= link_to 'Create course', new_course_path, class: 'btn btn-md btn-primary' %>
-<% @courses.each do |course| %>
-  <hr>
-  <strong>Name:</strong><%= course.name %><br/>
-  <strong>Description:</strong><%= course.description %><br/>
-  <strong>Duration:</strong><%= course.duration %><br/>
-  <strong>Difficulty:</strong><%= course.difficulty %><br/>
-  <strong>Visibility:</strong><%= course.visibility %><br/>
-  <strong>Author:</strong>
-  <%= course.owner.instance_of?(User) ? "#{course.owner.profile.name} #{course.owner.profile.surname}" : course.owner.name %>
-  <br/>
-  <%= link_to 'More', course_path(course), class: 'btn btn-md btn-primary' %>
+<%#<h1>All courses: </h1>
+<%= link_to 'Create course', new_course_path, class: 'btn btn-md btn-primary'
+<% @courses.each do |course|
+  <%= render partial: 'courses/card', locals: {course: course }
 <% end %>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5"></div>
+      <div class="col-md-2">
+        <h1>Courses</h1>
+      </div>
+      <div class="col-md-3 my-1">
+        <div class="h2">
+          <%= link_to(new_course_path) do %>
+          <i class="fas fa-plus"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-3">
+        Filters
+      </div>
+      <div class="col-md-9">
+        Content
+      </div>
+    </div>
+  </div>

@@ -37,11 +37,14 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'aasm'
 gem 'bootstrap'
+gem 'carrierwave'
+gem 'ckeditor'
 gem 'font-awesome-sass'
+gem 'mini_magick'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem "select2-rails"
+gem 'select2-rails'
 
 gem 'devise'
 gem 'figaro'
@@ -49,6 +52,10 @@ gem 'interactor', '~> 3.0'
 gem 'pundit'
 gem 'sidekiq'
 gem 'whenever', require: false
+gem 'elasticsearch-model', git: 'git://github.com/elastic/elasticsearch-rails.git', branch: 'master'
+gem 'elasticsearch-rails', git: 'git://github.com/elastic/elasticsearch-rails.git', branch: 'master'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
 
 # order matters, do not change
 gem 'simple_form'
@@ -65,6 +72,7 @@ group :development, :test do
   gem 'faker'
   gem 'pry'
   gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'rspec-rails', '~> 3.8'
   gem 'rubocop', require: false
 end
@@ -82,8 +90,10 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
+  gem 'rspec-sidekiq'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  gem 'elasticsearch-extensions'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

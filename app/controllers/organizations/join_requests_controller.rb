@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-class JoinRequestsController < ApplicationController
-
+class Organizations::JoinRequestsController < ApplicationController
+  include Pundit
+  before_action :authenticate_user!
   before_action :set_organization
+  before_action :authorize_through_organization
   before_action :set_join_request, except: %i[index create]
   after_action :clear_flash, only: %i[create accept decline destroy]
 
@@ -11,7 +13,7 @@ class JoinRequestsController < ApplicationController
     @join_requests = JoinRequest.where(organization: @organization, status: :pending)
   end
 
-  # POST organizations/:id/requests
+  # POST /organizations/:id/requests
   def create
     @join_request = JoinRequest.new(user: current_user, organization: @organization, status: :pending)
     if @join_request.save
@@ -24,7 +26,7 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # PUT organizations/:id/requests/:request_id/accept
+  # PUT /organizations/:id/requests/:join_request_id/accept
   def accept
     result = AcceptJoinRequest.call(user: @join_request.user,
                                     organization: @organization,
@@ -39,9 +41,11 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # PUT organizations:/:id/requests/:request_id/decline
+  # PUT /organizations/:id/requests/:join_request_id/decline
   def decline
+    comment = decline_request_params[:comment]
     result = RejectJoinRequest.call(user: @join_request.user,
+                                    comment: comment,
                                     organization: @organization,
                                     request: @join_request)
     if result.success?
@@ -54,7 +58,7 @@ class JoinRequestsController < ApplicationController
     end
   end
 
-  # DELETE organizations:/:id/requests/:request_id
+  # DELETE /organizations/:id/requests/:join_request_id
   def destroy
     if @join_request.destroy
       flash[:success] = 'Join request successfully cancelled.'
@@ -66,6 +70,9 @@ class JoinRequestsController < ApplicationController
     end
   end
 
+  # GET /organizations/:id/requests/:join_request_id/specify
+  def specify_reason; end
+
   private
 
   def set_organization
@@ -74,6 +81,14 @@ class JoinRequestsController < ApplicationController
 
   def set_join_request
     @join_request = JoinRequest.find(params[:join_request_id])
+  end
+
+  def authorize_through_organization
+    authorize @organization, policy_class: Organizations::JoinRequestPolicy
+  end
+
+  def decline_request_params
+    params.require(:join_request).permit(:comment)
   end
 
 end

@@ -1,0 +1,37 @@
+<h3>Search</h3>
+
+<%= form_for :search, url: search_path, method: :get do |form| %>
+  <div class='form-group'>
+    <%= form.label :query, 'Search' %><br />
+    <%= form.text_field :query, value: params[:search].presence && params[:search][:query], class: 'form-control' %>
+  </div>
+
+  <%= form.submit 'Will find',  class: 'btn btn-success' %>
+<% end %>
+
+<% unless @results.nil? %>
+  <% if @results.empty? %>
+    <h4>No results</h4>
+  <% else %>
+    <h4>Results</h4>
+      <div class="container-fluid">
+        <% @results.each do |result| %>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <h5 class='text-center'>Name of course: <%= result.name %></h5><br />
+            <div class="panel-stub">
+              Difficulty: <%= result.difficulty %><br />
+              Owner of course: <%= result.owner_for_elastic %><br />
+              Course duration: <%= result.duration %><br />
+              Status: <%= result.status %><br />
+              <% if result.description %>
+                <h6 class="text-center">Description</h6>
+                <p><%= result.description.truncate(150) %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
