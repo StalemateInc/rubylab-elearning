@@ -1,14 +1,27 @@
-<h1>Create a page: </h1>
-<%= simple_form_for @page, url: course_page_new_path, method: :post, validate: true do |f| %>
-  <%= f.error_notification %>
-
-  <%= f.input :html, label: 'HTML:' %>
-
-  <%= label_tag :page_index, "Page index:" %>
-  <%= number_field_tag :page_index, @course.pages.count + 1, min: 1, max: @course.pages.count + 1 %>
-
-  <div class="form-actions">
-    <%= f.button :submit, 'Create new page', class: 'btn btn-md btn-success' %>
-    <%= link_to 'Back', course_pages_path, class: 'btn btn-info btn-md' %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h1>Build a new page: </h1>
+      <%= simple_form_for(@page, url: pages_course_path, method: :post) do |form| %>
+        <div class="form-inputs">
+          <div class="container-fluid p-2">
+            <div class="row">
+              <div class="col-md-8">
+                <%= form.input :name, required: false %>
+              </div>
+              <div class="col-md-4">
+                <%= label_tag :page_index, 'Page index: ' %><br/>
+                <%= number_field_tag :page_index, @course.pages.count + 1, min: 1, max: @course.pages.count + 1, class: 'form-control number' %>
+              </div>
+            </div>
+          </div>
+          <%= form.input :html, as: :ckeditor, label: false, input_html: { ckeditor: { toolbar: 'Full' } }  %>
+        </div>
+        <div class="form-actions">
+          <%= form.button :submit, 'Create page', class: 'btn btn-md btn-primary' %>
+          <%= link_to 'Back', pages_course_path(@course), class: 'btn btn-md btn-secondary' %>
+        </div>
+      <% end %>
+    </div>
   </div>
-<% end %>
+</div>
