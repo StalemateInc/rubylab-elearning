@@ -1,6 +1,14 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <h1>Pages: </h1>
 <% @pages.each do |page| %>
-  <p>Page <%= @pages.index(page) + 1 %></p>
+  
+  <p>
+    <%= page.id %> Page <%= @pages.index(page) + 1 %>   
+    <%= link_to "<i class='fa fa-close'></i>".html_safe, course_page_destroy_path(id: page), 
+        method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?' } %>
+  </p>
+  
 <% end %>
+<%= link_to '+', course_new_page_path(@course), class: 'btn btn-primary btn-lg' %> <br />
 <br />
 <%= link_to 'Back', course_path(@course), class: 'btn btn-info btn-md' %> <br />

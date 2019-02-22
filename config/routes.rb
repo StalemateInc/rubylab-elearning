@@ -59,7 +59,10 @@ Rails.application.routes.draw do
     end
   end
   resources :courses do
-      get '/pages', to: 'pages#index', as: :pages
+    get '/pages', to: 'pages#index', as: :pages
+    get '/pages/new', to: 'pages#new', as: :new_page
+    post '/pages', to: 'pages#create', as: :page_new
+    delete '/pages/:id', to: 'pages#destroy', as: :page_destroy
   end
 
   post '/courses/:id/enroll', to: 'participations#create', as: :create_participation

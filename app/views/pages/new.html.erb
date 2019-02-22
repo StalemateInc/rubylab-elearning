@@ -1,0 +1,14 @@
+<h1>Create a page: </h1>
+<%= simple_form_for @page, url: course_page_new_path, method: :post, validate: true do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :html, label: 'HTML:' %>
+
+  <%= label_tag :page_index, "Page index:" %>
+  <%= number_field_tag :page_index, @course.pages.count + 1, min: 1, max: @course.pages.count + 1 %>
+
+  <div class="form-actions">
+    <%= f.button :submit, 'Create new page', class: 'btn btn-md btn-success' %>
+    <%= link_to 'Back', course_pages_path, class: 'btn btn-info btn-md' %>
+  </div>
+<% end %>
