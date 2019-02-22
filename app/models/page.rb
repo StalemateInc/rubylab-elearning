@@ -7,7 +7,20 @@ class Page < ApplicationRecord
   before_destroy :remove_pages
 
   scope :starting_for, ->(course) { find_by(course: course, previous_page: nil) }
-  scope :all_for, ->(course) { starting_for(course).full_sequence }
+  scope :all_for, ->(course) do
+    start_page = starting_for(course)
+    start_page.blank? ? [] : start_page.full_sequence
+  end
+
+  def before?(target, sequence)
+    !sequence.index(target).nil?
+  end
+
+  def full_sequence
+    [self].concat(Page.find_by_sql(recursive_tree_children_sql))
+  end
+
+  private
 
   def set_pages
     page_prev = previous_page
@@ -28,12 +41,6 @@ class Page < ApplicationRecord
       page_next.update(previous_page: page_prev) if page_next
     end
   end
-
-  def full_sequence
-    [self].concat(Page.find_by_sql(recursive_tree_children_sql))
-  end
-
-  private
 
   def recursive_tree_children_sql
     columns = self.class.column_names
@@ -60,4 +67,5 @@ class Page < ApplicationRecord
     "
     sql.chomp
   end
+
 end

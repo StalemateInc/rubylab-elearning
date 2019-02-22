@@ -1,14 +1,22 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <h1>Pages: </h1>
-<% @pages.each do |page| %>
-  
-  <p>
-    <%= page.id %> Page <%= @pages.index(page) + 1 %>   
-    <%= link_to "<i class='fa fa-close'></i>".html_safe, course_page_destroy_path(id: page), 
-        method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?' } %>
-  </p>
-  
+<% if @pages.empty? %>
+  <h3>No pages found.</h3>
+<% else %>
+  <% @pages.each do |page| %>
+    <div id="page-item-<%= page.id %>" class="page-item">
+      <p><%= "Page №#{@pages.index(page) + 1} \"#{page.name.blank? ? 'Unnamed page' : page.name }\"" %></p>
+      <%= link_to 'Edit', edit_page_course_path(@course, page), class: 'btn btn-md btn-warning' %>
+      <%= link_to page_course_path(@course, page),
+                  method: :delete,
+                  remote: true,
+                  class: 'btn btn-md btn-danger',
+                  data: { confirm: 'Are you sure want to delete this page?' } do %>
+        <i class="fas fa-trash-alt"></i>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
-<%= link_to '+', course_new_page_path(@course), class: 'btn btn-primary btn-lg' %> <br />
-<br />
+<br/>
+<%= link_to 'Add page', new_page_course_path(@course), class: 'btn btn-md btn-primary' %>
 <%= link_to 'Back', course_path(@course), class: 'btn btn-info btn-md' %> <br />

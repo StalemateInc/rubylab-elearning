@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  mount Ckeditor::Engine => '/ckeditor'
+
   devise_for :users,
              path: 'auth',
              path_names: {
@@ -59,10 +61,15 @@ Rails.application.routes.draw do
     end
   end
   resources :courses do
-    get '/pages', to: 'pages#index', as: :pages
-    get '/pages/new', to: 'pages#new', as: :new_page
-    post '/pages', to: 'pages#create', as: :page_new
-    delete '/pages/:id', to: 'pages#destroy', as: :page_destroy
+    member do
+      get '/pages', to: 'pages#index', as: :pages
+      post '/pages', to: 'pages#create'
+      get '/pages/new', to: 'pages#new', as: :new_page
+      get '/pages/:page_id/edit', to: 'pages#edit', as: :edit_page
+      get '/pages/:page_id', to: 'pages#show', as: :page
+      patch '/pages/:page_id', to: 'pages#update'
+      delete '/pages/:page_id', to: 'pages#destroy'
+    end
   end
 
   post '/courses/:id/enroll', to: 'participations#create', as: :create_participation
