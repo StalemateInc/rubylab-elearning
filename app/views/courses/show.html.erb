@@ -1,4 +1,17 @@
-<h1>Course "<%= @course.name %>"</h1>
+<h1>
+  Course "<%= @course.name %>"
+  <% if user_signed_in? %>
+    <% if FavoriteCourse.find_by(course: @course, user: current_user) %>
+      <%= link_to remove_favorite_course_path(@course), method: :delete, class: 'btn btn-md btn-primary' do %>
+        <i class="fas fa-star"></i>
+      <% end %> 
+    <% else %>
+      <%= link_to add_favorite_course_path(@course), method: :post, class: 'btn btn-md btn-primary' do %>
+        <i class="far fa-star"></i>
+      <% end %> 
+    <% end %>    
+  <% end %>
+</h1>
 
 <p>Description: <%= @course.description %></p>
 <p>Duration: <%= @course.duration %></p>
