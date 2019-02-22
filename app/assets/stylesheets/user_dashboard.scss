@@ -1,0 +1,23 @@
+// Place all the styles related to the UserDashboard controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@media(max-width: 576px) {
+
+  .scrolling-wrapper-flexbox {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    .tab-scroll {
+      flex: 0 0 auto;
+    }
+
+  }
+}
+
+.panel-stub {
+  min-height: 300px;
+  border: #999999 1px solid;
+  border-radius: 3px;
+}

@@ -14,7 +14,14 @@ class User < ApplicationRecord
   has_many :participations, dependent: :destroy
   has_many :enrolled_courses, through: :participations, source: :course
   has_many :join_requests, dependent: :destroy
-  has_many :feedbacks
+  has_many :invites, dependent: :destroy
+  has_many :completion_records
+  has_many :certificates, through: :completion_records
+  has_many :user_answers, dependent: :destroy
+  has_many :course_accesses, dependent: :destroy
+  has_many :allowed_courses, through: :course_accesses, source: :course
+  has_many :favorite_courses, dependent: :destroy
+  has_many :impersonation_histories, class_name: 'ImpersonationHistory', foreign_key: :impersonator_id
 
   accepts_nested_attributes_for :profile
 

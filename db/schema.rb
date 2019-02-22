@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
     t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "completion_record_id"
+    t.index ["completion_record_id"], name: "index_certificates_on_completion_record_id"
     t.index ["course_id"], name: "index_certificates_on_course_id"
   end
 
@@ -37,12 +39,10 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
     t.integer "score", null: false
     t.integer "status", null: false
     t.datetime "date"
-    t.bigint "certificate_id"
     t.bigint "user_id"
     t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["certificate_id"], name: "index_completion_records_on_certificate_id"
     t.index ["course_id"], name: "index_completion_records_on_course_id"
     t.index ["user_id"], name: "index_completion_records_on_user_id"
   end
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
-    t.integer "status"
-    t.integer "visibility"
+    t.integer "status", default: 0
+    t.integer "visibility", default: 0
   end
 
   create_table "favorite_courses", force: :cascade do |t|
@@ -96,6 +96,11 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_join_requests_on_organization_id"
     t.index ["user_id"], name: "index_join_requests_on_user_id"
+  end
+
+  create_table "invites", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "organization_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -167,10 +172,8 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
     t.text "content", null: false
     t.integer "question_type"
     t.bigint "page_id"
-    t.bigint "answer_list_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["answer_list_id"], name: "index_questions_on_answer_list_id"
     t.index ["page_id"], name: "index_questions_on_page_id"
   end
 

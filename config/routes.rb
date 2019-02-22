@@ -29,6 +29,12 @@ Rails.application.routes.draw do
   devise_scope :user do
     patch '/auth/verification', to: 'users/confirmations#update', as: :update_user_confirmation
   end
+
+  get '/invites', to: 'invites#index', as: :invites
+  post '/invites/:id', to: 'invites#create', as: :accept_invite
+  delete '/invites/:id', to: 'invites#destroy', as: :destroy_invite
+
+
   resources :organizations do
     member do
       get '/requests', to: 'join_requests#index', as: :requests
@@ -42,4 +48,10 @@ Rails.application.routes.draw do
   resources :courses
   resources :questions, only: %i[new index]
   post '/questions', to: 'questions#test', as: :add_question
+  scope :user do
+    get '/', to: 'user_dashboard#index', as: :user_dashboard
+    resource :profile, only: %i[show edit update]
+    resources :participations, only: %i[index destroy]
+    resources :certificates, only: %i[index show]
+  end
 end

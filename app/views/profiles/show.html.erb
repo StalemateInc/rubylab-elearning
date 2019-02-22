@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: "user_dashboard/menu", locals: { active: :profile } %>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+          Profile
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <p><strong>Name: </strong><%= @profile.name %></p>
+                <p><strong>Surname: </strong><%= @profile.surname %></p>
+                <p><strong>Nickname: </strong>@<%= @profile.nickname %></p>
+                <p><strong>Address: </strong><%= @profile.address %></p>
+                <p><strong>Birthday: </strong><%= @profile.birthday %></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <%= link_to 'Edit your profile', edit_profile_path, class: 'btn btn-md btn-warning' %>
+                <%= link_to 'Back', :back, class: 'btn btn-md btn-primary' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

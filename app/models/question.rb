@@ -1,5 +1,5 @@
 class Question < ApplicationRecord
-  has_one :answer_list
+  has_one :answer_list, dependent: :destroy
   belongs_to :page
-  accepts_nested_attributes_for :answer_list
+  has_many :user_answers, dependent: :destroy
 end
