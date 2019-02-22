@@ -9,7 +9,7 @@ class Page < ApplicationRecord
   scope :starting_for, ->(course) { find_by(course: course, previous_page: nil) }
   scope :all_for, ->(course) { starting_for(course).full_sequence }
 
-  def set_page
+  def set_pages
     page_prev = previous_page
     page_next = next_page
 
