@@ -1,8 +1,8 @@
-describe SendInvintation do
+describe SendInvitation do
   describe '.call' do
-    context 'when interactor SendInvintation call right context' do
+    context 'when interactor SendInvitation call right context' do
       subject(:context) do
-        SendInvintation.call(ParseEmailsFromFile.call(ValidateEmailsFromInput.call(
+        SendInvitation.call(ParseEmailsForImport.call(ValidateEmailsFromInput.call(
           email: ['alfred@gmail.com casa@gmail.com',
           'arriva@mail.com, guru@mail.ru', 'village@gmail.com', 'garage@mail.org',
           'FORK@gmail.su', 'food', 'hello@mail.ru', 'hello@mail.ru'],

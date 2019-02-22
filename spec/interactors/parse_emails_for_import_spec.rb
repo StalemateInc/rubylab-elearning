@@ -1,8 +1,8 @@
-describe ParseEmailsFromFile do
+describe ParseEmailsForImport do
   describe '.call' do
     context 'when interactor ParseEmailsFromFile call right context' do
       subject(:context) do
-        ParseEmailsFromFile.call(ValidateEmailsFromInput.call(
+        ParseEmailsForImport.call(ValidateEmailsFromInput.call(
           email: ['alfred@gmail.com casa@gmail.com',
           'arriva@mail.com, guru@mail.ru', 'village@gmail.com', 'garage@mail.org',
           'FORK@gmail.su', 'food', 'hello@mail.ru', 'hello@mail.ru'],
@@ -32,8 +32,8 @@ describe ParseEmailsFromFile do
 
   context 'when interactor ParseEmailsFromFile call broken context' do
     subject(:context) do
-      ParseEmailsFromFile.call(email: 'fodfe',
-        file: [], organization_id: 'false', emails: 'ddd')
+      ParseEmailsForImport.call(email: 'fodfe',
+                                file: [], organization_id: 'false', emails: 'ddd')
     end
 
     it 'fails' do
