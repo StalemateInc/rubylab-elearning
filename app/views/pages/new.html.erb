@@ -4,10 +4,11 @@
       <h1>Build a new page: </h1>
       <%= simple_form_for(@page, url: pages_course_path, method: :post) do |form| %>
         <div class="form-inputs">
+          <%= form.input :name, required: false %>
           <%= form.input :html, as: :ckeditor, label: false, input_html: { ckeditor: { toolbar: 'Full' } }  %>
         </div>
         <div class="form-actions">
-          <%= form.submit %>
+          <%= form.button :submit, 'Create page', class: 'btn btn-md btn-primary' %>
           <%= link_to 'Back', pages_course_path(@course), class: 'btn btn-md btn-secondary' %>
         </div>
       <% end %>

@@ -4,7 +4,7 @@
 <% else %>
   <% @pages.each do |page| %>
     <div id="page-item-<%= page.id %>" class="page-item">
-      <p>Page <%= @pages.index(page) + 1 %></p>
+      <p><%= "Page №#{@pages.index(page) + 1} \"#{page.name.blank? ? 'Unnamed page' : page.name }\"" %></p>
       <%= link_to 'Edit', edit_page_course_path(@course, page), class: 'btn btn-md btn-warning' %>
       <%= link_to page_course_path(@course, page),
                   method: :delete,

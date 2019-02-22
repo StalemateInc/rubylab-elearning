@@ -4,10 +4,11 @@
       <h1>Edit page: </h1>
       <%= simple_form_for(@page, url: page_course_path(@course, @page), method: :patch) do |form| %>
         <div class="form-inputs">
+          <%= form.input :name, required: false %>
           <%= form.input :html, as: :ckeditor, label: false, input_html: { ckeditor: { toolbar: 'Full' } }  %>
         </div>
         <div class="form-actions">
-          <%= form.submit %>
+          <%= form.button :submit, 'Save changes', class: 'btn btn-md btn-primary' %>
           <%= link_to 'Back', pages_course_path(@course), class: 'btn btn-md btn-secondary' %>
         </div>
       <% end %>

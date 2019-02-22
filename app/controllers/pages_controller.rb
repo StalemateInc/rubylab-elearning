@@ -24,7 +24,7 @@ class PagesController < ApplicationController
 
   # POST /courses/:id/pages
   def create
-    authorize Page.new
+    authorize Page.new(course: @course)
     @page = Page.create(page_params.merge(course: @course))
     respond_to do |format|
       format.html { redirect_to pages_course_path(@course) }
@@ -80,7 +80,7 @@ class PagesController < ApplicationController
   private
 
   def page_params
-    params.require(:page).permit(:html)
+    params.require(:page).permit(%i[html name])
   end
 
   def set_page
