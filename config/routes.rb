@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     member do
       # user actions for organizations
       delete '/leave', to: 'organizations#leave', as: :leave
+      get '/import', to: 'organizations#new_import', as: :new_import
+      post '/import', to: 'organizations#create_import', as: :create_import
       # org_admin actions for organizations
       scope :manage do
         get '/', to: 'organization_dashboard#index', as: :home_dashboard

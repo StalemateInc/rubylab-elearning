@@ -20,20 +20,20 @@ RSpec.describe User, type: :model do
     expect(subject).not_to be_valid
   end
 
-  it 'is not valid without a password' do
-    subject.password = nil
-    expect(subject).not_to be_valid
-  end
+  # it 'is not valid without a password' do
+  #   subject.password = nil
+  #   expect(subject).not_to be_valid
+  # end
 
   it 'is not valid if email is incorrect' do
     subject.email = 'sometext'
     expect(subject).not_to be_valid
   end
 
-  it "is not valid if password is less than #{UserConstants::MINIMUM_PASSWORD_LENGTH} symbols" do
-    subject.password = 'p' * (UserConstants::MINIMUM_PASSWORD_LENGTH - 1)
-    expect(subject).not_to be_valid
-  end
+  # it "is not valid if password is less than #{UserConstants::MINIMUM_PASSWORD_LENGTH} symbols" do
+  #   subject.password = 'p' * (UserConstants::MINIMUM_PASSWORD_LENGTH - 1)
+  #   expect(subject).not_to be_valid
+  # end
 
   context 'if registered the email has already been taken' do
     before do
