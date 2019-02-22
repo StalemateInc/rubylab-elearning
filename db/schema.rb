@@ -87,6 +87,11 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
     t.index ["target_user_id"], name: "index_impersonation_histories_on_target_user_id"
   end
 
+  create_table "invites", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "organization_id"
+  end
+
   create_table "join_requests", force: :cascade do |t|
     t.text "comment"
     t.integer "status", default: 0
@@ -96,11 +101,6 @@ ActiveRecord::Schema.define(version: 2019_02_16_223734) do
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_join_requests_on_organization_id"
     t.index ["user_id"], name: "index_join_requests_on_user_id"
-  end
-
-  create_table "invites", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "organization_id"
   end
 
   create_table "memberships", force: :cascade do |t|
