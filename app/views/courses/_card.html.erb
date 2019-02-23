@@ -1,9 +1,24 @@
-<hr>
-<strong>Name:</strong><%= course.name %><br/>
-<strong>Description:</strong><%= course.description %><br/>
-<strong>Duration:</strong><%= course.duration %><br/>
-<strong>Difficulty:</strong><%= course.difficulty %><br/>
-<strong>Visibility:</strong><%= course.visibility %><br/>
-<strong>Author:</strong><%= course.owner.instance_of?(User) ? "#{course.owner.profile.name} #{course.owner.profile.surname}" : course.owner.name %><br/>
-<br/>
-<%= link_to 'More', course_path(course), class: 'btn btn-md btn-primary' %>
+<div class="card mb-3">
+  <%= image_tag 'course.jpg', class: 'card-img-top', width: '781', height: '180' %>
+  <div class="card-body">
+    <h5 class="card-title"><%= course.name %></h5>
+    <p class="card-text"><%= course.description %></p>
+    <div class="row">
+      <div class="col-md-8">
+        <p class="card-text">
+          <small class="text-muted">Created at
+            <%= course.created_at.strftime("%b %d, %Y") %></small>
+        </p>
+      </div>
+      <div class="col-md-1">
+        <i class="fas fa-star">rate</i>
+      </div>
+      <div class="col-md-1">
+        <i class="fas fa-user"><%= course.completion_records.count %></i>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-primary">More</button>
+      </div>
+    </div>
+  </div>
+</div>
