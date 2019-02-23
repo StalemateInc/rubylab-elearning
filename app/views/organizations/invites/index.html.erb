@@ -13,11 +13,12 @@
                 <%= simple_form_for :user, remote: true, url: import_organization_path(@organization), html: { multipart: true } do |f| %>
                   <div class="row">
                     <div class="col-md-6">
-                      <%= f.input :email, label:'Invite users via emails', collection: [],
-                                  input_html: { class: 'import-users-select', multiple: 'multiple' } %>
+                      <%= f.input :email, label: 'Invite users via emails', collection: [],
+                          hint: 'Separate emails by pressing space',
+                          input_html: { class: 'import-users-select', multiple: 'multiple' } %>
                     </div>
                     <div class="col-md-6">
-                      <%= label_tag 'user_csv', 'Import users from csv file' %>
+                      <%= label_tag 'user_csv', 'Import users from CSV file' %>
                       <%= file_field_tag 'user[csv]', id: 'user_csv', accepts: 'text/csv', class: 'form-control-file' %>
                     </div>
                   </div>
@@ -31,7 +32,7 @@
                 <%= simple_form_for :user, remote: true do |f| %>
                   <div class="row">
                     <div class="col-md-6">
-                      <%= f.input :email, label: 'Invite users via emails' %>
+                      <%= f.input :email, label: 'Invite users via emails', hint: 'Start typing user\'s email to see available options'  %>
                     </div>
                   </div>
                   <%= f.button :submit, 'Invite' %>
