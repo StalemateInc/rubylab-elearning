@@ -1,4 +1,4 @@
 var remove_button = $('.remove-from-favorite');
-remove_button.after($('<%= j render partial: 'courses/favorite_button', locals: { organization: @course, user: current_user } %>'));
+remove_button.after($('<%= j render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>'));
 remove_button.remove();
 force_flash('<%= j render "layouts/flash" %>');
