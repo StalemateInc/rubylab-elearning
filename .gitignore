@@ -32,3 +32,4 @@
 .idea/
 Gemfile.lock
 .ruby-version
+public/uploads/ckeditor
