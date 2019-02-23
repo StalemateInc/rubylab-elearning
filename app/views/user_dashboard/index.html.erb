@@ -25,7 +25,11 @@
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-12">
                 Favourite courses:
-                <div class="panel-stub"></div>
+                <div class="panel-stub">
+                  <% @favorite_courses.each do |favorite_course| %>
+                    <%= render partial: 'courses/card', locals: { course: favorite_course.course } %>
+                  <% end %>
+                </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12">
                 Last completed courses:
