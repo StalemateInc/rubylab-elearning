@@ -37,11 +37,14 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'aasm'
 gem 'bootstrap'
+gem 'carrierwave'
+gem 'ckeditor'
 gem 'font-awesome-sass'
+gem 'mini_magick'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem "select2-rails"
+gem 'select2-rails'
 
 gem 'devise'
 gem 'figaro'

@@ -7,7 +7,7 @@ class CoursePolicy < ApplicationPolicy
     edit?
   end
 
-  def publish
+  def publish?
     user.admin? || record.owner?(user)
   end
 

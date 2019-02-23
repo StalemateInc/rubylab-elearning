@@ -120,6 +120,7 @@ class CoursesController < ApplicationController
 
     @course.published!
     flash[:success] = 'Course successfully published'
+    redirect_back(fallback_location: root_path)
   end
 
   private
