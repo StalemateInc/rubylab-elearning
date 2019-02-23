@@ -7,7 +7,6 @@ class ParseEmailsForImport < BaseInteractor
 
   def call
     begin
-      binding.pry
       emails = context.params[:email]
       csv = context.params[:csv]
       UserImportCSVParser.new(emails).parse(csv.tempfile) if csv
