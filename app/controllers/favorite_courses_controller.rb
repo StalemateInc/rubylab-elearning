@@ -1,6 +1,7 @@
 class FavoriteCoursesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_course
+  after_action :clear_flash
 
   # POST /courses/:id/add_favorite
   def create
@@ -11,7 +12,6 @@ class FavoriteCoursesController < ApplicationController
     else
       flash[:notice] = 'An error occured while adding to favorite courses'
     end
-    redirect_back(fallback_location: root_path)
   end
 
   # DELETE /courses/:id/remove_favorite
@@ -23,7 +23,6 @@ class FavoriteCoursesController < ApplicationController
     else
       flash[:notice] = 'An error occured while removing from favorite courses'
     end
-    redirect_back(fallback_location: root_path)
   end
 
   private
