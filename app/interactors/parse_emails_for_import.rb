@@ -7,8 +7,7 @@ class ParseEmailsForImport < BaseInteractor
 
   def call
     begin
-      emails = []
-      emails.concat(context.params[:email].split(';'))
+      emails = context.params[:email]
       csv = context.params[:csv]
       UserImportCSVParser.new(emails).parse(csv.tempfile) if csv
       emails.select! { |email| email =~ EMAIL_REGEXP }

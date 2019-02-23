@@ -66,6 +66,6 @@ class Organizations::InvitesController < ApplicationController
   end
 
   def invite_params
-    params.require(:user).permit(%i[email csv])
+    params.require(:user).permit(:csv, email: [])
   end
 end
