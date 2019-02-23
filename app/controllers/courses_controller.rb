@@ -18,6 +18,8 @@ class CoursesController < ApplicationController
     end.reject do |course|
       course.drafted? && !course.owner?(current_user)
     end
+
+    @courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
   end
 
   # POST /courses
@@ -81,7 +83,7 @@ class CoursesController < ApplicationController
   end
 
   # PATCH /courses/:id
-  def update 
+  def update
     allowed_users_ids = params[:allowed_users] || []
     ownership = @course.ownership
     CourseAccess.where(course: @course).destroy_all

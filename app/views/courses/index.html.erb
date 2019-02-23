@@ -43,8 +43,12 @@
       <% @courses.each do |course| %>
         <%= render 'courses/card', course: course %>
       <% end %>
-      
     </div>
-
+  </div>
+  <div class="row my-5">
+    <div class="col-md-5"></div>
+    <div class="col-md-6">
+      <%= will_paginate @courses, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+    </div>
   </div>
 </div>
