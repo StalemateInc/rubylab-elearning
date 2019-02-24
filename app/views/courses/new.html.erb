@@ -2,11 +2,12 @@
 <%= simple_form_for @course, url: courses_path, method: :post, validate: true do |f| %>
   <%= f.error_notification %>
 
+  <%= f.input :image, label: 'Select image: ', as: :file %>
   <%= f.input :name, label: 'Course name', required: true, input_html: { autocomplete: 'name' } %>
   <%= f.input :description, label: 'Describe your course', required: true, input_html: { autocomplete: 'description'} %>
   <%= f.input :duration, label: 'Course duration', required: true, input_html: { min: '0' } %>
   <%= f.input :difficulty, label: 'Difficulty', collection: Course.difficulties.keys, include_blank: false %>
-  <%= f.input :visibility, label: 'Visibile for: ', collection: Course.visibilities.except('organization').keys, 
+  <%= f.input :visibility, label: 'Visibile for: ', collection: Course.visibilities.except('organizatio1n').keys, 
                 include_blank: false, input_html: { id: 'course_visibility' } %>
   <div class='course_allowed_users_selector_div d-none'>
     <%= f.input :allowed_users, label:'Select allowed users', collection: @users, disabled: true,

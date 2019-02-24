@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Course < ApplicationRecord
+  mount_uploader :image, CourseImageUploader
 
   has_one :ownership, dependent: :destroy
   has_many :participations, dependent: :destroy

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_22_075737) do
+ActiveRecord::Schema.define(version: 2019_02_24_120420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 2019_02_22_075737) do
     t.text "description"
     t.integer "status", default: 0
     t.integer "visibility", default: 0
+    t.string "image"
   end
 
   create_table "favorite_courses", force: :cascade do |t|
