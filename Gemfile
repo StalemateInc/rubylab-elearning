@@ -56,6 +56,9 @@ gem 'elasticsearch-model', git: 'git://github.com/elastic/elasticsearch-rails.gi
 gem 'elasticsearch-rails', git: 'git://github.com/elastic/elasticsearch-rails.git', branch: 'master'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
+gem 'bootstrap-slider-rails'
 
 # order matters, do not change
 gem 'simple_form'
