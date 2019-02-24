@@ -22,6 +22,9 @@
           <%= link_to 'Back', pages_course_path(@course), class: 'btn btn-md btn-secondary' %>
         </div>
       <% end %>
+      <%= form_tag '/questions/add', method: :post, remote: true do %>
+        <%= submit_tag 'Create question', class: 'btn btn-md btn-primary' %>
+      <% end %>
     </div>
   </div>
 </div>
