@@ -10,6 +10,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col">
+                <%= image_tag @profile.image.content.url if @profile.image? %>
                 <p><strong>Name: </strong><%= @profile.name %></p>
                 <p><strong>Surname: </strong><%= @profile.surname %></p>
                 <p><strong>Nickname: </strong>@<%= @profile.nickname %></p>
