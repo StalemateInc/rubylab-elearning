@@ -33,6 +33,7 @@ class OrganizationsController < ApplicationController
   # PATCH /organizations/:id
   def update
     authorize @organization
+    @organization.remove_image!
     redirect_to @organization if @organization.update(organization_params)
   end
 
@@ -66,6 +67,6 @@ class OrganizationsController < ApplicationController
   end
 
   def organization_params
-    params.require(:organization).permit(%i[name description image])
+    params.require(:organization).permit(%i[name description image remove_image])
   end
 end
