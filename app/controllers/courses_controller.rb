@@ -3,7 +3,7 @@
 class CoursesController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_course, except: %i[index create new]
+  before_action :set_course, except: %i[index create new filter]
   before_action :set_keyword, only: :index
 
   # GET /courses
@@ -126,6 +126,11 @@ class CoursesController < ApplicationController
     flash[:success] = 'Course successfully published'
   end
 
+  # GET /courses
+  def filter
+    redirect_to courses_path
+  end
+
   private
 
   def set_course
@@ -149,6 +154,8 @@ class CoursesController < ApplicationController
       courses = Course.where(visibility: 0).order(created_at: :desc).paginate(page: params[:page], per_page: 5)
     when 'old'
       courses = Course.where(visibility: 0).order(created_at: :asc).paginate(page: params[:page], per_page: 5)
+    when 'favorites'
+      courses = Course.where(visibility: 0).joins(:favorite_courses).paginate(page: params[:page], per_page: 5)
     else
       courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
     end

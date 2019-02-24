@@ -21,6 +21,7 @@
 //= require select2
 //= require rails.validations
 //= require rails.validations.simple_form.bootstrap4
+//= require bootstrap-slider
 //= require_tree .
 
 window.force_flash = function(flash_element_string) {
