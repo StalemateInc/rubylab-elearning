@@ -2,6 +2,8 @@
 <%= simple_form_for @organization, url: organization_path(@organization), method: :patch, validate: true do |f| %>
   <%= f.error_notification %>
 
+  <%= image_tag @organization.image.content.url if @organization.image? %>
+  <%= f.input :image, label: 'Select image: ', as: :file %>
   <%= f.input :name, label: 'Organization name', required: true, input_html: { autocomplete: 'name' } %>
   <%= f.input :description, label: 'Describe your organization', required: true, input_html: { autocomplete: 'description'} %>
 
