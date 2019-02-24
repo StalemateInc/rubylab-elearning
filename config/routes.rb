@@ -63,8 +63,8 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :questions, only: %i[new index]
-  post '/questions', to: 'questions#test', as: :add_question
+  post '/questions/create', to: 'questions#create', as: :add_question
+  get '/questions/add', to: 'questions#render_form', as: :render_question_form
   resources :courses do
     member do
       get '/pages', to: 'pages#index', as: :pages

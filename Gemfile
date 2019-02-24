@@ -56,8 +56,6 @@ gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
-gem 'will_paginate'
-gem 'will_paginate-bootstrap4'
 gem 'bootstrap-slider-rails'
 
 # order matters, do not change
