@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    var questionForm = document.getElementById('render_form');
+    questionForm.addEventListener('ajax:success', function(event) {
+        [data, status, xhr] = event.detail;
+        document.querySelector('.questions').appendChild(data.body.firstChild);
+    });
     var answerIndex = 0;
     var answerButtons = document.querySelectorAll('.add-answer');
     answerButtons.forEach(function (answerButton) {
