@@ -2,8 +2,17 @@
 <%= simple_form_for @course, url: course_path(@course), method: :patch, validate: true do |f| %>
   <%= f.error_notification %>
 
-  <%= image_tag @course.image.content.url if @course.image? %>
+  <% if @course.image? %>
+    <%= image_tag @course.image.content.url %> 
+    <div>
+      <%= label_tag :remove_image do %>
+        Remove image
+        <%= f.check_box :remove_image %>
+      <% end %>
+    </div>
+  <% end %>
   <%= f.input :image, label: 'Select image', as: :file %>
+
   <%= f.input :name, label: 'Course name', required: true, input_html: { autocomplete: 'name' } %>
   <%= f.input :description, label: 'Describe your course', required: true, input_html: { autocomplete: 'description'} %>
   <%= f.input :duration, label: 'Course duration', required: true, input_html: { min: '0' } %>

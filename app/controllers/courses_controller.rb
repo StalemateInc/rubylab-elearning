@@ -82,6 +82,7 @@ class CoursesController < ApplicationController
 
   # PATCH /courses/:id
   def update 
+    @course.remove_image!
     allowed_users_ids = params[:allowed_users] || []
     ownership = @course.ownership
     CourseAccess.where(course: @course).destroy_all
@@ -130,6 +131,6 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(%i[name description duration difficulty visibility image])
+    params.require(:course).permit(%i[name description duration difficulty visibility image remove_image])
   end
 end
