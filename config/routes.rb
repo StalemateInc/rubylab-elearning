@@ -62,7 +62,6 @@ Rails.application.routes.draw do
   post '/courses/:id/enroll', to: 'participations#create', as: :create_participation
   patch '/courses/:id/publish', to: 'courses#publish', as: :publish_course
   patch '/courses/:id/archive', to: 'courses#archive', as: :archive_course
-  post '/courses/filter', to: 'courses#filter', as: :courses_filter
   get '/course/sortable', to: 'courses#sortable', as: :courses_sortable
   scope :user do
     get '/', to: 'user_dashboard#index', as: :user_dashboard

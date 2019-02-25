@@ -1,4 +1,4 @@
-<%= form_tag(controller: 'courses', action: 'filter', method: 'post', remote: :true) do %>
+  <%= form_tag(controller: 'courses', action: 'sortable', method: 'get', id: 'myForm', remote: :true) do %>
   <%= label_tag(:rate, "Rating") %>
   <%= text_area_tag(:rate) %>
   <br>
@@ -8,7 +8,7 @@
   <%= check_box_tag(:favorites) %>
   <%= label_tag(:favorites, "Favorites") %>
   <br>
-  <%= check_box_tag(:myorg) %>
+  <%= check_box_tag(:myorg, remote: true) %>
   <%= label_tag(:myorg, "My organization") %>
 <% end %>
 

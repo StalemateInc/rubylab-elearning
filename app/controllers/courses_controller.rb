@@ -5,25 +5,20 @@ class CoursesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_course, except: %i[index create new filter sortable]
   before_action :set_keyword, only: :sortable
-  before_action :set_filters, only: :filter
 
   # GET /courses
   def index
-    if !params[:format].nil?
-      @courses = params[:format]
-    else
-      @courses = Course.all
-      @courses = @courses.reject do |course|
-        if course.individuals?
-          !course.owner?(current_user) && !current_user.in?(course.allowed_users)
-        elsif course.organization?
-          !course.owner?(current_user) && !current_user.in?(course.owner.users)
-        end
-      end.reject do |course|
-        course.drafted? && !course.owner?(current_user)
+    @courses = Course.all
+    @courses = @courses.reject do |course|
+      if course.individuals?
+        !course.owner?(current_user) && !current_user.in?(course.allowed_users)
+      elsif course.organization?
+        !course.owner?(current_user) && !current_user.in?(course.owner.users)
       end
-      @courses = get_courses
+    end.reject do |course|
+      course.drafted? && !course.owner?(current_user)
     end
+    @courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
   end
 
   # POST /courses
@@ -128,18 +123,7 @@ class CoursesController < ApplicationController
     flash[:success] = 'Course successfully published'
   end
 
-  # GET /courses
-  def filter
-    @courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
-    if !@count.nil?
-      counts = @count.split','
-      @courses = @courses.joins(:completion_records).order(:id).having("COUNT(*) BETWEEN #{counts[0]} AND #{counts[1]}").paginate(page: params[:page], per_page: 5)
-    end
-    respond_to do |format|
-      format.html { redirect_to courses_path(@courses) }
-    end
-  end
-
+  # GET /course/sortable
   def sortable
     @courses = get_courses
     respond_to do |format|
@@ -185,12 +169,5 @@ class CoursesController < ApplicationController
 
   def keyword_params
     params[:keyword].nil? ? nil : params.require(:keyword)
-  end
-
-  def set_filters
-    @favorites = params[:favorites] if !params[:favorites].nil?
-    @rate = params[:rate] if !params[:rate].nil?
-    @count = params[:count] if !params[:count].nil?
-    @myorg = params[:myorg] if !params[:myorg].nil?
   end
 end
