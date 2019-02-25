@@ -43,6 +43,7 @@ class PagesController < ApplicationController
   def update
     authorize @page
     if @page.update(page_params)
+      create_questions(@page)
       flash[:success] = 'Page update successful.'
     else
       flash[:notice] = 'Failed to update a page.'

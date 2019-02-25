@@ -7,11 +7,13 @@
           <%= form.input :name, required: false %>
           <%= form.input :html, as: :ckeditor, label: false, input_html: { ckeditor: { toolbar: 'Full' } }  %>
         </div>
+        <div class="questions"></div>
         <div class="form-actions">
           <%= form.button :submit, 'Save changes', class: 'btn btn-md btn-primary' %>
           <%= link_to 'Back', pages_course_path(@course), class: 'btn btn-md btn-secondary' %>
         </div>
       <% end %>
+      <%= render partial: 'add_question' %>
     </div>
   </div>
 </div>
