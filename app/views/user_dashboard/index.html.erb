@@ -26,8 +26,8 @@
               <div class="col-lg-4 col-md-4 col-sm-12">
                 Favourite courses:
                 <div class="panel-stub">
-                  <% @favorite_courses.each do |favorite_course| %>
-                    <%= render partial: 'courses/card', locals: { course: favorite_course.course } %>
+                  <% @favorite_courses.each do |course| %>
+                    <%= render partial: 'courses/card', locals: { course: course } %>
                   <% end %>
                 </div>
               </div>
