@@ -5,7 +5,7 @@
       <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Sort by
       </button>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu" id="organization-sort-menu">
         <%= link_to 'Words A-Z' , organizations_sortable_path({keyword: 'wordsA'}), class: 'dropdown-item', remote: true %>
         <%= link_to 'Words Z-A' , organizations_sortable_path({keyword: 'wordsZ'}), class: 'dropdown-item', remote: true %>
         <%= link_to 'Courses' , organizations_sortable_path({keyword: 'course'}), class: 'dropdown-item', remote: true %>

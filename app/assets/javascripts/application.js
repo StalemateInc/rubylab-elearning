@@ -27,3 +27,14 @@ window.force_flash = function(flash_element_string) {
     let notification_area = $('#notification-area');
     notification_area.empty().append($(flash_element_string));
 };
+
+$(document).ready(function(){
+  $("#organization-sort-menu").click(function(){
+    $.ajax({
+      url: "/organizations/sortable",
+      type: get,
+      data: type,
+      dataType: js
+    });
+  });
+});
