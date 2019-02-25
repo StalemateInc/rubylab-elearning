@@ -1,16 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var questionForm = document.getElementById('render_form');
-    questionForm.addEventListener('ajax:success', function(event) {
-        [data, status, xhr] = event.detail;
-        var newQuestionBlock = data.body.firstChild;
-        document.querySelector('.questions').appendChild(newQuestionBlock);
-        var answerButton = newQuestionBlock.querySelector('.add-answer');
-        answerButton.addEventListener('click', function () {
-            addAnswer(answerButton.getAttribute('type'),
-                newQuestionBlock.querySelector('#index').value,
-                answerButton.parentNode.querySelector('.answers'));
+    var questionForms = document.querySelectorAll('.render_form');
+    questionForms.forEach(function (questionForm) {
+        questionForm.addEventListener('ajax:success', function(event) {
+            [data, status, xhr] = event.detail;
+            var newQuestionBlock = data.body.firstChild;
+            document.querySelector('.questions').appendChild(newQuestionBlock);
+            var answerButton = newQuestionBlock.querySelector('.add-answer');
+            answerButton.addEventListener('click', function () {
+                addAnswer(answerButton.getAttribute('type'),
+                    newQuestionBlock.querySelector('#index').value,
+                    answerButton.parentNode.querySelector('.answers'));
                 newQuestionBlock.querySelector('#index').setAttribute('value',
-                parseInt(newQuestionBlock.querySelector('#index').value) + 1);
+                    parseInt(newQuestionBlock.querySelector('#index').value) + 1);
+            });
         });
     });
 });

@@ -1,9 +1,8 @@
-<%= form_for @question, to: add_question_path, remote: true do |f| %>
-  <p><%= f.label :content, 'Set question:' %> <%= f.text_field :content %></p>
+<div class="question-fields">
+  <input name="questions[][content]" value="question content">
   <div class="answers">
-    <input type="text" name="answer_list[answers][0]" value="this is a textbox question" style="display: none">
-    <input type="text" name="answer_list[correct_answers][]" value="write the answer">
+    <input type="text" name="answer_list[][answers][0]" value="this is a textbox question" style="display: none">
+    <input type="text" name="answer_list[][correct_answers][]" value="write the answer">
   </div>
-  <input name="question[question_type]" style="display: none" value="2">
-  <p><%= f.submit "Save question" %></p>
-<% end %>
+  <input name="questions[][question_type]" style="display: none" value="2">
+</div>
