@@ -41,4 +41,8 @@ class Course < ApplicationRecord
       user.in?(owner.org_admin_list)
     end
   end
+
+  def favorited_by?(user)
+    in?(user.favorites)
+  end
 end

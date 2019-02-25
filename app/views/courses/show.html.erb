@@ -1,4 +1,9 @@
-<h1>Course "<%= @course.name %>"</h1>
+<h1>
+  Course "<%= @course.name %>"
+  <% if user_signed_in? %>
+      <%= render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>
+  <% end %>
+</h1>
 
 <p>Description: <%= @course.description %></p>
 <p>Duration: <%= @course.duration %></p>

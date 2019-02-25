@@ -73,6 +73,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post '/courses/:id/add_favorite', to: 'favorite_courses#create', as: :add_favorite_course
+  delete '/courses/:id/remove_favorite', to: 'favorite_courses#destroy', as: :remove_favorite_course
   post '/courses/:id/enroll', to: 'participations#create', as: :create_participation
   patch '/courses/:id/publish', to: 'courses#publish', as: :publish_course
   patch '/courses/:id/archive', to: 'courses#archive', as: :archive_course
