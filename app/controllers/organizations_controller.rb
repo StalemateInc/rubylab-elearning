@@ -49,7 +49,9 @@ class OrganizationsController < ApplicationController
     respond_to do |format|
       format.js
       format.html
-
+    end
+  end
+  
   # POST /organizations/:id/leave
   def leave
     membership = @organization.memberships.find_by(user: current_user)
