@@ -41,6 +41,7 @@ gem 'carrierwave'
 gem 'ckeditor'
 gem 'font-awesome-sass'
 gem 'mini_magick'
+gem 'trestle'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
