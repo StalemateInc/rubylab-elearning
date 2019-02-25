@@ -3,25 +3,27 @@
 class CoursesController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_course, except: %i[index create new filter]
-  before_action :set_keyword, only: :index
+  before_action :set_course, except: %i[index create new filter sortable]
+  before_action :set_keyword, only: :sortable
+  before_action :set_filters, only: :filter
 
   # GET /courses
   def index
-    @courses = Course.all
-
-    @courses = @courses.reject do |course|
-      if course.individuals?
-        !course.owner?(current_user) && !current_user.in?(course.allowed_users)
-      elsif course.organization?
-        !course.owner?(current_user) && !current_user.in?(course.owner.users)
+    if !params[:format].nil?
+      @courses = params[:format]
+    else
+      @courses = Course.all
+      @courses = @courses.reject do |course|
+        if course.individuals?
+          !course.owner?(current_user) && !current_user.in?(course.allowed_users)
+        elsif course.organization?
+          !course.owner?(current_user) && !current_user.in?(course.owner.users)
+        end
+      end.reject do |course|
+        course.drafted? && !course.owner?(current_user)
       end
-    end.reject do |course|
-      course.drafted? && !course.owner?(current_user)
+      @courses = get_courses
     end
-
-    @courses = get_courses
-
   end
 
   # POST /courses
@@ -128,7 +130,22 @@ class CoursesController < ApplicationController
 
   # GET /courses
   def filter
-    redirect_to courses_path
+    @courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
+    if !@count.nil?
+      counts = @count.split','
+      @courses = @courses.joins(:completion_records).order(:id).having("COUNT(*) BETWEEN #{counts[0]} AND #{counts[1]}").paginate(page: params[:page], per_page: 5)
+    end
+    respond_to do |format|
+      format.html { redirect_to courses_path(@courses) }
+    end
+  end
+
+  def sortable
+    @courses = get_courses
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   private
@@ -148,7 +165,7 @@ class CoursesController < ApplicationController
     when 'count'
       courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) DESC').paginate(page: params[:page], per_page: 5)
     when 'rate'
-      # Need add rating for couse
+      # Need add rating for course
       courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
     when 'new'
       courses = Course.where(visibility: 0).order(created_at: :desc).paginate(page: params[:page], per_page: 5)
@@ -168,5 +185,12 @@ class CoursesController < ApplicationController
 
   def keyword_params
     params[:keyword].nil? ? nil : params.require(:keyword)
+  end
+
+  def set_filters
+    @favorites = params[:favorites] if !params[:favorites].nil?
+    @rate = params[:rate] if !params[:rate].nil?
+    @count = params[:count] if !params[:count].nil?
+    @myorg = params[:myorg] if !params[:myorg].nil?
   end
 end

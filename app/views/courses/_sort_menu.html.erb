@@ -1,10 +1,10 @@
 <div class="h2">
   <i class="fas fa-sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-  <div class="dropdown-menu">
-    <%= link_to 'Name', courses_path({keyword: 'name'}), class: 'dropdown-item' %>
-    <%= link_to 'Course graduates', courses_path({keyword: 'count'}), class: 'dropdown-item' %>
-    <%= link_to 'Rating', courses_path({keyword: 'rate'}), class: 'dropdown-item' %>
-    <%= link_to 'Newest', courses_path({keyword: 'new'}), class: 'dropdown-item' %>
-    <%= link_to 'Oldest', courses_path({keyword: 'old'}), class: 'dropdown-item' %>
+  <div class="dropdown-menu" id="sort-menu">
+    <%= link_to 'Name', courses_sortable_path({keyword: 'name'}), class: 'dropdown-item', remote: true, id: 'asd' %>
+    <%= link_to 'Course graduates', courses_sortable_path({keyword: 'count'}), remote: true, class: 'dropdown-item' %>
+    <%= link_to 'Rating', courses_sortable_path({keyword: 'rate'}), remote: true, class: 'dropdown-item' %>
+    <%= link_to 'Newest', courses_sortable_path({keyword: 'new'}), remote: true, class: 'dropdown-item' %>
+    <%= link_to 'Oldest', courses_sortable_path({keyword: 'old'}), remote: true, class: 'dropdown-item' %>
   </div>
 </div>
