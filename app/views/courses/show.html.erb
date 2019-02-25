@@ -1,4 +1,9 @@
-<h1>Course "<%= @course.name %>"</h1>
+<h1>
+  Course "<%= @course.name %>"
+  <% if user_signed_in? %>
+      <%= render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>
+  <% end %>
+</h1>
 
 <p>Description: <%= @course.description %></p>
 <p>Duration: <%= @course.duration %></p>
@@ -6,5 +11,14 @@
 <p>Visibility: <%= @course.visibility %></p>
 <p>Author: <%= @course.owner.instance_of?(User) ? "#{@course.owner.profile.name} #{@course.owner.profile.surname}" : @course.owner.name %></p>
 
-<%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
+<% if user_signed_in? %>
+  <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } %>
+  <% if !@course.archived? %>
+    <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
+    <% if current_user.admin? || @course.owner?(current_user) && !@course.published? %>
+      <%= link_to 'Publish', publish_course_path(@course), method: :patch, class: 'btn btn-md btn-primary course_publish' %>
+    <% end %>
+    <%= link_to 'To pages', pages_course_path(@course), class: 'btn btn-info btn-md' %>
+  <% end %>
+<% end %>
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>

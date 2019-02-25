@@ -1,6 +1,6 @@
 
 <% if user_signed_in? %>
-  <%= link_to "Count of invite records #{current_user.invites.count}" , invites_path %>
+  <%= link_to "Count of invite records: #{current_user.invites.count}" , invites_user_path %>
   <%#= current_user.invite.organization_name %>
 <% end %>
 

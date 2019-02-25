@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CoursesController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
@@ -13,6 +15,8 @@ class CoursesController < ApplicationController
       elsif course.organization?
         !course.owner?(current_user) && !current_user.in?(course.owner.users)
       end
+    end.reject do |course|
+      course.drafted? && !course.owner?(current_user)
     end
   end
 
@@ -34,7 +38,13 @@ class CoursesController < ApplicationController
       CourseAccess.create(user: user, course: @course) if user
     end
 
-    redirect_to @course if @course.save
+    if @course.save
+      flash[:success] = 'You have successfully created the course'
+      redirect_to @course
+    else
+      flash[:notice] = 'An error occurred while creating the course'
+      redirect_back(fallback_location: root_path)
+    end
   end
 
   # GET /courses/new
@@ -66,12 +76,14 @@ class CoursesController < ApplicationController
   end
 
   # GET /courses/:id
-  def show; end
+  def show
+    @participation = Participation.find_by(user: current_user, course: @course)
+  end
 
   # PATCH /courses/:id
   def update 
     allowed_users_ids = params[:allowed_users] || []
-    ownership = Ownership.where(course: @course)
+    ownership = @course.ownership
     CourseAccess.where(course: @course).destroy_all
 
     if params[:course][:is_org_creator]
@@ -89,10 +101,26 @@ class CoursesController < ApplicationController
     redirect_to @course if @course.update(course_params)
   end
 
-  # DELETE /courses/:id
-  def destroy
+  # PATCH /courses/:id/archive
+  def archive
     authorize @course
-    redirect_to courses_path if @course.destroy
+
+    if @course.archived!
+      flash[:success] = 'You have successfully archived the course'
+      redirect_to courses_path
+    else
+      flash[:notice] = 'An error occurred while archiving the course'
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  # PATCH /courses/:id/publish
+  def publish
+    authorize @course
+
+    @course.published!
+    flash[:success] = 'Course successfully published'
+    redirect_back(fallback_location: root_path)
   end
 
   private

@@ -1,0 +1,6 @@
+let request_div = $('#user-request-<%= @join_request.id %>-pending');
+request_div.remove();
+<% if @pending_requests.empty? %>
+$('#user-request-pending').append('<h4>No pending join requests.</h4>');
+<% end %>
+force_flash('<%= j render 'layouts/flash' %>');

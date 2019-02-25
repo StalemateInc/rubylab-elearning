@@ -1,0 +1,3 @@
+var page = $('#page-item-<%= @page.id %>');
+page.remove();
+force_flash('<%= j render partial: 'layouts/flash' %>');

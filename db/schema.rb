@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_10_132221) do
-
+ActiveRecord::Schema.define(version: 2019_02_22_075737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -34,6 +33,18 @@ ActiveRecord::Schema.define(version: 2019_02_10_132221) do
     t.bigint "completion_record_id"
     t.index ["completion_record_id"], name: "index_certificates_on_completion_record_id"
     t.index ["course_id"], name: "index_certificates_on_course_id"
+  end
+
+  create_table "ckeditor_assets", force: :cascade do |t|
+    t.string "data_file_name", null: false
+    t.string "data_content_type"
+    t.integer "data_file_size"
+    t.string "type", limit: 30
+    t.integer "width"
+    t.integer "height"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_ckeditor_assets_on_type"
   end
 
   create_table "completion_records", force: :cascade do |t|
@@ -88,6 +99,13 @@ ActiveRecord::Schema.define(version: 2019_02_10_132221) do
     t.index ["target_user_id"], name: "index_impersonation_histories_on_target_user_id"
   end
 
+  create_table "invites", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "join_requests", force: :cascade do |t|
     t.text "comment"
     t.integer "status", default: 0
@@ -97,11 +115,6 @@ ActiveRecord::Schema.define(version: 2019_02_10_132221) do
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_join_requests_on_organization_id"
     t.index ["user_id"], name: "index_join_requests_on_user_id"
-  end
-
-  create_table "invites", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "organization_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -135,12 +148,14 @@ ActiveRecord::Schema.define(version: 2019_02_10_132221) do
 
   create_table "pages", force: :cascade do |t|
     t.text "html", null: false
-    t.text "css", null: false
     t.bigint "previous_page_id"
     t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "next_page_id"
+    t.string "name"
     t.index ["course_id"], name: "index_pages_on_course_id"
+    t.index ["next_page_id"], name: "index_pages_on_next_page_id"
     t.index ["previous_page_id"], name: "index_pages_on_previous_page_id"
   end
 
@@ -149,7 +164,7 @@ ActiveRecord::Schema.define(version: 2019_02_10_132221) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "await_check"
+    t.boolean "await_check", default: false
     t.bigint "page_id"
     t.index ["course_id"], name: "index_participations_on_course_id"
     t.index ["page_id"], name: "index_participations_on_page_id"

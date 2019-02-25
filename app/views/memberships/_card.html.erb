@@ -1,0 +1,23 @@
+<%- profile = membership.user.profile %>
+<div id="organization-member-<%= membership.id %>" class="container my-2">
+  <div class="row">
+    <div class="col">
+      <% if profile %>
+        <%= "#{profile.name} #{profile.surname} (@#{profile.nickname})" %>
+        <span class="badge badge-primary">Confirmed</span>
+      <% else %>
+        <%= "#{membership.user.email}" %>
+        <span class="badge badge-secondary">Unconfirmed</span>
+      <% end %>
+      <% if membership.org_admin? %>
+        <span class="badge badge-success">Administrator</span>
+      <% end %>
+    </div>
+    <div class="col float-right">
+      <a href="#" class="btn btn-md btn-primary">Impersonate</a>
+      <% unless membership.org_admin? %>
+        <%= link_to 'Kick user', destroy_membership_organization_path(@organization, membership), method: :delete, remote: true, class: 'btn btn-md btn-danger' %>
+      <% end %>
+    </div>
+  </div>
+</div>
