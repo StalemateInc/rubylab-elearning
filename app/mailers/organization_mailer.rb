@@ -4,8 +4,7 @@ class OrganizationMailer < ApplicationMailer
     @organization = organization
     @message = message
     mail( to: @user.email,
-     subject: "Response on request of creation
-      organization: #{organization.name}") do |format|
+     subject: "Response on request of creation organization: #{organization.name}") do |format|
       format.text
       format.html
     end
@@ -15,7 +14,7 @@ class OrganizationMailer < ApplicationMailer
     @email = email
     @organization = organization
     mail( to: email,
-      subject: "You take part of the organization: #{organization.name}") do |format|
+      subject: "You've been invited to be a part of a  \"#{organization.name}\" organization") do |format|
       format.text
       format.html
     end

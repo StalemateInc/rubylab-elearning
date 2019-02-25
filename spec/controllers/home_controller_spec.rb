@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe StaticPageController, type: :controller do
+RSpec.describe HomeController, type: :controller do
 
   describe "GET #index" do
     it "returns http success" do
@@ -8,3 +8,4 @@ RSpec.describe StaticPageController, type: :controller do
       expect(response).to have_http_status(:success)
     end
   end
+end
