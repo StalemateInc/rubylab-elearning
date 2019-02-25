@@ -1,10 +1,7 @@
-<%= form_for @question, to: add_question_path do |f| %>
-  <div>
-    <p><%= f.label :content, 'Set question:' %> <%= f.text_field :content %></p>
-    <div class="answers"></div>
-    <p class="btn btn-outline-danger add-answer" type="checkbox" id="add-answer">Add answer</p>
-    <input name="question[question_type]" style="display: none" value="1">
-    <input name="question[page_id]" style="display: none" value="1">
-    <input id="index" style="display: none" value="0">
-  </div>
-<% end %>
+<div class="question-fields">
+  <input name="questions[][content]" value="question content">
+  <div class="answers"></div>
+  <p class="btn btn-outline-danger add-answer" type="checkbox" id="add-answer">Add answer</p>
+  <input name="questions[][question_type]" style="display: none" value="1">
+  <input id="index" style="display: none" value="0">
+</div>

@@ -17,12 +17,12 @@
           </div>
           <%= form.input :html, as: :ckeditor, label: false, input_html: { ckeditor: { toolbar: 'Full' } }  %>
         </div>
+        <div class="questions"></div>
         <div class="form-actions">
           <%= form.button :submit, 'Create page', class: 'btn btn-md btn-primary' %>
           <%= link_to 'Back', pages_course_path(@course), class: 'btn btn-md btn-secondary' %>
         </div>
       <% end %>
-      <div class="questions"></div>
       <%= form_tag '/questions/add', method: :post, remote: true, id: 'render_form' do %>
         <%= submit_tag 'Create question', class: 'btn btn-md btn-primary' %>
       <% end %>

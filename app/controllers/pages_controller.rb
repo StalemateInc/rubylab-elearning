@@ -25,6 +25,7 @@ class PagesController < ApplicationController
     @page = Page.new(page_params.merge(course: @course, previous_page: result.previous_page, next_page: result.next_page))
 
     if @page.save
+      create_questions(@page)
       flash[:success] = 'Page was successfully created'
       redirect_to pages_course_path(@course)
     else
@@ -87,6 +88,19 @@ class PagesController < ApplicationController
 
   def set_course
     @course = Course.find(params[:id])
+  end
+
+  def create_questions(page)
+    params[:answer_list].each do |answer_list_params|
+      question = params[:questions].shift
+      answer_list = AnswerList.new
+      answer_list.answers = answer_list_params[:answers]
+      answer_list.correct_answers = answer_list_params[:correct_answers].join(' ')
+      answer_list.question = Question.create(content: question[:content],
+                                             question_type: question[:question_type],
+                                             page: page)
+      answer_list.save
+    end
   end
 
   def page_params
