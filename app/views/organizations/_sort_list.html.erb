@@ -6,12 +6,12 @@
         Sort by
       </button>
       <div class="dropdown-menu">
-        <%= link_to 'Words A-Z' , organizations_path({keyword: 'wordsA'}), class: 'dropdown-item' %>
-        <%= link_to 'Words Z-A' , organizations_path({keyword: 'wordsZ'}), class: 'dropdown-item' %>
-        <%= link_to 'Courses' , organizations_path({keyword: 'course'}), class: 'dropdown-item' %>
-        <%= link_to 'Members' , organizations_path({keyword: 'members'}), class: 'dropdown-item' %>
-        <%= link_to 'Newest' , organizations_path({keyword: 'new'}), class: 'dropdown-item' %>
-        <%= link_to 'Oldest' , organizations_path({keyword: 'old'}), class: 'dropdown-item' %>
+        <%= link_to 'Words A-Z' , organizations_sortable_path({keyword: 'wordsA'}), class: 'dropdown-item', remote: true %>
+        <%= link_to 'Words Z-A' , organizations_sortable_path({keyword: 'wordsZ'}), class: 'dropdown-item', remote: true %>
+        <%= link_to 'Courses' , organizations_sortable_path({keyword: 'course'}), class: 'dropdown-item', remote: true %>
+        <%= link_to 'Members' , organizations_sortable_path({keyword: 'members'}), class: 'dropdown-item', remote: true %>
+        <%= link_to 'Newest' , organizations_sortable_path({keyword: 'new'}), class: 'dropdown-item', remote: true %>
+        <%= link_to 'Oldest' , organizations_sortable_path({keyword: 'old'}), class: 'dropdown-item', remote: true %>
       </div>
     </div>
   </div>

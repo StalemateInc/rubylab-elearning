@@ -3,13 +3,13 @@
 class OrganizationsController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_organization, except: %i[index create new]
+  before_action :set_organization, except: %i[index create new sortable]
   before_action :set_join_request, only: :show
-  before_action :set_keyword, :get_organizations, only: :index
+  before_action :set_keyword, only: :sortable
 
   # GET /organizations
   def index
-    @organizations
+    @organizations = Organization.all.paginate(page: params[:page], per_page: 10)
   end
 
   # POST /organizations
@@ -41,6 +41,15 @@ class OrganizationsController < ApplicationController
   def destroy
     authorize @organization
     redirect_to organizations_path if @organization.destroy
+  end
+
+  # GET /organization/sortable
+  def sortable
+    @organizations = get_organizations
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   private
