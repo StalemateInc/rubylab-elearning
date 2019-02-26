@@ -1,5 +1,14 @@
-<%= form_tag @page.next_page.nil? ? course_path(@course) : page_course_path(@course, @page.next_page), method: :post do %>
+<%= form_tag @page.next_page.nil? ? course_path(@course) : page_course_path(@course, @page.next_page), method: :get do %>
   <% questions.each_with_index do |question, index| %>
     <%= render inline: render_question(question, answers[index]) %>
   <% end %>
+
+  <div class="navigation-buttons">
+    <% if @page.previous_page %>
+      <%= link_to 'Previous page', page_course_path(@course, @page.previous_page), class: 'btn btn-md btn-primary float-left' %>
+    <% end %>
+    <% if @page.next_page %>
+      <%= submit_tag 'Next page', class: 'btn btn-md btn-primary float-right' %>
+    <% end %>
+  </div>
 <% end %>

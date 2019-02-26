@@ -25,7 +25,7 @@ class PagesController < ApplicationController
     @page = Page.new(page_params.merge(course: @course, previous_page: result.previous_page, next_page: result.next_page))
 
     if @page.save
-      create_questions(@page)
+      create_questions(@page) if params[:answer_list]
       flash[:success] = 'Page was successfully created'
       redirect_to pages_course_path(@course)
     else
