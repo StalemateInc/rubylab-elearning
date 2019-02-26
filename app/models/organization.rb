@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
+  mount_uploader :image, OrganizationImageUploader
   include AASM
   enum state: [:unverified, :verified, :archived]
 

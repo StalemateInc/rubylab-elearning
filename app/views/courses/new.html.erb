@@ -2,6 +2,7 @@
 <%= simple_form_for @course, url: courses_path, method: :post, validate: true do |f| %>
   <%= f.error_notification %>
 
+  <%= f.input :image, label: 'Select image: ', as: :file %>
   <%= f.input :name, label: 'Course name', required: true, input_html: { autocomplete: 'name' } %>
   <%= f.input :description, label: 'Describe your course', required: true, input_html: { autocomplete: 'description'} %>
   <%= f.input :duration, label: 'Course duration', required: true, input_html: { min: '0' } %>

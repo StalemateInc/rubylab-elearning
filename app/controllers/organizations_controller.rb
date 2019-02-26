@@ -76,7 +76,7 @@ class OrganizationsController < ApplicationController
   end
 
   def organization_params
-    params.require(:organization).permit(%i[name description])
+    params.require(:organization).permit(%i[name description image remove_image])
   end
 
   def get_organizations
