@@ -27,6 +27,6 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(%i[name surname nickname address birthday])
+    params.require(:profile).permit(%i[name surname nickname address birthday image remove_image])
   end
 end

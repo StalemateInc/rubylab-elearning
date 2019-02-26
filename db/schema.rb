@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_22_075737) do
+ActiveRecord::Schema.define(version: 2019_02_24_141745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 2019_02_22_075737) do
     t.text "description"
     t.integer "status", default: 0
     t.integer "visibility", default: 0
+    t.string "image"
   end
 
   create_table "favorite_courses", force: :cascade do |t|
@@ -133,6 +134,7 @@ ActiveRecord::Schema.define(version: 2019_02_22_075737) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "state"
+    t.string "image"
     t.index ["name"], name: "index_organizations_on_name", unique: true
   end
 
@@ -180,6 +182,7 @@ ActiveRecord::Schema.define(version: 2019_02_22_075737) do
     t.date "birthday"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
     t.index ["nickname"], name: "index_profiles_on_nickname", unique: true
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
