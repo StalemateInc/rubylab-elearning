@@ -1,0 +1,5 @@
+<%= form_tag @page.next_page.nil? ? course_path(@course) : page_course_path(@course, @page.next_page), method: :post do %>
+  <% questions.each_with_index do |question, index| %>
+    <%= render inline: render_question(question, answers[index]) %>
+  <% end %>
+<% end %>

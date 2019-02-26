@@ -13,7 +13,7 @@ class CoursesController < ApplicationController
     @courses = @courses.reject do |course|
       if course.individuals?
         !course.owner?(current_user) && !current_user.in?(course.allowed_users)
-      elsif course.organ ization?
+      elsif course.organization?
         !course.owner?(current_user) && !current_user.in?(course.owner.users)
       end
     end.reject do |course|
