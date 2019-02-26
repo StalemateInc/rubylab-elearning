@@ -11,4 +11,11 @@ class QuestionsController < ApplicationController
       end
     end
   end
+
+  def destroy
+    question = Question.find(params[:question_id])
+    respond_to do |format|
+      format.json { render json: { success: question.destroy } }
+    end
+  end
 end

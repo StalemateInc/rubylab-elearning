@@ -66,6 +66,7 @@ Rails.application.routes.draw do
   get '/questions', to: 'questions#new', as: :questions
   post '/questions/create', to: 'questions#create', as: :add_question
   post '/questions/add', to: 'questions#render_form', as: :render_question_form
+  delete '/questions/:question_id/destroy', to: 'questions#destroy', as: :destroy_question
   resources :courses do
     member do
       get '/pages', to: 'pages#index', as: :pages
