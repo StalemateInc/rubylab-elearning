@@ -81,8 +81,7 @@ class CoursesController < ApplicationController
   end
 
   # PATCH /courses/:id
-  def update 
-    @course.remove_image! if course_params[:remove_image] == 1
+  def update
     allowed_users_ids = params[:allowed_users] || []
     ownership = @course.ownership
     CourseAccess.where(course: @course).destroy_all

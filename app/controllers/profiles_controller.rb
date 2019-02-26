@@ -12,7 +12,6 @@ class ProfilesController < ApplicationController
 
   # PATCH /user/profile
   def update
-    @profile.remove_image! if profile_params[:remove_image] == 1
     if @profile.update(profile_params)
       flash[:success] = 'You have successfully updated your profile'
     else
