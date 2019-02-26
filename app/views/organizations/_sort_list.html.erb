@@ -6,13 +6,89 @@
         Sort by
       </button>
       <div class="dropdown-menu" id="organization-sort-menu">
-        <%= link_to 'Words A-Z' , organizations_sortable_path({keyword: 'wordsA'}), class: 'dropdown-item', remote: true %>
-        <%= link_to 'Words Z-A' , organizations_sortable_path({keyword: 'wordsZ'}), class: 'dropdown-item', remote: true %>
-        <%= link_to 'Courses' , organizations_sortable_path({keyword: 'course'}), class: 'dropdown-item', remote: true %>
-        <%= link_to 'Members' , organizations_sortable_path({keyword: 'members'}), class: 'dropdown-item', remote: true %>
-        <%= link_to 'Newest' , organizations_sortable_path({keyword: 'new'}), class: 'dropdown-item', remote: true %>
-        <%= link_to 'Oldest' , organizations_sortable_path({keyword: 'old'}), class: 'dropdown-item', remote: true %>
+        <li class="dropdown-submenu">
+          <a class="dropdown-item dropdown-toggle" href="#">Name</a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to 'Ascending' , organizations_sortable_path({keyword: 'wordsA'}), class: 'dropdown-item', remote: true %>
+            </li>
+            <li>
+              <%= link_to 'Descending' , organizations_sortable_path({keyword: 'wordsZ'}), class: 'dropdown-item', remote: true %>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a class="dropdown-item dropdown-toggle" href="#">Count of members</a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to 'Ascending' , organizations_sortable_path({keyword: 'membersUp'}), class: 'dropdown-item', remote: true %>
+            </li>
+            <li>
+              <%= link_to 'Descending' , organizations_sortable_path({keyword: 'membersDown'}), class: 'dropdown-item', remote: true %>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a class="dropdown-item dropdown-toggle" href="#">Count of courses</a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to 'Ascending' , organizations_sortable_path({keyword: 'courseUp'}), class: 'dropdown-item', remote: true %>
+            </li>
+            <li>
+              <%= link_to 'Descending' , organizations_sortable_path({keyword: 'courseDown'}), class: 'dropdown-item', remote: true %>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a class="dropdown-item dropdown-toggle" href="#">Created</a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to 'Ascending' , organizations_sortable_path({keyword: 'new'}), class: 'dropdown-item', remote: true %>
+            </li>
+            <li>
+              <%= link_to 'Descending' , organizations_sortable_path({keyword: 'old'}), class: 'dropdown-item', remote: true %>
+            </li>
+          </ul>
+        </li>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+$('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+  if (!$(this).next().hasClass('show')) {
+    $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+  }
+  var $subMenu = $(this).next(".dropdown-menu");
+  $subMenu.toggleClass('show');
+
+
+  $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+    $('.dropdown-submenu .show').removeClass("show");
+  });
+
+
+  return false;
+});
+</script>
+
+<style>
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 6px;
+  top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: .1rem;
+  margin-right: .1rem;
+}
+</style>

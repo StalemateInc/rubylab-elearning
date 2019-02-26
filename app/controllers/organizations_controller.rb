@@ -51,7 +51,7 @@ class OrganizationsController < ApplicationController
       format.html
     end
   end
-  
+
   # POST /organizations/:id/leave
   def leave
     membership = @organization.memberships.find_by(user: current_user)
@@ -85,12 +85,16 @@ class OrganizationsController < ApplicationController
       @organizations = Organization.order(:name).paginate(page: params[:page], per_page: 10)
     when "wordsZ"
       @organizations = Organization.order(name: :desc).paginate(page: params[:page], per_page: 10)
-    when "course"
+    when "courseUp"
       @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) DESC').paginate(page: params[:page], per_page: 10)
-    when "members"
+    when "courseDown"
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) ASC').paginate(page: params[:page], per_page: 10)
+    when "membersUp"
       @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) DESC').paginate(page: params[:page], per_page: 10)
+    when "membersDown"
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) ASC').paginate(page: params[:page], per_page: 10)
     when "new"
-      @organizations = Organization.order(:created_at).paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.order(created_at: :asc).paginate(page: params[:page], per_page: 10)
     when "old"
       @organizations = Organization.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
     else
