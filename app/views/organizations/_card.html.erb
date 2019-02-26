@@ -6,11 +6,11 @@
       </div>
       <div class="col-md-6">
         <div class="text-center">
-          <%= link_to(organization_path(organization), class: 'h6') do %>
-          <h2><%= organization.name %></h2>
+          <%= link_to(organization_path(organization), class: 'h2', id: 'link_on') do %>
+          <h2 class="font-italic"><%= organization.name %></h2>
         <% end %>
         <div class="my-2">
-          <small class="text-muted"><%= organization.description %></small>
+          <p class="text-monospace"><%= organization.description[0, 30] + ".." %></p>
         </div>
         <small class="text-muted">Created at
           <%= organization.created_at.strftime("%b %d, %Y") %></small>
@@ -31,3 +31,6 @@
   </div>
 </li>
 <% end %>
+<style>
+
+</style>
