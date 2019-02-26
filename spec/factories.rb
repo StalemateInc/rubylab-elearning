@@ -68,7 +68,7 @@ FactoryBot.define do
     name { 'Test Course' }
     duration { 5 }
     difficulty { :unspecified }
-    views { 0 }
+    #views { 0 }
   end
 
   factory :profile do

@@ -1,0 +1,4 @@
+var add_button = $('.add-to-favorite');
+add_button.after($('<%= j render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>'));
+add_button.remove();
+force_flash('<%= j render "layouts/flash" %>');
