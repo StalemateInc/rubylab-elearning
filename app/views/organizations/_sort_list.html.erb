@@ -6,50 +6,31 @@
         Sort by
       </button>
       <div class="dropdown-menu" id="organization-sort-menu">
-        <li class="dropdown-submenu">
-          <a class="dropdown-item dropdown-toggle" href="#">Name</a>
-          <ul class="dropdown-menu">
-              <%= render '/organizations/choice-link-up', path: organizations_sortable_path({keyword: 'wordsA'}) %>
-              <%= render '/organizations/choice-link-down', path: organizations_sortable_path({keyword: 'wordsZ'}) %>
-          </ul>
+        <li class="dropdown-item" id="sort-word-up" style="display:block">
+          <%= link_to '▲Name' , organizations_sortable_path({keyword: 'wordsZ'}), remote: true, id: 'link_on' %>
         </li>
-        <li class="dropdown-submenu">
-          <a class="dropdown-item dropdown-toggle" href="#">Count of members</a>
-          <ul class="dropdown-menu">
-              <%= render '/organizations/choice-link-up', path: organizations_sortable_path({keyword: 'membersUp'}) %>
-              <%= render '/organizations/choice-link-down', path: organizations_sortable_path({keyword: 'membersDown'}) %>
-          </ul>
+        <li class="dropdown-item" id="sort-word-down" style="display:none">
+          <%= link_to '▼Name' , organizations_sortable_path({keyword: 'wordsA'}), remote: true, id: 'link_on' %>
         </li>
-        <li class="dropdown-submenu">
-          <a class="dropdown-item dropdown-toggle" href="#">Count of courses</a>
-          <ul class="dropdown-menu">
-              <%= render '/organizations/choice-link-up', path: organizations_sortable_path({keyword: 'courseUp'}) %>
-              <%= render '/organizations/choice-link-down', path: organizations_sortable_path({keyword: 'courseDown'}) %>
-          </ul>
+        <li class="dropdown-item" id="sort-count-up" style="display:block">
+          <%= link_to '▲Count of members' , organizations_sortable_path({keyword: 'membersUp'}), remote: true, id: 'link_on' %>
         </li>
-        <li class="dropdown-submenu">
-          <a class="dropdown-item dropdown-toggle" href="#">Created</a>
-          <ul class="dropdown-menu">
-            <%= render '/organizations/choice-link-up', path: organizations_sortable_path({keyword: 'new'}) %>
-            <%= render '/organizations/choice-link-down', path: organizations_sortable_path({keyword: 'old'}) %>
-          </ul>
+        <li class="dropdown-item" id="sort-count-down" style="display:none">
+          <%= link_to '▼Count of members' , organizations_sortable_path({keyword: 'membersDown'}), remote: true, id: 'link_on' %>
+        </li>
+        <li class="dropdown-item" id="sort-course-up" style="display:block">
+          <%= link_to '▲Count of courses' , organizations_sortable_path({keyword: 'courseUp'}), remote: true, id: 'link_on' %>
+        </li>
+        <li class="dropdown-item" id="sort-course-down" style="display:none">
+          <%= link_to '▼Count of courses' , organizations_sortable_path({keyword: 'courseDown'}), remote: true, id: 'link_on' %>
+        </li>
+        <li class="dropdown-item" id="sort-create-up" style="display:block">
+          <%= link_to '▲Created' , organizations_sortable_path({keyword: 'new'}), remote: true, id: 'link_on' %>
+        </li>
+        <li class="dropdown-item" id="sort-create-down" style="display:none">
+          <%= link_to '▼Created' , organizations_sortable_path({keyword: 'old'}), remote: true, id: 'link_on' %>
         </li>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-$('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-  var $subMenu;
-  if (!$(this).next().hasClass('show')) {
-    $(this).parents('.dropdown-menu').first().find('.show').removeClass('show');
-  }
-  $subMenu = $(this).next('.dropdown-menu');
-  $subMenu.toggleClass('show');
-  $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
-    $('.dropdown-submenu .show').removeClass('show');
-  });
-  return false;
-});
-</script>
