@@ -75,6 +75,7 @@ Rails.application.routes.draw do
       get '/pages/:page_id', to: 'pages#show', as: :page
       patch '/pages/:page_id', to: 'pages#update'
       delete '/pages/:page_id', to: 'pages#destroy'
+      post '/user_answers', to: 'user_answers#store', as: :store_answers
     end
   end
 

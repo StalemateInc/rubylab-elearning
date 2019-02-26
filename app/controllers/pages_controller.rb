@@ -65,13 +65,23 @@ class PagesController < ApplicationController
   # GET /courses/:id/pages/:page_id
   def show
     authorize @page
-    # if page_params_shown.blank?
+
+    # if params[:page].blank?
     # else
     #   flash[:notice] = 'You need to answer all questions before proceeding to the next page!'
     #   redirect_back(fallback_location: course_path(@course))
     # end
+
+    # if all_page_questions_answered?
+    #
+    # else
+    #
+    # end
+
     build_test
+
     # TODO: check if user has answered the questions, set it to variable
+    # (check if page has questions and user has stored answers for this record)
     # forbid going to next page until user answers the questions
     # create UserAnswers record if we've got answers
 
@@ -90,8 +100,11 @@ class PagesController < ApplicationController
 
   private
 
-  def check_if_all_answered(questions)
-
+  def all_page_questions_answered?
+    @page.questions.each do |question|
+      return false unless UserAnswer.find_by(user: current_user, question: question)
+    end
+    true
   end
 
   def build_test
@@ -121,10 +134,7 @@ class PagesController < ApplicationController
   end
 
   def page_params
-    params.require(:page).permit(%i[html name])
+    params.require(:page).permit(:html, :name, answers: [])
   end
 
-  def page_params_shown
-    params.require(:page).permit(user_answers: [])
-  end
 end
