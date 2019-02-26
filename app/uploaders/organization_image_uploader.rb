@@ -35,7 +35,7 @@ class OrganizationImageUploader < CarrierWave::Uploader::Base
   end
 
   version :thumb, from_version: :content do
-    process resize_to_fit: [50, 90]
+    process resize_to_fit: [50, 50]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
