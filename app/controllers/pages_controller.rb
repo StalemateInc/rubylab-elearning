@@ -25,7 +25,7 @@ class PagesController < ApplicationController
     @page = Page.new(page_params.merge(course: @course, previous_page: result.previous_page, next_page: result.next_page))
 
     if @page.save
-      create_questions(@page)
+      create_questions(@page) if params[:answer_list]
       flash[:success] = 'Page was successfully created'
       redirect_to pages_course_path(@course)
     else
@@ -65,23 +65,25 @@ class PagesController < ApplicationController
   # GET /courses/:id/pages/:page_id
   def show
     authorize @page
-    # TODO: check if user has answered the questions, set it to variable
-    # forbid going to next page until user answers the questions
-    # create UserAnswers record if we've got answers
-
+    build_test
     result = MemorizeLastVisitedPage.call(user: current_user, course: @course, page: @page)
-
     if result.remaining_pages.empty?
-      # go test user answers
-      # if no user answers present or all the values can be tested
-      #   create CompletionRecord with values
-      # if not all the values can be tested
-      #   set await_check to true
+      participation = Participation.find_by(user: current_user, course: @course)
+      if !participation.await_check && @course.questions.where(question_type: :textbox).empty?
+        # initiate test process
+      else
+        participation.await_check!
+      end
     end
-
   end
 
   private
+
+  def build_test
+    @questions = @page.questions
+    @answers = AnswerList.where(question: @questions)
+    @user_answers = UserAnswer.where(question: @questions)
+  end
 
   def set_page
     @page = Page.find(params[:page_id])
@@ -105,6 +107,7 @@ class PagesController < ApplicationController
   end
 
   def page_params
-    params.require(:page).permit(%i[html name])
+    params.require(:page).permit(:html, :name, answers: [])
   end
+
 end
