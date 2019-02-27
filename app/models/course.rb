@@ -25,6 +25,18 @@ class Course < ApplicationRecord
   validates :description, length: { maximum: 500 }
   validate :check_visibility_and_owner
 
+  after_commit on: [:create] do
+    __elasticsearch__.index_document if self.published?
+  end
+
+  after_commit on: [:update] do
+    __elasticsearch__.update_document if self.published?
+  end
+
+  after_commit on: [:destroy] do
+    __elasticsearch__.delete_document if self.published?
+  end
+
   settings index: { number_of_shards: 1 } do
     mappings dynamic: 'false' do
       indexes :name,         type: :text, analyzer: :english
@@ -35,10 +47,12 @@ class Course < ApplicationRecord
       indexes :created_at,   type: :date
       indexes :updated_at,   type: :date
       indexes :visibility,   type: :text, analyzer: :english
-      indexes :owner_for_elastic, type: :text
+      indexes :owner_for_elastic, type: :keyword
       indexes :pages,        type: :object do 
         indexes :html,         type: :text
-      end   
+      end
+      indexes :suggest, { type: 'completion', analyzer: 'simple',
+      search_analyzer: 'simple' }
     end
   end
 
@@ -47,6 +61,7 @@ class Course < ApplicationRecord
       methods: :owner_for_elastic,
       only: [ :name, :duration, :difficulty, :description, :status, :visibility, 
         :status, :created_at, :updated_at],
+      suggest: [:name, :description],
       include: {
         pages: {
           only: [:html]
@@ -55,32 +70,78 @@ class Course < ApplicationRecord
     )
   end
 
-  def self.search_published(query)
+  def self.search_custom(query,
+    difficulty = %i[unspecified novice intermediate advanced professional],
+    status = 'published',
+    visibility = 'everyone')
+
     __elasticsearch__.search(
       { from: 0, size: 20,
-        query: {
+        query: { 
           bool: {
             must: [
-              { match: { 'status': 'published' } },
-              { match: { 'visibility': 'everyone' } },
-              {
+              { match: { status: status } },
+              { match: { visibility: visibility } },
+              { 
                 multi_match: {
-                query: query,
-                fuzziness: 'auto'
+                  query: query,
+                  type: "best_fields",
+                  fields: [:name, :description, 'pages.html', 'owner_for_elastic' ],
+                  fuzziness: 'auto'
                 }
               }
-            ]
+            ],
+            filter: {
+              terms: { 
+                difficulty: difficulty
+              }
+            }
+          }   
+        },
+        highlight: { fields: [
+          { name: {} },
+          { description: {} },
+          { owner_for_elastic: {} },
+          { 'pages.html': {} }
+          ]
+        },
+        sort: { updated_at: { order: 'asc' }}
+      }
+    )
+  end
+
+  def self.get_uniq_owner
+     __elasticsearch__.search(
+      { size: 20,
+        aggs: {
+          group_by_state: {
+            terms: {
+              field: "difficulty"
+            }
           }
         }
       }
     )
   end
 
+  def self.auto_complete(query)
+    return nil if query.blank?
+
+    search_definition = {
+      'name-suggest' => {
+        text: query,
+        completion: {
+          field: 'suggest'
+        }
+      }
+    }
+  end
+
   def owner_for_elastic
     if owner.instance_of?(User)
-      return "Owner nickname: #{owner.profile.nickname}, name: #{owner.profile.name}"
+      return "user: #{owner.profile.nickname}"
     elsif owner.instance_of?(Organization)
-      return "Organization name: #{owner.name}, description: #{owner.description}"
+      return "organization: #{owner.name}"
     end
   end
 

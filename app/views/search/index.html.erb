@@ -1,14 +1,15 @@
-<h3>Search</h3>
+  <%= form_for :search, url: search_path, method: :get do |form| %>
+    <fieldset>
+      <legend>Search</legend>
+      <div class='form-group'>
+        
+        <%= form.text_field :query, value: params[:search].presence && params[:search][:query], class: 'form-control' %>
+      </div>
 
-<%= form_for :search, url: search_path, method: :get do |form| %>
-  <div class='form-group'>
-    <%= form.label :query, 'Search' %><br />
-    <%= form.text_field :query, value: params[:search].presence && params[:search][:query], class: 'form-control' %>
-  </div>
-
-  <%= form.submit 'Will find',  class: 'btn btn-success' %>
-<% end %>
-
+      <%= form.submit 'Will find',  class: 'btn btn-success' %>
+  
+    </fieldset>
+  <% end %>
 <% unless @results.nil? %>
   <% if @results.empty? %>
     <h4>No results</h4>

@@ -59,4 +59,16 @@ class User < ApplicationRecord
       !password.nil? || !password_confirmation.nil?
     end
   end
+
+  before_destroy do
+    if ownerships = Ownership.where(ownable_type: 'User', ownable_id: id)
+      @ids = ownerships.pluck(:course_id)
+    end
+  end
+
+  after_commit on: [:destroy] do
+    @ids.each do |id|
+      Course.find_by(id: id).__elasticsearch__.delete_document 
+    end
+  end
 end

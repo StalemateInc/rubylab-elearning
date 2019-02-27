@@ -33,4 +33,18 @@ class Organization < ApplicationRecord
       transitions from: [:verified, :unverified], to: :archived
     end
   end
+
+  after_commit on: [:update] do
+    if ownerships = Ownership.where(ownable_type: 'Organization', ownable_id: id)
+      ownerships.pluck(:course_id).each do |id|
+        Course.find_by(id: id).__elasticsearch__.update_document 
+      end
+    end
+  end
+
+  before_destroy do
+    if ownerships = Ownership.where(ownable_type: 'User', ownable_id: id)
+      @ids = ownerships.ids
+    end
+  end
 end
