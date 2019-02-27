@@ -1,7 +1,7 @@
 module PagesHelper
   def render_question(question, answers, user_answer = nil)
     out = '<div class="test-question">'
-    out << "#{link_to 'destroy', destroy_question_path(question), remote: true, method: :delete}"
+    out << "#{link_to 'destroy', destroy_question_path(question), remote: true, method: :delete, class: 'destroy_link'}"
     out << "<h4>#{question.content}</h4>"
     out << '<div class="test-answers">'
     

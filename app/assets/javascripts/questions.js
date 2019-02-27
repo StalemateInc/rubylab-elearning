@@ -15,6 +15,12 @@ document.addEventListener('turbolinks:load', function() {
             });
         });
     });
+    var destroyLinks = document.querySelectorAll('.destroy_link');
+    destroyLinks.forEach(function (destroyLink) {
+        destroyLink.addEventListener('ajax:success', function(event) {
+            destroyLink.parentNode.remove();
+        });
+    });
 });
 
 function addAnswer(type, answerIndex, answersContainer) {
