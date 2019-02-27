@@ -1,6 +1,6 @@
 <% @courses.each do |course| %>
   <div class="card mb-3">
-    <%= image_tag 'course.jpg', class: 'card-img-top', width: '781', height: '180' %>
+    <%= image_tag course.image.content.url, class: 'card-img-top', width: '781', height: '180' %>
     <div class="card-body">
       <h5 class="card-title"><%= course.name %></h5>
       <p class="card-text"><%= course.description %></p>
