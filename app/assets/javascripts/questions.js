@@ -4,13 +4,17 @@ document.addEventListener('turbolinks:load', function() {
         questionForm.addEventListener('ajax:success', function(event) {
             [data, status, xhr] = event.detail;
             var newQuestionBlock = data.body.firstChild;
+            var destroyFormLink = newQuestionBlock.querySelector('.destroy_link');
+            destroyFormLink.addEventListener('click', function () {
+                destroyFormLink.parentNode.remove();
+            });
             document.querySelector('.questions').appendChild(newQuestionBlock);
             var answerButton = newQuestionBlock.querySelector('.add-answer');
             answerButton.addEventListener('click', function () {
                 addAnswer(answerButton.getAttribute('type'),
                     newQuestionBlock.querySelector('#index').value,
                     answerButton.parentNode.querySelector('.answers'));
-                newQuestionBlock.querySelector('#index').setAttribute('value',
+                    newQuestionBlock.querySelector('#index').setAttribute('value',
                     parseInt(newQuestionBlock.querySelector('#index').value) + 1);
             });
         });
