@@ -66,33 +66,17 @@ class PagesController < ApplicationController
   def show
     authorize @page
     build_test
-
-    # TODO: check if user has answered the questions, set it to variable
-    # (check if page has questions and user has stored answers for this record)
-    # forbid going to next page until user answers the questions
-    # create UserAnswers record if we've got answers
-
     result = MemorizeLastVisitedPage.call(user: current_user, course: @course, page: @page)
-
     if result.remaining_pages.empty?
       # go test user answers
       # if no user answers present or all the values can be tested
       #   create CompletionRecord with values
       # if not all the values can be tested
       #   set await_check to true
-    else
     end
-
   end
 
   private
-
-  def all_page_questions_answered?
-    @page.questions.each do |question|
-      return false unless UserAnswer.find_by(user: current_user, question: question)
-    end
-    true
-  end
 
   def build_test
     @questions = @page.questions
