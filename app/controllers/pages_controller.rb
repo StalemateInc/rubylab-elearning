@@ -68,11 +68,12 @@ class PagesController < ApplicationController
     build_test
     result = MemorizeLastVisitedPage.call(user: current_user, course: @course, page: @page)
     if result.remaining_pages.empty?
-      # go test user answers
-      # if no user answers present or all the values can be tested
-      #   create CompletionRecord with values
-      # if not all the values can be tested
-      #   set await_check to true
+      participation = Participation.find_by(user: current_user, course: @course)
+      if !participation.await_check && @course.questions.where(question_type: :textbox).empty?
+        # initiate test process
+      else
+        participation.await_check!
+      end
     end
   end
 
