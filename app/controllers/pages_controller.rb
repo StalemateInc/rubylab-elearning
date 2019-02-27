@@ -37,6 +37,7 @@ class PagesController < ApplicationController
   # GET /courses/:id/pages/:page_id/edit
   def edit
     authorize @page
+    build_test
   end
 
   # PATCH /courses/:id/pages/:page_id

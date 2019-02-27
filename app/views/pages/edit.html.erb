@@ -7,6 +7,9 @@
           <%= form.input :name, required: false %>
           <%= form.input :html, as: :ckeditor, label: false, input_html: { ckeditor: { toolbar: 'Full' } }  %>
         </div>
+        <div class="test-display">
+          <%= render partial: 'pages/test', locals: { questions: @questions, answers: @answers, user_answers: @user_answers } %>
+        </div>
         <div class="questions"></div>
         <div class="form-actions">
           <%= form.button :submit, 'Save changes', class: 'btn btn-md btn-primary' %>

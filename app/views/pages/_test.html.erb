@@ -6,7 +6,7 @@
         <%- answers = question.answer_list %>
         <%- user_answers = question.user_answers.find_by(user: current_user) %>
         <%= render inline: render_question(question, answers, user_answers) %>
-      <% end %>
+    <% end %>
     </div>
     <div class="form-actions">
       <%= submit_tag('Save answers', class: 'btn btn-md btn-success', id: 'submit-answers-button') unless all_answered %>
