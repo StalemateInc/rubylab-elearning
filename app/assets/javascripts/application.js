@@ -21,6 +21,7 @@
 //= require select2
 //= require rails.validations
 //= require rails.validations.simple_form.bootstrap4
+//= require ckeditor/init
 //= require bootstrap-slider
 //= require_tree .
 

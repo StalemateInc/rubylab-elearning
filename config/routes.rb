@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  mount Ckeditor::Engine => '/ckeditor'
+
   devise_for :users,
              path: 'auth',
              path_names: {
@@ -48,6 +50,7 @@ Rails.application.routes.draw do
         scope :invites do
           get '/', to: 'organizations/invites#index', as: :invites
           post '/', to: 'organizations/invites#create', as: :create_invite
+          post '/import', to: 'organizations/invites#import', as: :import
           delete '/:invite_id', to: 'organizations/invites#destroy', as: :destroy_invite
         end
         scope :reports do
@@ -58,7 +61,20 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :courses
+  resources :courses do
+    member do
+      get '/pages', to: 'pages#index', as: :pages
+      post '/pages', to: 'pages#create'
+      get '/pages/new', to: 'pages#new', as: :new_page
+      get '/pages/:page_id/edit', to: 'pages#edit', as: :edit_page
+      get '/pages/:page_id', to: 'pages#show', as: :page
+      patch '/pages/:page_id', to: 'pages#update'
+      delete '/pages/:page_id', to: 'pages#destroy'
+    end
+  end
+
+  post '/courses/:id/add_favorite', to: 'favorite_courses#create', as: :add_favorite_course
+  delete '/courses/:id/remove_favorite', to: 'favorite_courses#destroy', as: :remove_favorite_course
   post '/courses/:id/enroll', to: 'participations#create', as: :create_participation
   patch '/courses/:id/publish', to: 'courses#publish', as: :publish_course
   patch '/courses/:id/archive', to: 'courses#archive', as: :archive_course

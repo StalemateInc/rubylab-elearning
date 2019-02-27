@@ -8,7 +8,7 @@ RSpec.describe Course, type: :model do
     MINIMUM_NAME_LENGTH = 4
     MAXIMUM_NAME_LENGTH = 20
     MINIMUM_DURATION = 0
-    MINIMUM_VIEWS = 0
+    #MINIMUM_VIEWS = 0
   end
 
   subject { build :course }
@@ -32,10 +32,10 @@ RSpec.describe Course, type: :model do
     expect(subject).not_to be_valid
   end
 
-  it 'is not valid without a views field' do
-    subject.views = nil
-    expect(subject).not_to be_valid
-  end
+  # it 'is not valid without a views field' do
+  #   subject.views = nil
+  #   expect(subject).not_to be_valid
+  # end
 
   context 'is not valid if name' do
     it "is shorter than #{CourseConstants::MAXIMUM_NAME_LENGTH} symbols" do
@@ -66,17 +66,17 @@ RSpec.describe Course, type: :model do
     end
   end
 
-  context 'is not valid if views' do
-    it 'is not an Integer' do
-      subject.views = 0.01
-      expect(subject).not_to be_valid
-    end
+  # context 'is not valid if views' do
+  #   it 'is not an Integer' do
+  #     subject.views = 0.01
+  #     expect(subject).not_to be_valid
+  #   end
 
-    it "is less than #{CourseConstants::MINIMUM_VIEWS}" do
-      subject.duration = CourseConstants::MINIMUM_VIEWS - 1
-      expect(subject).not_to be_valid
-    end
-  end
+  #   it "is less than #{CourseConstants::MINIMUM_VIEWS}" do
+  #     subject.duration = CourseConstants::MINIMUM_VIEWS - 1
+  #     expect(subject).not_to be_valid
+  #   end
+  # end
 
   it 'is not valid if difficulty is not specified in model' do
     expect { subject.difficulty = Course.difficulties.length + 1 }.to raise_error(ArgumentError)

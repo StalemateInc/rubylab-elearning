@@ -1,5 +1,11 @@
-<h1>Course "<%= @course.name %>"</h1>
+<h1>
+  Course "<%= @course.name %>"
+  <% if user_signed_in? %>
+      <%= render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>
+  <% end %>
+</h1>
 
+<%= image_tag @course.image.content.url %>
 <p>Description: <%= @course.description %></p>
 <p>Duration: <%= @course.duration %></p>
 <p>Difficulty: <%= @course.difficulty %></p>
@@ -13,6 +19,7 @@
     <% if current_user.admin? || @course.owner?(current_user) && !@course.published? %>
       <%= link_to 'Publish', publish_course_path(@course), method: :patch, class: 'btn btn-md btn-primary course_publish' %>
     <% end %>
+    <%= link_to 'To pages', pages_course_path(@course), class: 'btn btn-info btn-md' %>
   <% end %>
 <% end %>
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>

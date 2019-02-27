@@ -121,6 +121,7 @@ class CoursesController < ApplicationController
 
     @course.published!
     flash[:success] = 'Course successfully published'
+    redirect_back(fallback_location: root_path)
   end
 
   # GET /course/sortable
@@ -139,7 +140,7 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(%i[name description duration difficulty visibility])
+    params.require(:course).permit(%i[name description duration difficulty visibility image remove_image])
   end
 
   def get_courses
