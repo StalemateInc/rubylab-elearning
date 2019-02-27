@@ -8,7 +8,7 @@ class UserAnswersController < ApplicationController
   def store
     created_amount = 0
     user_answer_params.each do |question_id, answer|
-      unless UserAnswer.find_by(user: current_user, question_id: question_id)
+      unless UserAnswer.find_by(user: current_user, question_id: question_id) && answer.empty?
         answer = answer.instance_of?(Array) ? answer.join(' ') : answer
         UserAnswer.create(course: @course, question_id: question_id, user: current_user, answer: answer)
         created_amount += 1
