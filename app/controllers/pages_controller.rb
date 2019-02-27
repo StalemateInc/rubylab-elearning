@@ -65,19 +65,6 @@ class PagesController < ApplicationController
   # GET /courses/:id/pages/:page_id
   def show
     authorize @page
-
-    # if params[:page].blank?
-    # else
-    #   flash[:notice] = 'You need to answer all questions before proceeding to the next page!'
-    #   redirect_back(fallback_location: course_path(@course))
-    # end
-
-    # if all_page_questions_answered?
-    #
-    # else
-    #
-    # end
-
     build_test
 
     # TODO: check if user has answered the questions, set it to variable
@@ -109,7 +96,8 @@ class PagesController < ApplicationController
 
   def build_test
     @questions = @page.questions
-    @answers = @questions.map(&:answer_list)
+    @answers = AnswerList.where(question: @questions)
+    @user_answers = UserAnswer.where(question: @questions)
   end
 
   def set_page

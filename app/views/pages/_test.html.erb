@@ -1,14 +1,20 @@
-<%= form_tag store_answers_course_path(@course), method: :post, remote: true do %>
-  <% questions.each_with_index do |question, index| %>
-    <%= render inline: render_question(question, answers[index]) %>
+<% unless questions.empty? %>
+  <%= form_tag store_answers_course_path(@course), method: :post, remote: true do %>
+    <div class="form-group">
+      <% questions.each_with_index do |question, index| %>
+        <%= render inline: render_question(question, answers[index], user_answers[index]) %>
+      <% end %>
+    </div>
+    <div class="form-actions">
+      <%= submit_tag('Save answers', class: 'btn btn-md btn-success', id: 'submit-answers-button') %>
+    </div>
   <% end %>
-  <%= submit_tag('Save answers', class: 'btn btn-md btn-success') %>
 <% end %>
 <div class="navigation-buttons">
   <% if @page.previous_page %>
     <%= link_to 'Previous page', page_course_path(@course, @page.previous_page), class: 'btn btn-md btn-primary float-left' %>
   <% end %>
-  <% if @page.next_page %>
-    <%= link_to 'Next page', pages_course_path(@course, @page.next_page), class: 'btn btn-md btn-primary float-right' %>
+  <% if user_answers.size == questions.size && @page.next_page %>
+    <%= link_to 'Next page', page_course_path(@course, @page.next_page), class: 'btn btn-md btn-primary float-right' %>
   <% end %>
 </div>

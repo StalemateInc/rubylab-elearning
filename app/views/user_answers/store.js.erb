@@ -1,2 +1,9 @@
+<%- questions = @page.questions %>
+<%- answers = AnswerList.where(question: questions) %>
+<%- user_answers = UserAnswer.where(question: questions) %>
+var test_div = $('.test-display');
+<% if user_answers.length == answers.length %>
+  $('#submit-answers-button').remove();
+<% end %>
+test_div.empty().append('<%= j render partial: 'pages/test', locals: {questions: questions, answers: answers, user_answers: user_answers} %>');
 force_flash('<%= j render 'layouts/flash' %>');
-var ids = <%= raw @saved_ids %>;
