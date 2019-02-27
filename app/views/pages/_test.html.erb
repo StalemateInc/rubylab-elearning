@@ -8,6 +8,7 @@
         <%= render inline: render_question(question, answers, user_answers) %>
     <% end %>
     </div>
+    <div class="questions"></div>
     <div class="form-actions">
       <%= submit_tag('Save answers', class: 'btn btn-md btn-success', id: 'submit-answers-button') unless all_answered %>
     </div>
