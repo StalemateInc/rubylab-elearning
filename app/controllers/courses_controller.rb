@@ -144,16 +144,20 @@ class CoursesController < ApplicationController
 
   def get_courses
     case @keyword
-    when 'name'
+    when 'nameUp'
       courses = Course.where(visibility: 0).order(name: :desc).paginate(page: params[:page], per_page: 5)
-    when 'count'
+    when 'nameDown'
+      courses = Course.where(visibility: 0).order(name: :asc).paginate(page: params[:page], per_page: 5)
+    when 'countUp'
       courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) DESC').paginate(page: params[:page], per_page: 5)
+    when 'countDown'
+      courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) ASC').paginate(page: params[:page], per_page: 5)
     when 'rate'
       # Need add rating for course
       courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
-    when 'new'
+    when 'createdUp'
       courses = Course.where(visibility: 0).order(created_at: :desc).paginate(page: params[:page], per_page: 5)
-    when 'old'
+    when 'createdDown'
       courses = Course.where(visibility: 0).order(created_at: :asc).paginate(page: params[:page], per_page: 5)
     when 'favorites'
       courses = Course.where(visibility: 0).joins(:favorite_courses).paginate(page: params[:page], per_page: 5)

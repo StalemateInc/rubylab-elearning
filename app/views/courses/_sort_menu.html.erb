@@ -1,10 +1,24 @@
 <div class="h2">
   <i class="fas fa-sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
   <div class="dropdown-menu" id="sort-menu">
-    <%= link_to 'Name', courses_sortable_path({keyword: 'name'}), class: 'dropdown-item', remote: true %>
-    <%= link_to 'Course graduates', courses_sortable_path({keyword: 'count'}), remote: true, class: 'dropdown-item' %>
-    <%= link_to 'Rating', courses_sortable_path({keyword: 'rate'}), remote: true, class: 'dropdown-item' %>
-    <%= link_to 'Newest', courses_sortable_path({keyword: 'new'}), remote: true, class: 'dropdown-item' %>
-    <%= link_to 'Oldest', courses_sortable_path({keyword: 'old'}), remote: true, class: 'dropdown-item' %>
+    <li class="dropdown-item" id="sort-course-name-up" style="display:block">
+      <%= link_to '▲Name', courses_sortable_path({keyword: 'nameUp'}), id: 'link_on', remote: true %>
+    </li>
+    <li class="dropdown-item" id="sort-course-name-down" style="display:none">
+      <%= link_to '▼Name', courses_sortable_path({keyword: 'nameDown'}), id: 'link_on', remote: true %>
+    </li>
+    <li class="dropdown-item" id="sort-course-count-up" style="display:block">
+      <%= link_to '▲Course graduates', courses_sortable_path({keyword: 'countUp'}), id: 'link_on', remote: true %>
+    </li>
+    <li class="dropdown-item" id="sort-course-count-down" style="display:none">
+      <%= link_to '▼Course graduates', courses_sortable_path({keyword: 'countDown'}), id: 'link_on', remote: true %>
+    </li>
+    <li class="dropdown-item" id="sort-course-created-up" style="display:block">
+      <%= link_to '▲Created', courses_sortable_path({keyword: 'createdUp'}), id: 'link_on', remote: true %>
+    </li>
+    <li class="dropdown-item" id="sort-course-created-down" style="display:none">
+      <%= link_to '▼Created', courses_sortable_path({keyword: 'createdDown'}), id: 'link_on', remote: true %>
+    </li>
+    <%= link_to 'Rating(need add)', courses_sortable_path({keyword: 'rate'}), remote: true, class: 'dropdown-item' %>
   </div>
 </div>

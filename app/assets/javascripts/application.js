@@ -28,3 +28,66 @@ window.force_flash = function(flash_element_string) {
     let notification_area = $('#notification-area');
     notification_area.empty().append($(flash_element_string));
 };
+
+$(document).ready(function(){
+  $("#sort-course-name-up").click(function(){
+    $("#sort-course-name-up").toggle();
+    $("#sort-course-name-down").toggle();
+    $.ajax({
+      url: "/organizations/sortable",
+      type: get,
+      data: type,
+      dataType: js
+    });
+  })
+  $("#sort-course-name-down").click(function(){
+    $("#sort-course-name-up").toggle();
+    $("#sort-course-name-down").toggle();
+    $.ajax({
+      url: "/organizations/sortable",
+      type: get,
+      data: type,
+      dataType: js
+    });
+  })
+  $("#sort-course-count-up").click(function(){
+    $("#sort-course-count-up").toggle();
+    $("#sort-course-count-down").toggle();
+    $.ajax({
+      url: "/organizations/sortable",
+      type: get,
+      data: type,
+      dataType: js
+    });
+  })
+  $("#sort-course-count-down").click(function(){
+    $("#sort-course-count-up").toggle();
+    $("#sort-course-count-down").toggle();
+    $.ajax({
+      url: "/organizations/sortable",
+      type: get,
+      data: type,
+      dataType: js
+    });
+  })
+  $("#sort-course-created-up").click(function(){
+    $("#sort-course-created-up").toggle();
+    $("#sort-course-created-down").toggle();
+    $.ajax({
+      url: "/organizations/sortable",
+      type: get,
+      data: type,
+      dataType: js
+    });
+  })
+  $("#sort-course-created-down").click(function(){
+    $("#sort-course-created-up").toggle();
+    $("#sort-course-created-down").toggle();
+    $.ajax({
+      url: "/organizations/sortable",
+      type: get,
+      data: type,
+      dataType: js
+    });
+  })
+});
