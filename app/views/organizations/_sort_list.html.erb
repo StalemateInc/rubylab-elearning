@@ -2,17 +2,15 @@
   <div class="col-md-9"></div>
   <div class="col-md-3">
     <%= simple_form_for :sort, remote: true, url: organizations_sortable_path, method: :get do |f| %>
-
       <div class="form-row">
         <div class="col-md-8">
           <%= f.input :sort_by, label: 'Sort by', collection: @sort_by, include_blank: false, required: false %>
         </div>
         <div class="col-md-4">
-          <%= f.input :direction, label: nil, collection: {'￪': 'asc', '￬': 'desc'}, include_blank: false, required: false %>
+          <%= f.input :direction, label: nil, collection: {'￪': 'asc', '￬': 'desc'},
+              include_blank: false, required: false %>
         </div>
       </div>
-
-      <%= f.button :submit, 'Sort', class: 'btn btn-secondary' %>
     <% end %>
   </div>
 </div>
