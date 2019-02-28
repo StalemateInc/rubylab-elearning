@@ -5,10 +5,11 @@ class OrganizationsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_organization, except: %i[index create new sortable]
   before_action :set_join_request, only: :show
-  before_action :set_keyword, only: :sortable
 
   # GET /organizations
   def index
+    @sort_by = { 'Name': 'name', 'Members count': 'memberships',
+                 'Courses count': 'ownerships', 'Creation date': 'created_at' }
     @organizations = Organization.all.paginate(page: params[:page], per_page: 10)
   end
 
@@ -80,33 +81,29 @@ class OrganizationsController < ApplicationController
   end
 
   def get_organizations
-    case @keyword
-    when "wordsA"
+    case sort_params.join('_')
+    when 'name_asc'
       @organizations = Organization.order(:name).paginate(page: params[:page], per_page: 10)
-    when "wordsZ"
+    when 'name_desc'
       @organizations = Organization.order(name: :desc).paginate(page: params[:page], per_page: 10)
-    when "courseUp"
-      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) DESC').paginate(page: params[:page], per_page: 10)
-    when "courseDown"
-      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) ASC').paginate(page: params[:page], per_page: 10)
-    when "membersUp"
-      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) DESC').paginate(page: params[:page], per_page: 10)
-    when "membersDown"
-      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) ASC').paginate(page: params[:page], per_page: 10)
-    when "new"
+    when 'ownerships_asc'
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) asc').paginate(page: params[:page], per_page: 10)
+    when 'ownerships_desc'
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) desc').paginate(page: params[:page], per_page: 10)
+    when 'memberships_asc'
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) asc').paginate(page: params[:page], per_page: 10)
+    when 'memberships_desc'
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) desc').paginate(page: params[:page], per_page: 10)
+    when 'created_at_asc'
       @organizations = Organization.order(created_at: :asc).paginate(page: params[:page], per_page: 10)
-    when "old"
+    when 'created_at_desc'
       @organizations = Organization.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
     else
       @organizations = Organization.all.paginate(page: params[:page], per_page: 10)
     end
   end
 
-  def set_keyword
-    @keyword = keyword_params
-  end
-
-  def keyword_params
-    params[:keyword].nil? ? nil : params.require(:keyword)
+  def sort_params
+    params[:sort].require(%i[sort_by direction])
   end
 end
