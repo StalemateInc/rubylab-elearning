@@ -36,6 +36,9 @@ function addAnswer(type, answerIndex, answersContainer) {
     rightAnswer.setAttribute('name', 'answer_list[][correct_answers][]');
     rightAnswer.setAttribute('type', type);
     rightAnswer.setAttribute('value', answerIndex);
+    if(answerIndex == 0) {
+        rightAnswer.setAttribute('checked', 'true');
+    }
     newAnswer.setAttribute('type', 'text');
     newAnswer.setAttribute('value', 'text of the answer');
     newAnswerBlock.appendChild(newAnswer);

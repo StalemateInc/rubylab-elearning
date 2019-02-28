@@ -95,15 +95,17 @@ class PagesController < ApplicationController
   end
 
   def create_questions(page)
-    params[:answer_list].each do |answer_list_params|
-      question = params[:questions].shift
-      answer_list = AnswerList.new
-      answer_list.answers = answer_list_params[:answers]
-      answer_list.correct_answers = answer_list_params[:correct_answers].join(' ')
-      answer_list.question = Question.create(content: question[:content],
-                                             question_type: question[:question_type],
-                                             page: page)
-      answer_list.save
+    if params[:answer_list]
+      params[:answer_list].each do |answer_list_params|
+        question = params[:questions].shift
+        answer_list = AnswerList.new
+        answer_list.answers = answer_list_params[:answers]
+        answer_list.correct_answers = answer_list_params[:correct_answers].join(' ')
+        answer_list.question = Question.create(content: question[:content],
+                                               question_type: question[:question_type],
+                                               page: page)
+        answer_list.save
+      end
     end
   end
 
