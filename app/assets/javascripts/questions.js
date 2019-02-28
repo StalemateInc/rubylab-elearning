@@ -21,8 +21,18 @@ document.addEventListener('turbolinks:load', function() {
     });
     var destroyLinks = document.querySelectorAll('.destroy_link');
     destroyLinks.forEach(function (destroyLink) {
-        destroyLink.addEventListener('ajax:success', function(event) {
-            destroyLink.parentNode.remove();
+        destroyLink.addEventListener('click', function() {
+            var statusInput = destroyLink.parentNode.querySelector('input[name="questions[][status]"]');
+            var status = statusInput.value.split('-')[0];
+            var questionId = statusInput.value.split('-')[1];
+            if(status == 'created') {
+                statusInput.setAttribute('value', 'deleted-' + questionId);
+                destroyLink.innerHTML = 'return';
+            }
+            else {
+                statusInput.setAttribute('value', 'created-' + questionId);
+                destroyLink.innerHTML = 'delete';
+            }
         });
     });
 

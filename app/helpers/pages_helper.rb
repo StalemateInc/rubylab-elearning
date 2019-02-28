@@ -43,7 +43,7 @@ module PagesHelper
 
   def render_question_form(question, answers)
     out = '<div class="test-question">'
-    out << "#{link_to 'destroy', destroy_question_path(question), remote: true, method: :delete, class: 'destroy_link'}"
+    out << '<p class="btn btn-link destroy_link">delete</p>'
     out << '<div class="test-answers">'
     q_id = question.id
     right_answers = answers.correct_answers.split

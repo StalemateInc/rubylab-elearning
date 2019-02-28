@@ -126,7 +126,8 @@ class PagesController < ApplicationController
   end
 
   def destroy_question(question_id)
-
+    question = Question.find(question_id)
+    question.destroy
   end
 
   def page_params
