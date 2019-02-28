@@ -79,6 +79,7 @@ Rails.application.routes.draw do
       get '/check', to: 'check#index', as: :check
       get '/check/:user_id', to: 'check#show', as: :user_check
       post '/check/:user_id/grade', to: 'check#grade', as: :user_grade
+      post '/finish', to: 'check#finish', as: :finish
     end
   end
 

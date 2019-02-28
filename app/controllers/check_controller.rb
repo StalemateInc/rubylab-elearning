@@ -1,7 +1,7 @@
 class CheckController < ApplicationController
 
   before_action :set_course
-  before_action :set_user, except: :index
+  before_action :set_user, except: %i[index finish]
 
   # GET /courses/:id/check/
   def index
@@ -21,6 +21,21 @@ class CheckController < ApplicationController
                                   course: @course,
                                   checked_text_questions: checked_params)
     redirect_to check_course_path(@course)
+  end
+
+  # POST /courses/:id/finish
+  def finish
+    participation = Participation.find_by(user: current_user, course: @course)
+    if !participation.await_check && @course.questions.where(question_type: :textbox).empty?
+      FinalizeCourseCompletion.call(user: current_user,
+                                    course: @course,
+                                    checked_text_questions: {})
+    else
+      flash[:success] = 'Congratulations on finishing this course! Your results will be known shortly, stay tuned.'
+      participation.await_check!
+
+    end
+    redirect_to course_path(@course)
   end
 
   private

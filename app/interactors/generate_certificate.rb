@@ -9,7 +9,7 @@ class GenerateCertificate < BaseInteractor
                             course: context.course,
                             user: context.user,
                             date: Time.now)
-    Participation.find_by(course: context.course, user: context.user).destroy
+    # Participation.find_by(course: context.course, user: context.user).destroy
     if context.grade >= 90
       # generate certificate here or initiate certificate builder worker
     end
