@@ -71,9 +71,9 @@ module PagesHelper
         out << '</div>'
       end
       out << '</div>
-              <p class="btn btn-outline-danger add-answer" type="checkbox" id="add-answer">Add answer</p>
+              <p class="btn btn-outline-danger add-answer" type="radio" id="add-answer">Add answer</p>
               <input name="questions[][question_type]" style="display: none" value="checkbox">
-              <input id="index" style="display: none" value="0">
+              <input id="index" style="display: none" value="' + answers.answers.count.to_s + '">
               <input name="questions[][status]" style="display: none" value="created-' + q_id.to_s + '">'
     when "checkbox"
       out << '<input name="questions[][content]" value="' + question.content + '">
@@ -91,7 +91,7 @@ module PagesHelper
       out << '</div>
               <p class="btn btn-outline-danger add-answer" type="checkbox" id="add-answer">Add answer</p>
               <input name="questions[][question_type]" style="display: none" value="checkbox">
-              <input id="index" style="display: none" value="0">
+              <input id="index" style="display: none" value="' + answers.answers.count.to_s + '">
               <input name="questions[][status]" style="display: none" value="created-' + q_id.to_s + '">'
     end
     out << '</div></div>'

@@ -25,6 +25,18 @@ document.addEventListener('turbolinks:load', function() {
             destroyLink.parentNode.remove();
         });
     });
+
+    var addLinks = document.querySelectorAll('.add-answer');
+    addLinks.forEach(function (addLink) {
+        addLink.addEventListener('click', function () {
+            var newQuestionBlock = addLink.parentNode;
+            addAnswer(addLink.getAttribute('type'),
+                newQuestionBlock.querySelector('#index').value,
+                newQuestionBlock.querySelector('.answers'));
+                newQuestionBlock.querySelector('#index').setAttribute('value',
+                parseInt(newQuestionBlock.querySelector('#index').value) + 1);
+        });
+    });
 });
 
 function addAnswer(type, answerIndex, answersContainer) {
