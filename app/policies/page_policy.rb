@@ -33,6 +33,6 @@ class PagePolicy < ApplicationPolicy
     # TODO; Add completion state enum to model and this check!
     course.in?(user.enrolled_courses) \
       && CompletionRecord.find_by(user: user, course: course).nil? \
-      && prev_page.all_questions_answered_by?(user)
+      && prev_page.nil? ? true : prev_page.all_questions_answered_by?(user)
   end
 end
