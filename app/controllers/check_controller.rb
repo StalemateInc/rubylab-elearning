@@ -1,5 +1,3 @@
-require 'course_grader'
-
 class CheckController < ApplicationController
 
   before_action :set_course
@@ -19,19 +17,10 @@ class CheckController < ApplicationController
 
   # POST /courses/:id/check/:user_id/grade
   def grade
-    questions = @course.questions.includes(:answer_list)
-    user_answers = questions.map { |q| q.user_answers.where(user: @user) }
-    zipped = questions.zip(user_answers)
-    binding.pry
-    grade = CourseGrader.new(zipped, checked_params).calculate_grade
-    if grade >= 90
-      CompletionRecord.create(score: grade, status: :passed, course: @course, user: @user, date: Time.now)
-      @user.participation.find_by(course: @course).destroy
-      # generate certificate
-    else
-      CompletionRecord.create!(score: grade, status: :failed, course: @course, user: @user, date: Time.now)
-      redirect_to check_course_path(@course)
-    end
+    FinalizeCourseCompletion.call(user: @user,
+                                  course: @course,
+                                  checked_text_questions: checked_params)
+    redirect_to check_course_path(@course)
   end
 
   private
