@@ -1,11 +1,19 @@
 class SearchController < ApplicationController
 
   def index
-    
-    if params[:search].presence && params[:search][:query] && params[:search][:difficulty]
-      @results = Course.search_custom(params[:search][:query], params[:search][:difficulty])
+    @owners = Course.search('*').map(&:owner_for_elastic).uniq!
+    @difficulties = Course.search('*').map(&:difficulty).uniq!
+
+    if params[:search].presence && params[:search][:query] && params[:difficulty] && params[:owner]
+      @results = Course.search_custom(params[:search][:query], params[:difficulty], params[:owner])
+    elsif params[:search].presence && params[:search][:query] && params[:difficulty]
+      @results = Course.search_custom(params[:search][:query], params[:difficulty])
+    elsif params[:search].presence && params[:search][:query] && params[:owner]
+      @results = Course.search_custom(params[:search][:query], params[:owner])
+    elsif params[:search].presence && params[:search][:query] == ''
+      @results = Course.search('*')
     elsif params[:search].presence && params[:search][:query]
-    	@results = Course.search_custom(params[:search][:query])
+      @results = Course.search_custom(params[:search][:query])
     end
   end
 
@@ -13,7 +21,7 @@ class SearchController < ApplicationController
     auto_params = {}
     if params[:search].presence && params[:search][:query]
       auto_params[:query] = params[:search][:query]
-      auto_params[:difficulty] = params[:search][:difficulty] if params[:search][:difficulty]
+      auto_params[:difficulty] = params[:difficulty] if params[:difficulty]
       results = AutoComplete.call(auto_params)
       render json: results.map(&:name)
     end

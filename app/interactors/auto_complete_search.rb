@@ -31,8 +31,7 @@ class AutoCompleteSearch
             "completion": {
               "field": "name",
               "fuzzy": {
-                "fuzziness": 1,
-              "skip_duplicates": true
+                "fuzziness": 1
               }
             }
           }

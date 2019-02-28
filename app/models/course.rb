@@ -71,6 +71,7 @@ class Course < ApplicationRecord
 
   def self.search_custom(query,
     difficulty = %i[unspecified novice intermediate advanced professional],
+    owner = Course.search('*').map(&:owner_for_elastic).uniq!,
     status = 'published',
     visibility = 'everyone')
 
@@ -85,7 +86,7 @@ class Course < ApplicationRecord
                 multi_match: {
                   query: query,
                   type: "best_fields",
-                  fields: [:name, :description, 'pages.html', 'owner_for_elastic' ],
+                  fields: [:name, :description, 'pages.html'],
                   fuzziness: 'auto'
                 }
               }
@@ -93,6 +94,12 @@ class Course < ApplicationRecord
             filter: {
               terms: { 
                 difficulty: difficulty
+                
+              }
+            },
+            filter: {
+              terms: { 
+                owner_for_elastic: owner
               }
             }
           }   
@@ -108,20 +115,6 @@ class Course < ApplicationRecord
           ]
         },
         sort: { updated_at: { order: 'asc' }}
-      }
-    )
-  end
-
-  def self.get_uniq_owner
-     __elasticsearch__.search(
-      { size: 50,
-        aggs: {
-          group_by_state: {
-            terms: {
-              field: "owner_for_elastic"
-            }
-          }
-        }
       }
     )
   end
