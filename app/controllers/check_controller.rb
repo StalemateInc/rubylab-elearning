@@ -10,15 +10,13 @@ class CheckController < ApplicationController
 
   # GET /courses/:id/check/:user_id/
   def show
-    @questions = @course.questions.includes(:user_answers)
-    @user_answers = @questions.map { |q| q.user_answers.where(user: @user) }
-    @zipped = @questions.zip(@user_answers)
+    questions = @course.questions.includes(:answer_list)
+    user_answers = questions.map { |q| q.user_answers.where(user: @user) }
+    @zipped = questions.zip(user_answers)
   end
 
   # POST /courses/:id/check/:user_id/grade
-  def grade
-
-  end
+  def grade; end
 
   private
 
@@ -30,4 +28,7 @@ class CheckController < ApplicationController
     @user = User.find(params[:user_id])
   end
 
+  def checked_params
+    params.require(:checked)
+  end
 end
