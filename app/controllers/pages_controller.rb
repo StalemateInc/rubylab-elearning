@@ -67,16 +67,6 @@ class PagesController < ApplicationController
     authorize @page
     build_test
     result = MemorizeLastVisitedPage.call(user: current_user, course: @course, page: @page)
-    if result.remaining_pages.empty?
-      participation = Participation.find_by(user: current_user, course: @course)
-      if !participation.await_check && @course.questions.where(question_type: :textbox).empty?
-        FinalizeCourseCompletion.call(user: @user,
-                                      course: @course,
-                                      checked_text_questions: {})
-      else
-        participation.await_check!
-      end
-    end
   end
 
   private
