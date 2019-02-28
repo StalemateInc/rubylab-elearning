@@ -3,6 +3,8 @@
 class Course < ApplicationRecord
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  index_name Rails.application.class.parent_name.underscore
+  document_type self.name.downcase
 
   has_one :ownership, dependent: :destroy
   has_many :participations, dependent: :destroy
@@ -51,8 +53,6 @@ class Course < ApplicationRecord
       indexes :pages,        type: :object do 
         indexes :html,         type: :text
       end
-      indexes :suggest, { type: 'completion', analyzer: 'simple',
-      search_analyzer: 'simple' }
     end
   end
 
@@ -60,8 +60,7 @@ class Course < ApplicationRecord
     self.as_json(
       methods: :owner_for_elastic,
       only: [ :name, :duration, :difficulty, :description, :status, :visibility, 
-        :status, :created_at, :updated_at],
-      suggest: [:name, :description],
+        :created_at, :updated_at],
       include: {
         pages: {
           only: [:html]
@@ -76,7 +75,7 @@ class Course < ApplicationRecord
     visibility = 'everyone')
 
     __elasticsearch__.search(
-      { from: 0, size: 20,
+      { from: 0, size: 50,
         query: { 
           bool: {
             must: [
@@ -98,11 +97,14 @@ class Course < ApplicationRecord
             }
           }   
         },
-        highlight: { fields: [
-          { name: {} },
-          { description: {} },
-          { owner_for_elastic: {} },
-          { 'pages.html': {} }
+        highlight: { 
+          pre_tags: ['<em>'],
+          post_tags: ['</em>'],
+          fields: [
+            { name: {} },
+            { description: {} },
+            { owner_for_elastic: {} },
+            { 'pages.html': {} }
           ]
         },
         sort: { updated_at: { order: 'asc' }}
@@ -112,29 +114,16 @@ class Course < ApplicationRecord
 
   def self.get_uniq_owner
      __elasticsearch__.search(
-      { size: 20,
+      { size: 50,
         aggs: {
           group_by_state: {
             terms: {
-              field: "difficulty"
+              field: "owner_for_elastic"
             }
           }
         }
       }
     )
-  end
-
-  def self.auto_complete(query)
-    return nil if query.blank?
-
-    search_definition = {
-      'name-suggest' => {
-        text: query,
-        completion: {
-          field: 'suggest'
-        }
-      }
-    }
   end
 
   def owner_for_elastic

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get 'search', to: 'search#index', as: 'search'
+  get 'search/autocomplete'
+  
   authenticate :user, lambda { |u| u.admin } do
     mount Sidekiq::Web => '/sidekiq'
   end
