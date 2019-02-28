@@ -11,15 +11,14 @@
       <% end %>
     </div>
   </div>
-  <div class="col-md-1 my-1">
-    <%= render'courses/sort_menu' %>
-  </div>
 </div>
 <hr>
 <div class="row">
   <div class="col-md-3">
     <div class="card">
       <div class="card-body">
+        <h5 class="text-center">Sorting</h5>
+          <%= render'courses/sort_menu' %>
         <h5 class="text-center">Filters</h5>
         <div class="form-group">
           <%= render 'courses/label_menu' %>
