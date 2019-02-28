@@ -4,10 +4,11 @@ class CoursesController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_course, except: %i[index create new filter sortable]
-  before_action :set_keyword, only: :sortable
 
   # GET /courses
   def index
+    @sort_by = { 'Name': 'name', 'Completed count': 'completion_records',
+                 'Rating': 'rating', 'Creation date': 'created_at' }
     @courses = Course.all
     @courses = @courses.reject do |course|
       if course.individuals?
@@ -144,21 +145,21 @@ class CoursesController < ApplicationController
   end
 
   def get_courses
-    case @keyword
-    when 'nameUp'
+    case sort_params.join('_')
+    when 'name_desc'
       courses = Course.where(visibility: 0).order(name: :desc).paginate(page: params[:page], per_page: 5)
-    when 'nameDown'
+    when 'name_asc'
       courses = Course.where(visibility: 0).order(name: :asc).paginate(page: params[:page], per_page: 5)
-    when 'countUp'
+    when 'complition_records_desc'
       courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) DESC').paginate(page: params[:page], per_page: 5)
-    when 'countDown'
+    when 'complition_records_asc'
       courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) ASC').paginate(page: params[:page], per_page: 5)
-    when 'rate'
+    when 'rating'
       # Need add rating for course
       courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
-    when 'createdUp'
+    when 'created_at_desc'
       courses = Course.where(visibility: 0).order(created_at: :desc).paginate(page: params[:page], per_page: 5)
-    when 'createdDown'
+    when 'created_at_asc'
       courses = Course.where(visibility: 0).order(created_at: :asc).paginate(page: params[:page], per_page: 5)
     when 'favorites'
       courses = Course.where(visibility: 0).joins(:favorite_courses).paginate(page: params[:page], per_page: 5)
@@ -168,11 +169,7 @@ class CoursesController < ApplicationController
     courses
   end
 
-  def set_keyword
-    @keyword = keyword_params
-  end
-
-  def keyword_params
-    params[:keyword].nil? ? nil : params.require(:keyword)
+  def sort_params
+    params[:sort].require(%i[sort_by direction])
   end
 end

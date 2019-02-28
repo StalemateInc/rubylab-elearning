@@ -38,4 +38,13 @@ $(document).on 'turbolinks:load', ->
 	    theme: "bootstrap"
 	    width: '100%'
 	  return
+
+	$('#sort_direction').on 'change', ->
+    $.ajax
+      url: '/course/sortable'
+      type: 'GET'
+      data: sort:
+        sort_by: $('#sort_sort_by').val()
+        direction: @value
+    return
   return
