@@ -31,7 +31,7 @@ class CourseImageUploader < CarrierWave::Uploader::Base
   end
 
   version :slide, from_version: :content do
-    process resize_to_fit: [781, 180]
+    process resize_to_fit: [200, 200]
   end
 
   version :thumb, from_version: :content do
