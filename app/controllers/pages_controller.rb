@@ -97,16 +97,36 @@ class PagesController < ApplicationController
   def create_questions(page)
     if params[:answer_list]
       params[:answer_list].each do |answer_list_params|
-        question = params[:questions].shift
-        answer_list = AnswerList.new
-        answer_list.answers = answer_list_params[:answers]
-        answer_list.correct_answers = answer_list_params[:correct_answers].join(' ')
-        answer_list.question = Question.create(content: question[:content],
-                                               question_type: question[:question_type],
-                                               page: page)
-        answer_list.save
+        question_params = params[:questions].shift
+        if question_params[:status]
+          status, question_id = question_params[:status].split('-')
+          if status == 'created'
+            update_question(question_id, question_params, answer_list_params)
+          else
+            destroy_question(question_id)
+          end
+        else
+          answer_list = AnswerList.new
+          answer_list.answers = answer_list_params[:answers]
+          answer_list.correct_answers = answer_list_params[:correct_answers].join(' ')
+          answer_list.question = Question.create(content: question_params[:content],
+                                                 question_type: question_params[:question_type],
+                                                 page: page)
+          answer_list.save
+        end
       end
     end
+  end
+
+  def update_question(question_id, question_params, answer_list_params)
+    question = Question.find(question_id)
+    question.update(content: question_params[:content])
+    question.answer_list.update(answers: answer_list_params[:answers],
+                                correct_answers: answer_list_params[:correct_answers].join(' '))
+  end
+
+  def destroy_question(question_id)
+
   end
 
   def page_params
