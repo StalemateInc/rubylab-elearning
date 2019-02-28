@@ -1,36 +1,18 @@
 <div class="row">
   <div class="col-md-9"></div>
-  <div class="col-md-2">
-    <div class="btn-group">
-      <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Sort by
-      </button>
-      <div class="dropdown-menu" id="organization-sort-menu">
-        <li class="dropdown-item" id="sort-word-up" style="display:block">
-          <%= link_to '▲Name' , organizations_sortable_path({keyword: 'wordsZ'}), remote: true, id: 'link_on' %>
-        </li>
-        <li class="dropdown-item" id="sort-word-down" style="display:none">
-          <%= link_to '▼Name' , organizations_sortable_path({keyword: 'wordsA'}), remote: true, id: 'link_on' %>
-        </li>
-        <li class="dropdown-item" id="sort-count-up" style="display:block">
-          <%= link_to '▲Count of members' , organizations_sortable_path({keyword: 'membersUp'}), remote: true, id: 'link_on' %>
-        </li>
-        <li class="dropdown-item" id="sort-count-down" style="display:none">
-          <%= link_to '▼Count of members' , organizations_sortable_path({keyword: 'membersDown'}), remote: true, id: 'link_on' %>
-        </li>
-        <li class="dropdown-item" id="sort-course-up" style="display:block">
-          <%= link_to '▲Count of courses' , organizations_sortable_path({keyword: 'courseUp'}), remote: true, id: 'link_on' %>
-        </li>
-        <li class="dropdown-item" id="sort-course-down" style="display:none">
-          <%= link_to '▼Count of courses' , organizations_sortable_path({keyword: 'courseDown'}), remote: true, id: 'link_on' %>
-        </li>
-        <li class="dropdown-item" id="sort-create-up" style="display:block">
-          <%= link_to '▲Created' , organizations_sortable_path({keyword: 'new'}), remote: true, id: 'link_on' %>
-        </li>
-        <li class="dropdown-item" id="sort-create-down" style="display:none">
-          <%= link_to '▼Created' , organizations_sortable_path({keyword: 'old'}), remote: true, id: 'link_on' %>
-        </li>
+  <div class="col-md-3">
+    <%= simple_form_for :sort, remote: true, url: organizations_sortable_path, method: :get do |f| %>
+
+      <div class="form-row">
+        <div class="col-md-8">
+          <%= f.input :sort_by, label: 'Sort by', collection: @sort_by, include_blank: false, required: false %>
+        </div>
+        <div class="col-md-4">
+          <%= f.input :direction, label: nil, collection: {▲: 'asc', ▼: 'desc'}, include_blank: false, required: false %>
+        </div>
       </div>
-    </div>
+
+      <%= f.button :submit, 'Sort', class: 'btn btn-secondary' %>
+    <% end %>
   </div>
 </div>
