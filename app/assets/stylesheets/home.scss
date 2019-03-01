@@ -1,3 +1,25 @@
 // Place all the styles related to the Home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.most-popular-carousel-nav-item {
+  border: 1px #d0d0d0 solid;
+  border-radius: 5px;
+  padding: 5px;
+}
+.most-popular-carousel-nav .slick-current {
+  color: #429a7d;
+  opacity: 1;
+}
+
+.most-popular-carousel-nav-item_name {
+  font-weight: bold;
+}
+
+.most-popular-carousel{
+  height: 100%
+}
+
+.most-popular-carousel img {
+  object-fit: cover;
+}
