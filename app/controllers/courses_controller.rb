@@ -123,6 +123,14 @@ class CoursesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  # GET /courses/:id/rating
+  def rating
+    respond_to do |format|
+      format.js
+      format.html
+    end
+  end
+
   private
 
   def set_course

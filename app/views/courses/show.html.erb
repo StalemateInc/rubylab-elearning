@@ -14,7 +14,8 @@
 
 <% if user_signed_in? %>
   <% if !@course.archived? %>
-    <%= render partial: 'courses/rating', locals: { user: current_user, course: @course } %>
+    <%= link_to 'Rate course ￬', course_rating_path(@course), remote: true, id: 'rating-link' %>
+    <div class='rating-div'></div>
   <% end %>
   <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } %>
   <% if !@course.archived? %>
@@ -26,10 +27,3 @@
   <% end %>
 <% end %>
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>
-
-<script>
-  var slider = new Slider("#rating");
-  slider.on("slide", function(sliderValue) {
-    document.getElementById("rating-val").textContent = sliderValue;
-  });
-</script>
