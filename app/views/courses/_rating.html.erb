@@ -1,0 +1,6 @@
+<% if Participation.find_by(user: user, course: course) %>
+  <h3 clas="rating-div">Rating: 
+    <input id="rating" type="text" data-slider-min="-10" data-slider-max="10" data-slider-step="1" data-slider-value="0"/>
+    <span id="rating-val">0</span>
+  </h3>
+<% end %>

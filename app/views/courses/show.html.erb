@@ -1,10 +1,7 @@
 <h1>
   Course "<%= @course.name %>"
   <% if user_signed_in? %>
-      <%= render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>
-      <% if Participation.find_by(user: current_user, course: @course) %>
-        <input type="text" class="slider" value="" data-slider-min="-20" data-slider-max="20" data-slider-step="1" data-slider-value="-14" data-slider-orientation="vertical" data-slider-selection="after"data-slider-tooltip="hide">
-      <% end %>
+    <%= render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>
   <% end %>
 </h1>
 
@@ -16,6 +13,9 @@
 <p>Author: <%= @course.owner.instance_of?(User) ? "#{@course.owner.profile.name} #{@course.owner.profile.surname}" : @course.owner.name %></p>
 
 <% if user_signed_in? %>
+  <% if !@course.archived? %>
+    <%= render partial: 'courses/rating', locals: { user: current_user, course: @course } %>
+  <% end %>
   <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } %>
   <% if !@course.archived? %>
     <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
@@ -28,5 +28,8 @@
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>
 
 <script>
-  $('.slider').slider()
+  var slider = new Slider("#rating");
+  slider.on("slide", function(sliderValue) {
+    document.getElementById("rating-val").textContent = sliderValue;
+  });
 </script>

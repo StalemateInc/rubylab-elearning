@@ -45,6 +45,7 @@ gem 'mini_magick'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'select2-rails'
+gem 'bootstrap-slider-rails'
 
 gem 'devise'
 gem 'figaro'

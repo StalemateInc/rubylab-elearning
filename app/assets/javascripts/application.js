@@ -19,6 +19,7 @@
 //= require jquery-ui
 //= require bootstrap
 //= require select2
+//= require bootstrap-slider
 //= require rails.validations
 //= require rails.validations.simple_form.bootstrap4
 //= require ckeditor/init
