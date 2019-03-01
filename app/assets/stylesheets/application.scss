@@ -7,3 +7,13 @@
 @import "user_dashboard";
 @import "select2";
 @import "select2-bootstrap";
+
+.ui-menu {
+	border: 1px solid black;
+	border-radius: 3px;
+	background-color: rgba(120, 60%, 70%, 0.9);
+	color: black;
+	text-weight: bold;
+	list-style-type: none;
+	margin-left: -20px;
+}

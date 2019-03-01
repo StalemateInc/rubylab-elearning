@@ -8,12 +8,12 @@ class AutoCompleteSearch
   def call
     begin
       if context.difficulty
-        context.difficulty = context.difficulty.split
+        context.difficulty = context.difficulty.flatten!
       else
         context.difficulty = %i[unspecified novice intermediate advanced professional]
       end    
       uri = URI.parse("http://localhost:9200/courses/autocomplete/_search")
-      request = Net::HTTP::Get.new(uri)
+      request = Net::HTTP::Post.new(uri)
       request.content_type = "application/json"
       request.body = JSON.dump({
         "query": {
@@ -45,7 +45,12 @@ class AutoCompleteSearch
       response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
         http.request(request)
       end
-      context.name = response
+
+      parsed = JSON.parse(response.body)
+
+      course_suggest = parsed['suggest']['course-suggest']
+        .map {|c| c['options'].map {|e| e['text']}}.flatten!
+      context.suggest = course_suggest
     rescue => e
       context.fail!(message: e)
     end

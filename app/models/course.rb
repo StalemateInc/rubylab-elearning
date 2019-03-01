@@ -110,7 +110,6 @@ class Course < ApplicationRecord
           fields: [
             { name: {} },
             { description: {} },
-            { owner_for_elastic: {} },
             { 'pages.html': {} }
           ]
         },
