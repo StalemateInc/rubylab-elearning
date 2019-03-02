@@ -18,10 +18,10 @@ class SearchController < ApplicationController
         @results = Course.search_custom(params[:search][:query])
       end
     rescue Faraday::ConnectionFailed => e
-    	puts e
+      puts e
       @difficulties = Course.pluck(:difficulty).uniq!
       owners_not_uniq = Course.all.map  do |c|
-      	name = c.ownership.ownable_type == 'User' ? c.owner.profile.nickname : c.owner.name
+       name = c.ownership.ownable_type == 'User' ? c.owner.profile.nickname : c.owner.name
         "#{c.ownership.ownable_type} #{name}"
       end
       @owners = owners_not_uniq.uniq!

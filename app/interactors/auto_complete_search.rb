@@ -5,6 +5,7 @@ class AutoCompleteSearch
   include Interactor
 
   # Autocomplete search
+
   def call
     begin
       if context.difficulty
