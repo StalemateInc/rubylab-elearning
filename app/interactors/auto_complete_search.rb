@@ -29,7 +29,7 @@ class AutoCompleteSearch
           "course-suggest": {
             "prefix": "#{context.query}",
             "completion": {
-              "field": "name",
+              "field": "suggest",
               "fuzzy": {
                 "fuzziness": 1
               }

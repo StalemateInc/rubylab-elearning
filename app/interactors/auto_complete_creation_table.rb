@@ -16,7 +16,7 @@ class AutoCompleteCreationTable
         "mappings": {
           "autocomlete": {
             "properties": {
-              "name": {
+              "suggest": {
                 "type": "completion"
               },
               "difficulty": {
