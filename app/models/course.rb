@@ -41,6 +41,7 @@ class Course < ApplicationRecord
 
   settings index: { number_of_shards: 1 } do
     mappings dynamic: 'false' do
+      indexes :id,         type: :integer
       indexes :name,         type: :text, analyzer: :english
       indexes :duration,     type: :integer
       indexes :difficulty,   type: :keyword
@@ -59,7 +60,7 @@ class Course < ApplicationRecord
   def as_indexed_json(options={})
     self.as_json(
       methods: :owner_for_elastic,
-      only: [ :name, :duration, :difficulty, :description, :status, :visibility, 
+      only: [ :id, :name, :duration, :difficulty, :description, :status, :visibility, 
         :created_at, :updated_at],
       include: {
         pages: {
@@ -85,7 +86,6 @@ class Course < ApplicationRecord
               { 
                 multi_match: {
                   query: query,
-                  type: "best_fields",
                   fields: [:name, :description, 'pages.html'],
                   fuzziness: 'auto'
                 }

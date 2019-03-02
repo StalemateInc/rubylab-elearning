@@ -35,7 +35,8 @@
         <% @results.each do |result| %>
         <div class='row'>
           <div class='col-lg-4 col-md-4 col-sm-12 strong-high'>
-            <h5 class='text-center'>Name of course: <%= result.name %></h5><br />
+            <h5 class='text-center'>Name of course: <%= link_to "#{result.name}",
+              course_path(result.id.to_i) %></h5><br />
             <div class='panel-stub'>
               Difficulty: <%= result.difficulty %><br />
               Owner of course: <%= result.owner_for_elastic %><br />

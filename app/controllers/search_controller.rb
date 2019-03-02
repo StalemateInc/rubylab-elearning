@@ -25,7 +25,7 @@ class SearchController < ApplicationController
         "#{c.ownership.ownable_type} #{name}"
       end
       @owners = owners_not_uniq.uniq!
-      @results = Course.all
+      @results =  Course.where('name like ? and ', "%#{ruby}%")
     end
   end
 
