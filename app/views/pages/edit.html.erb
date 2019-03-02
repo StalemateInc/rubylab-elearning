@@ -15,7 +15,7 @@
           <%= link_to 'Back', pages_course_path(@course), class: 'btn btn-md btn-secondary' %>
         </div>
       <% end %>
-      <%= render partial: 'add_question' %>
+      <%= render partial: 'add_question', locals: { counter: @questions.count - 1 } %>
     </div>
   </div>
 </div>

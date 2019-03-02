@@ -41,10 +41,10 @@ module PagesHelper
     out
   end
 
-  def render_question_form(question, answers)
+  def render_question_form(question, answers, question_index)
     out = '<div class="test-question">'
     out << '<p class="btn btn-link destroy_link">delete</p>'
-    out << '<div class="test-answers">'
+    out << '<div class="test-answers" data-index="' + question_index.to_s + '">'
     q_id = question.id
     right_answers = answers.correct_answers.split
     case question.question_type
@@ -52,7 +52,7 @@ module PagesHelper
       out << '<input name="questions[][content]" value="' + question.content + '">
               <div class="answers">
                 <input type="text" name="answer_list[][answers][0]" value="this is a textbox question" style="display: none">
-                <input type="text" name="answer_list[][correct_answers][]" value="' + answers.correct_answers + '">
+                <input type="text" name="correct_answers[' + question_index.to_s + '][]" value="' + answers.correct_answers + '">
               </div>
               <input name="questions[][question_type]" style="display: none" value="textbox">
               <input name="questions[][status]" style="display: none" value="created-' + q_id.to_s + '">'
@@ -63,9 +63,9 @@ module PagesHelper
         out << '<div class="answer">
                 <input type="text" name=answer_list[][answers][' + key + '] value="' + value + '">'
         if key.to_s.in? right_answers
-          out << '<input type="radio" name=answer_list[][correct_answers][] checked="true" value="' + key + '">'
+          out << '<input type="radio" name="correct_answers[' + question_index.to_s + '][]" checked="true" value="' + key + '">'
         else
-          out << '<input type="radio" name=answer_list[][correct_answers][] value="' + key + '">'
+          out << '<input type="radio" name="correct_answers[' + question_index.to_s + '][]" value="' + key + '">'
         end
         out << '</div>'
       end
@@ -81,9 +81,9 @@ module PagesHelper
         out << '<div class="answer">
                 <input type="text" name=answer_list[][answers][' + key + '] value="' + value + '">'
         if key.to_s.in? right_answers
-          out << '<input type="checkbox" name=answer_list[][correct_answers][] checked="true" value="' + key + '">'
+          out << '<input type="checkbox" name="correct_answers[' + question_index.to_s + '][]" checked="true" value="' + key + '">'
         else
-          out << '<input type="checkbox" name=answer_list[][correct_answers][] value="' + key + '">'
+          out << '<input type="checkbox" name="correct_answers[' + question_index.to_s + '][]" value="' + key + '">'
         end
           out << '</div>'
       end

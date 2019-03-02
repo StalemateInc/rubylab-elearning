@@ -1,8 +1,10 @@
   <%= form_tag store_answers_course_path(@course, @page), method: :post, remote: true do %>
     <div class="form-group">
+      <%- question_index = 0 %>
       <% questions.includes(:answer_list).each do |question| %>
         <%- answers = question.answer_list %>
-        <%= render inline: render_question_form(question, answers) %>
+        <%= render inline: render_question_form(question, answers, question_index) %>
+        <%- question_index += 1 %>
     <% end %>
     </div>
     <div class="questions"></div>

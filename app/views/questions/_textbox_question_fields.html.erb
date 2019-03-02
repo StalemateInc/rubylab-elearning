@@ -3,7 +3,7 @@
   <input name="questions[][content]" value="question content">
   <div class="answers">
     <input type="text" name="answer_list[][answers][0]" value="this is a textbox question" style="display: none">
-    <input type="text" name="answer_list[][correct_answers][]" value="write the answer">
+    <input type="text" name="correct_answers[t<%= Random.rand(1000) %>][]" value="write the answer">
   </div>
   <input name="questions[][question_type]" style="display: none" value="textbox">
 </div>

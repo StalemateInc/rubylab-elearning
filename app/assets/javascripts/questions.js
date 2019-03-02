@@ -1,3 +1,15 @@
+var getSiblings = function (elem) {
+    var siblings = [];
+    var sibling = elem;
+    while (sibling) {
+        if (sibling.nodeType === 1 && sibling !== elem) {
+            siblings.push(sibling);
+        }
+        sibling = sibling.nextSibling
+    }
+    return siblings;
+};
+
 document.addEventListener('turbolinks:load', function() {
     var questionForms = document.querySelectorAll('.render_form');
     questionForms.forEach(function (questionForm) {
@@ -5,7 +17,15 @@ document.addEventListener('turbolinks:load', function() {
             [data, status, xhr] = event.detail;
             var newQuestionBlock = data.body.firstChild;
             var destroyFormLink = newQuestionBlock.querySelector('.destroy_link');
+            var questionCounterElement = document.getElementById('question-counter');
+            var counter = parseInt(questionCounterElement.value);
+            newQuestionBlock.setAttribute('data-index', counter);
+            questionCounterElement.value = counter + 1;
             destroyFormLink.addEventListener('click', function () {
+                var questionCounterElement = document.getElementById('question-counter');
+                var counter = parseInt(questionCounterElement.value);
+                questionCounterElement.value = counter - 1;
+                updateIndicesBelow(destroyFormLink.parentNode);
                 destroyFormLink.parentNode.remove();
             });
             document.querySelector('.questions').appendChild(newQuestionBlock);
@@ -55,7 +75,7 @@ function addAnswer(type, answerIndex, answersContainer) {
     var newAnswer = document.createElement('input');
     var rightAnswer = document.createElement('input');
     newAnswer.setAttribute('name', 'answer_list[][answers][' + answerIndex + ']');
-    rightAnswer.setAttribute('name', 'answer_list[][correct_answers][]');
+    rightAnswer.setAttribute('name', 'correct_answers[' + answersContainer.parentNode.getAttribute('data-index') + '][]');
     rightAnswer.setAttribute('type', type);
     rightAnswer.setAttribute('value', answerIndex);
     if(answerIndex == 0) {
@@ -66,4 +86,11 @@ function addAnswer(type, answerIndex, answersContainer) {
     newAnswerBlock.appendChild(newAnswer);
     newAnswerBlock.appendChild(rightAnswer);
     answersContainer.appendChild(newAnswerBlock);
+}
+
+function updateIndicesBelow(node) {
+    getSiblings(node).forEach(function (sibling) {
+        var prev_val = parseInt(sibling.getAttribute('data-index')) - 1;
+        sibling.setAttribute('data-index', prev_val);
+    });
 }
