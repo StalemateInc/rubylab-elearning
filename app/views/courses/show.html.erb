@@ -13,7 +13,7 @@
 <p>Author: <%= @course.owner.instance_of?(User) ? "#{@course.owner.profile.name} #{@course.owner.profile.surname}" : @course.owner.name %></p>
 
 <% if user_signed_in? %>
-  <% if !@course.archived? %>
+  <% if !@course.archived? && Participation.find_by(user: current_user, course: @course) %>
     <%= link_to 'Rate course ￬', course_rating_path(@course), remote: true, id: 'rating-link' %>
     <div class='rating-div'></div>
   <% end %>
