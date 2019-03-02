@@ -52,7 +52,7 @@ module PagesHelper
       out << '<input name="questions[][content]" value="' + question.content + '">
               <div class="answers">
                 <input type="text" name="answer_list[][answers][0]" value="this is a textbox question" style="display: none">
-                <input type="text" name="correct_answers[' + question_index.to_s + '][]" value="' + answers.correct_answers + '">
+                <input type="text" name="correct_answers[' + question_index.to_s + '][]" value="' + answers.correct_answers + '" style="display: none">
               </div>
               <input name="questions[][question_type]" style="display: none" value="textbox">
               <input name="questions[][status]" style="display: none" value="created-' + q_id.to_s + '">'
