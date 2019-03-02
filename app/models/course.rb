@@ -41,7 +41,7 @@ class Course < ApplicationRecord
 
   settings index: { number_of_shards: 1 } do
     mappings dynamic: 'false' do
-      indexes :id,         type: :integer
+      indexes :id,           type: :integer
       indexes :name,         type: :text, analyzer: :english
       indexes :duration,     type: :integer
       indexes :difficulty,   type: :keyword
