@@ -128,7 +128,7 @@ class CoursesController < ApplicationController
     if Assessment.find_by(user: current_user, course: @course).nil?
       rating = params[:rating]
       Assessment.create(value: rating, user: current_user, course: @course)
-      new_rating = @course.rating ? (@course.rating.to_i + rating.to_i) / 2 : rating
+      new_rating = @course.rating ? (@course.rating.to_i + rating.to_i) / Assessment.where(course: @course).count : rating
       @course.update(rating: new_rating)
       flash[:success] = 'Your rating successfully recorded'
     else
