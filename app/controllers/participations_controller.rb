@@ -26,11 +26,13 @@ class ParticipationsController < ApplicationController
     @course = Course.find(params[:id])
     authorize @course, policy_class: ParticipationPolicy
 
+    starting_page = Page.starting_for(@course)
     @participation = Participation.create(user: current_user,
                                           course: @course,
-                                          page: Page.starting_for(@course))
+                                          page: starting_page)
     if @participation
       flash[:success] = 'You have successfully enrolled this course'
+      redirect_to page_course_path(@course, starting_page) if starting_page
     else
       flash[:notice] = 'An error occurred while enrolling the course'
     end

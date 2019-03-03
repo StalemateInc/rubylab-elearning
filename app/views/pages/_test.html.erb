@@ -14,6 +14,7 @@
   <% end %>
 <% end %>
 <div class="navigation-buttons">
+  <%= link_to 'To course', course_path(@course), class: 'btn btn-md btn-secondary' %>
   <% if @page.previous_page %>
     <%= link_to 'Previous page', page_course_path(@course, @page.previous_page), class: 'btn btn-md btn-primary float-left' %>
   <% end %>
