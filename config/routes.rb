@@ -3,8 +3,9 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'home#index'
 
-  authenticate :user, lambda { |u| u.admin } do
+  authenticate :user, lambda(&:admin) do
     mount Sidekiq::Web => '/sidekiq'
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   end
 
   mount Ckeditor::Engine => '/ckeditor'
