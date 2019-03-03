@@ -24,7 +24,9 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
 
   config.actions do
-    dashboard                     # mandatory
+    dashboard do
+      statistics false
+    end                    # mandatory
     index                         # mandatory
     new
     export
