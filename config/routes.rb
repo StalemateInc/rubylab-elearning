@@ -3,8 +3,9 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'home#index'
 
-  authenticate :user, lambda { |u| u.admin } do
+  authenticate :user, lambda(&:admin) do
     mount Sidekiq::Web => '/sidekiq'
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   end
 
   mount Ckeditor::Engine => '/ckeditor'
@@ -33,6 +34,7 @@ Rails.application.routes.draw do
   end
 
   resources :organizations do
+    
     member do
       # user actions for organizations
       delete '/leave', to: 'organizations#leave', as: :leave
@@ -61,6 +63,9 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  get '/organization/sortable', to: 'organizations#sortable', as: :organizations_sortable
+  
   resources :courses do
     member do
       get '/pages', to: 'pages#index', as: :pages

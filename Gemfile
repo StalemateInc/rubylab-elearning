@@ -39,8 +39,10 @@ gem 'aasm'
 gem 'bootstrap'
 gem 'carrierwave'
 gem 'ckeditor'
-gem 'font-awesome-sass'
+# gem 'font-awesome-sass'
+gem 'font_awesome5_rails'
 gem 'mini_magick'
+gem 'rails_admin'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -53,6 +55,8 @@ gem 'interactor', '~> 3.0'
 gem 'pundit'
 gem 'sidekiq'
 gem 'whenever', require: false
+gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
 
 # order matters, do not change
 gem 'simple_form'

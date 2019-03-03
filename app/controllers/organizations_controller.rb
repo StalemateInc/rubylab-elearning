@@ -3,12 +3,14 @@
 class OrganizationsController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_organization, except: %i[index create new]
+  before_action :set_organization, except: %i[index create new sortable]
   before_action :set_join_request, only: :show
 
   # GET /organizations
   def index
-    @organizations = Organization.all
+    @sort_by = { 'Name': 'name', 'Members count': 'memberships',
+                 'Courses count': 'ownerships', 'Creation date': 'created_at' }
+    @organizations = Organization.all.paginate(page: params[:page], per_page: 10)
   end
 
   # POST /organizations
@@ -42,6 +44,15 @@ class OrganizationsController < ApplicationController
     redirect_to organizations_path if @organization.destroy
   end
 
+  # GET /organization/sortable
+  def sortable
+    @organizations = get_organizations
+    respond_to do |format|
+      format.js
+      format.html
+    end
+  end
+
   # POST /organizations/:id/leave
   def leave
     membership = @organization.memberships.find_by(user: current_user)
@@ -67,5 +78,32 @@ class OrganizationsController < ApplicationController
 
   def organization_params
     params.require(:organization).permit(%i[name description image remove_image])
+  end
+
+  def get_organizations
+    case sort_params.join('_')
+    when 'name_asc'
+      @organizations = Organization.order(:name).paginate(page: params[:page], per_page: 10)
+    when 'name_desc'
+      @organizations = Organization.order(name: :desc).paginate(page: params[:page], per_page: 10)
+    when 'ownerships_asc'
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) asc').paginate(page: params[:page], per_page: 10)
+    when 'ownerships_desc'
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) desc').paginate(page: params[:page], per_page: 10)
+    when 'memberships_asc'
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) asc').paginate(page: params[:page], per_page: 10)
+    when 'memberships_desc'
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) desc').paginate(page: params[:page], per_page: 10)
+    when 'created_at_asc'
+      @organizations = Organization.order(created_at: :asc).paginate(page: params[:page], per_page: 10)
+    when 'created_at_desc'
+      @organizations = Organization.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+    else
+      @organizations = Organization.all.paginate(page: params[:page], per_page: 10)
+    end
+  end
+
+  def sort_params
+    params[:sort].require(%i[sort_by direction])
   end
 end

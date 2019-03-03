@@ -17,6 +17,7 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery-ui
+//= require font_awesome5
 //= require bootstrap
 //= require select2
 //= require bootstrap-slider
