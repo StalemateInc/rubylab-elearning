@@ -33,3 +33,4 @@ dump.rdb
 .idea/
 Gemfile.lock
 .ruby-version
+public/uploads/

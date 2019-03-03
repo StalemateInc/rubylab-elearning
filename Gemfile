@@ -49,6 +49,7 @@ gem 'interactor', '~> 3.0'
 gem 'pundit'
 gem 'sidekiq'
 gem 'whenever', require: false
+gem 'searchkick'
 gem 'elasticsearch-model', git: 'git://github.com/elastic/elasticsearch-rails.git', branch: 'master'
 gem 'elasticsearch-rails', git: 'git://github.com/elastic/elasticsearch-rails.git', branch: 'master'
 

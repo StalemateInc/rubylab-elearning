@@ -1,8 +1,22 @@
 class SearchController < ApplicationController
 
+  # API structure
+  # params[:query] - what to look for
+  # params[:entity] - where to look for (course, organization)
+  # params[:filters] - filters applied to search
+  # params[:filters][:owner] - filter by owner (course only)
+  # params[:filters][:difficulty] - filter by difficulty (course only)
+  # example: localhost:3000/search?query="foo"&entity=[course,organization]&filters=[difficulty=['intermediate','novice']]
+  # this is an JSON action
+  def search
+
+    respond_to do |format|
+      format.json {}
+    end
+  end
+
   def index
     begin
-    
       @difficulties = Course.search('*').map(&:difficulty).uniq!
       @owners = Course.search('*').map(&:owner_for_elastic).uniq!
 
