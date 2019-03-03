@@ -48,7 +48,7 @@ $(document).on 'turbolinks:load', ->
 		return
 
 	$('#rating-submit').click ->
-		 $.ajax
+		$.ajax
       url: window.location.href + '/rate'
       type: 'PATCH'
       data: rating: $('#rating').val()

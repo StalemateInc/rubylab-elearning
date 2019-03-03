@@ -125,9 +125,18 @@ class CoursesController < ApplicationController
 
   # PATCH /courses/:id/rate
   def rate
-    rating = params[:rating]
-    new_rating = @course.rating ? (@course.rating.to_i + rating.to_i) / 2 : rating
-    @course.update(rating: new_rating)
+    if Assessment.find_by(user: current_user, course: @course)
+      rating = params[:rating]
+      Assessment.create(value: rating, user: current_user, course: @course)
+      new_rating = @course.rating ? (@course.rating.to_i + rating.to_i) / 2 : rating
+      @course.update(rating: new_rating)
+      flash[:success] = 'Your rating successfully recorded'
+    else
+      flash[:notice] = 'You have already rated this course.'
+    end
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
