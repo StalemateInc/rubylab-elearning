@@ -11,6 +11,7 @@
 <p>Difficulty: <%= @course.difficulty %></p>
 <p>Visibility: <%= @course.visibility %></p>
 <p>Author: <%= @course.owner.instance_of?(User) ? "#{@course.owner.profile.name} #{@course.owner.profile.surname}" : @course.owner.name %></p>
+<p>Rating: <%= @course.rating ? @course.rating : 'Not rated yet' %></p>
 
 <% if user_signed_in? %>
   <% if !@course.archived? && Participation.find_by(user: current_user, course: @course) %>
