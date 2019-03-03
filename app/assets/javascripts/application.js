@@ -17,8 +17,10 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery-ui
+//= require font_awesome5
 //= require bootstrap
 //= require select2
+//= require bootstrap-slider
 //= require rails.validations
 //= require rails.validations.simple_form.bootstrap4
 //= require ckeditor/init

@@ -46,5 +46,19 @@ $(document).on 'turbolinks:load', ->
       data: sort:
         sort_by: $('#sort_sort_by').val()
         direction: @value
+	
+	slider = new Slider('#rating')
+	slider.on 'slide', (sliderValue) ->
+		document.getElementById('rating-val').textContent = sliderValue
+		return
+	slider.on 'change', (sliderValue) ->
+		document.getElementById('rating-val').textContent = sliderValue.newValue
+		return
+
+	$('#rating-submit').click ->
+		$.ajax
+      url: window.location.href + '/rate'
+      type: 'PATCH'
+      data: rating: $('#rating').val()
     return
   return

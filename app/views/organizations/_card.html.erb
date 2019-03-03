@@ -1,0 +1,32 @@
+<% @organizations.each do |organization| %>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-md-3">
+        <%= image_tag organization.image.icon.url %>
+      </div>
+      <div class="col-md-6">
+        <div class="text-center">
+          <%= link_to(organization_path(organization), class: 'h2', id: 'link_on') do %>
+          <h2 class="font-italic"><%= organization.name %></h2>
+        <% end %>
+        <div class="my-2">
+          <p class="text-monospace"><%= organization.description[0, 30] + ".." %></p>
+        </div>
+        <small class="text-muted">Created at
+          <%= organization.created_at.strftime("%b %d, %Y") %></small>
+        <br>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="container">
+        <i class="fas fa-child"></i>
+        <%= organization.memberships.count %>
+      </div>
+      <div class="container">
+        <i class="fas fa-book"></i>
+        <%= organization.created_courses.count %>
+      </div>
+    </div>
+  </div>
+</li>
+<% end %>

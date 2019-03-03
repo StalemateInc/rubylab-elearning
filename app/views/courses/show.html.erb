@@ -1,7 +1,7 @@
 <h1>
   Course "<%= @course.name %>"
   <% if user_signed_in? %>
-      <%= render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>
+    <%= render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>
   <% end %>
 </h1>
 
@@ -11,8 +11,17 @@
 <p>Difficulty: <%= @course.difficulty %></p>
 <p>Visibility: <%= @course.visibility %></p>
 <p>Author: <%= @course.owner.instance_of?(User) ? "#{@course.owner.profile.name} #{@course.owner.profile.surname}" : @course.owner.name %></p>
+<p id="average-rating">Rating: <%= @course.rating ? @course.rating : 'Not rated yet' %></p>
 
 <% if user_signed_in? %>
+  <% if !@course.archived? && Participation.find_by(user: current_user, course: @course) %>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="rating-btn">
+      Rate course
+    </button>
+    <div id="rating-window">
+      <%= render partial: 'courses/rating', locals: { course: @course } %>
+    </div>
+  <% end %>
   <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } %>
   <% if !@course.archived? %>
     <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>

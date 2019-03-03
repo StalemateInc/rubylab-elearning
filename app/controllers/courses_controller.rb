@@ -44,7 +44,7 @@ class CoursesController < ApplicationController
       flash[:success] = 'You have successfully created the course'
       redirect_to @course
     else
-      flash[:notice] = 'An error occurred while creating the course'
+      flash[:danger] = 'An error occurred while creating the course'
       redirect_back(fallback_location: root_path)
     end
   end
@@ -111,7 +111,7 @@ class CoursesController < ApplicationController
       flash[:success] = 'You have successfully archived the course'
       redirect_to courses_path
     else
-      flash[:notice] = 'An error occurred while archiving the course'
+      flash[:danger] = 'An error occurred while archiving the course'
       redirect_back(fallback_location: root_path)
     end
   end
@@ -131,6 +131,20 @@ class CoursesController < ApplicationController
     respond_to do |format|
       format.js
       format.html
+      
+  # PATCH /courses/:id/rate
+  def rate
+    if Assessment.find_by(user: current_user, course: @course).nil?
+      rating = params[:rating]
+      Assessment.create(value: rating, user: current_user, course: @course)
+      new_rating = @course.rating ? (@course.rating.to_i + rating.to_i) / Assessment.where(course: @course).count : rating
+      @course.update(rating: new_rating)
+      flash[:success] = 'Your rating successfully recorded'
+    else
+      flash[:danger] = 'You have already rated this course.'
+    end
+    respond_to do |format|
+      format.js
     end
   end
 
