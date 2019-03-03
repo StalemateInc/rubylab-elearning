@@ -123,12 +123,11 @@ class CoursesController < ApplicationController
     authorize @course
     if @course.pages.empty?
       flash[:danger] = 'You cannot publish a course without pages!'
-      redirect_back(fallback_location: root_path)
     else
       @course.published!
       flash[:success] = 'Course successfully published'
-      redirect_back(fallback_location: root_path)
     end
+    redirect_back(fallback_location: root_path)
   end
 
   # GET /courses
