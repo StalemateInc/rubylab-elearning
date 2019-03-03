@@ -22,6 +22,7 @@ class User < ApplicationRecord
   has_many :allowed_courses, through: :course_accesses, source: :course
   has_many :favorite_courses, dependent: :destroy
   has_many :impersonation_histories, class_name: 'ImpersonationHistory', foreign_key: :impersonator_id
+  has_many :completed_courses, through: :completion_records, source: :course
 
   accepts_nested_attributes_for :profile
 

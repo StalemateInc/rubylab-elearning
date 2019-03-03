@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="test-answers-display">
+        <h3><%= "User @#{@user.profile.nickname} needs revision on the following test answers:" %></h3>
+        <%= form_tag user_grade_course_path(@course, @user), method: :post do %>
+          <% @zipped.each do |question, user_answer| %>
+            <%- answer_list = question.answer_list %>
+            <div class="question">
+              <p><strong><%= question.content %></strong></p>
+              <div class="form-group">
+                <% if question.textbox? %>
+                  <div>
+                    <%= text_field_tag question.id.to_s, user_answer.first.answer, disabled: true %>
+                  </div>
+                  <%= check_box_tag "checked[#{question.id}]", true, false %>
+                  <%= tag.span('Correct answer') %>
+                <% elsif question.checkbox? %>
+                  <% answer_list.answers.each do |key, value| %>
+                    <%- user_answers = user_answer.last.answer.split(' ') %>
+                    <div>
+                      <%= check_box_tag "q-#{question.id}-a-#{key}", key, key.in?(user_answers), disabled: true %>
+                      <%= tag.span(value) %>
+                    </div>
+                  <% end %>
+                <% else %>
+                  <% answer_list.answers.each do |key, value| %>
+                    <%- user_answers = user_answer.last.answer.split(' ') %>
+                    <div>
+                      <%= radio_button_tag "q-#{question.id}-a-#{key}", key, key.in?(user_answers), disabled: true %>
+                      <%= tag.span(value) %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+          <div class="form-action">
+            <%= submit_tag('Finish revision', class: 'btn btn-md btn-success', id: 'finish-revision-button') %>
+          </div>
+          <hr/>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
