@@ -26,7 +26,9 @@ class ParticipationsController < ApplicationController
     @course = Course.find(params[:id])
     authorize @course, policy_class: ParticipationPolicy
 
-    @participation = Participation.create(user: current_user, course: @course)
+    @participation = Participation.create(user: current_user,
+                                          course: @course,
+                                          page: Page.starting_for(@course))
     if @participation
       flash[:success] = 'You have successfully enrolled this course'
     else
