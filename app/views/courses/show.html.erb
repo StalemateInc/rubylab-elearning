@@ -31,13 +31,3 @@
   <% end %>
 <% end %>
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>
-
-<script>
-var slider = new Slider("#rating");
-  slider.on("slide", function(sliderValue) {
-    document.getElementById("rating-val").textContent = sliderValue;
-  });
-  slider.on("change", function(sliderValue) {
-    document.getElementById("rating-val").textContent = sliderValue.newValue;
-  });
-</script>

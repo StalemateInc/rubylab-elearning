@@ -123,12 +123,11 @@ class CoursesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  # GET /courses/:id/rating
-  def rating
-    respond_to do |format|
-      format.js
-      format.html
-    end
+  # PATCH /courses/:id/rate
+  def rate
+    rating = params[:rating]
+    new_rating = @course.rating ? (@course.rating.to_i + rating.to_i) / 2 : rating
+    @course.update(rating: new_rating)
   end
 
   private
