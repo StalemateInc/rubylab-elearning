@@ -52,6 +52,8 @@ gem 'interactor', '~> 3.0'
 gem 'pundit'
 gem 'sidekiq'
 gem 'whenever', require: false
+gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
 
 # order matters, do not change
 gem 'simple_form'

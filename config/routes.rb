@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   end
 
   resources :organizations do
+    
     member do
       # user actions for organizations
       delete '/leave', to: 'organizations#leave', as: :leave
@@ -61,6 +62,9 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  get '/organization/sortable', to: 'organizations#sortable', as: :organizations_sortable
+  
   resources :courses do
     member do
       get '/pages', to: 'pages#index', as: :pages
