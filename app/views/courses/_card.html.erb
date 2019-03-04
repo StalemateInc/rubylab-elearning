@@ -1,7 +1,7 @@
 <% @courses.each do |course| %>
-  <div class="card">
+  <div class="card" id="course-card">
     <div class="card-body row">
-      <%= image_tag course.image.content.url, class: 'card-img-top col-4' %>
+      <%= image_tag course.image.content.url, class: 'card-img-top col-4', id: 'course-card-img' %>
       <div class="col-1"></div>
       <div class="content col">
         <div class="row">
@@ -13,17 +13,18 @@
         </div>
         
         <h3 class="card-title row"><%= course.name %></h3>
-        <p class="card-text row h-50"><%= course.description %></p>
+        <p class="card-text row"><%= course.description %></p>
           
-        <div class="row">
-          <div class="col-5"></div>
-          <div class="col-md-2">
-            <i class="fas fa-star">10</i>
+        <div class="row" id="card-bottom-icons">
+          <div class="col">
+            <i class="fas fa-star"></i>
+            <p><%= course.rating ? course.rating : '0' %></p>
           </div>
-          <div class="col-md-2">
-            <i class="fas fa-user"><%= course.completion_records.count %></i>
+          <div class="col">
+            <i class="fas fa-user"></i>
+            <p><%= course.completion_records.count %></p>
           </div>
-          <div class="col-md-3">
+          <div class="col">
             <%= link_to 'More', course_path(course), class: 'btn btn-primary' %>
           </div>
         </div>

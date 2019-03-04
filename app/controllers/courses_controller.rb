@@ -131,7 +131,9 @@ class CoursesController < ApplicationController
     respond_to do |format|
       format.js
       format.html
-      
+    end
+  end
+
   # PATCH /courses/:id/rate
   def rate
     if Assessment.find_by(user: current_user, course: @course).nil?
@@ -168,9 +170,10 @@ class CoursesController < ApplicationController
       courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) DESC').paginate(page: params[:page], per_page: 5)
     when 'complition_records_asc'
       courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) ASC').paginate(page: params[:page], per_page: 5)
-    when 'rating'
-      # Need add rating for course
-      courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
+    when 'rating_desc'
+      courses = Course.where(visibility: 0).order(rating: :desc).paginate(page: params[:page], per_page: 5)
+    when 'rating_asc'
+      courses = Course.where(visibility: 0).order(rating: :asc).paginate(page: params[:page], per_page: 5)
     when 'created_at_desc'
       courses = Course.where(visibility: 0).order(created_at: :desc).paginate(page: params[:page], per_page: 5)
     when 'created_at_asc'
