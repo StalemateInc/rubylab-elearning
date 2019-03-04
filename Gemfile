@@ -40,6 +40,7 @@ gem 'active_record_union'
 gem 'bootstrap'
 gem 'bootstrap-multiselect-rails'
 gem 'font-awesome-sass'
+gem 'twitter-typeahead-rails'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'

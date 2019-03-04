@@ -22,6 +22,8 @@
 //= require rails.validations
 //= require rails.validations.simple_form.bootstrap4
 //= require bootstrap-multiselect
+//= require twitter/typeahead.min
+//= require jquery.ba-throttle-debounce.min
 //= require_tree .
 
 window.force_flash = function(flash_element_string) {

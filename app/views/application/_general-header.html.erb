@@ -26,8 +26,8 @@
     </li>
   </ul>
 </div>
-<form class="form-inline my-2 my-lg-0 input-group mr-3" style="max-width: 350px">
-  <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+<form class="form-inline input-group" style="max-width: 300px">
+  <input class="form-control navbar-input typeahead" type="search" placeholder="Search" aria-label="Search" data-user="<%= current_user.id %>">
   <div class="input-group-append">
     <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
   </div>
