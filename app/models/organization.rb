@@ -25,10 +25,19 @@ class Organization < ApplicationRecord
   def search_data
     {
         id: id,
+        class: self.class.name.downcase,
         name: name,
         description: description,
         state: state
     }
+  end
+
+  def as_json(options={})
+    super.as_json(options).merge({class: get_class})
+  end
+
+  def get_class
+    self.class.name.downcase
   end
 
   def self.sql_full_text_search(query, _user)

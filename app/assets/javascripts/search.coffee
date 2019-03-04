@@ -19,6 +19,7 @@ rebuild_response = (data) ->
   mapped = $.map(data, (item) ->
     {
       id: item.id,
+      class: item["class"],
       name: item.name,
       description: item.description,
       duration: item.duration,
@@ -50,7 +51,11 @@ $(document).on 'turbolinks:load', ->
     templates:
       header: '<h5 class="text-center">Search suggestions<h5>',
       suggestion: (data) ->
-        return "<div><strong>" + data.name + "</strong><br/><em>" + shorten(data.description, 50) + "</em></div>"
+        if data.class == 'organization'
+          template = '<div><i class=\'fas fa-users mr-1\'></i><strong>' + data.name + '</strong><br/><em>' + shorten(data.description, 50) + '</em></div>'
+        else
+          template = '<div><i class=\'fas fa-book-open mr-1\'></i><strong>' + data.name + '</strong><br/><em>' + shorten(data.description, 50) + '</em></div>'
+        return template
   $('.typeahead').on 'typeahead:selected', (evt, item) ->
     $(location).attr 'href', '/courses/' + item.id
     return
