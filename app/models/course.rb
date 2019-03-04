@@ -38,25 +38,10 @@ class Course < ApplicationRecord
       difficulty: difficulty,
       status: status,
       visibility: visibility,
-      accessed_by: course_accesses.pluck(:id),
+      accessed_by: accessible_by,
       text_owner: text_owner,
       exact_owner: search_owner
     }
-  end
-
-  def search_owner
-    owned_by = owner
-    "#{owned_by.class.name}__#{owned_by.id}"
-  end
-
-  def text_owner
-    owned_by = owner
-    if owned_by.instance_of?(Organization)
-      owned_by.name
-    else
-      profile = owned_by.profile
-      "#{profile.name} #{profile.nickname} #{profile.surname}"
-    end
   end
 
   def self.sql_full_text_search(query)
@@ -180,4 +165,30 @@ class Course < ApplicationRecord
       user.in?(owner.org_admin_list)
     end
   end
+
+  private
+
+  def text_owner
+    owned_by = owner
+    if owned_by.instance_of?(Organization)
+      owned_by.name
+    else
+      profile = owned_by.profile
+      "#{profile.name} #{profile.nickname} #{profile.surname}"
+    end
+  end
+
+  def accessible_by
+    if organization?
+      owner.users.pluck(:id)
+    else
+      course_accesses.pluck(:user_id)
+    end
+  end
+
+  def search_owner
+    owned_by = owner
+    "#{owned_by.class.name}__#{owned_by.id}"
+  end
+
 end

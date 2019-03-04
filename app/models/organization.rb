@@ -2,6 +2,7 @@
 
 class Organization < ApplicationRecord
   include AASM
+  searchkick word_middle: %i[name description], callbacks: :async
   enum state: [:unverified, :verified, :archived]
 
   has_many :memberships, dependent: :destroy
@@ -16,6 +17,15 @@ class Organization < ApplicationRecord
 
   def org_admin_list
     memberships.where(org_admin: true).map(&:user)
+  end
+
+  def search_data
+    {
+        id: id,
+        name: name,
+        description: description,
+        state: state
+    }
   end
 
   def self.sql_full_text_search(query)

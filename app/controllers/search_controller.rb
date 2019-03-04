@@ -1,9 +1,11 @@
 class SearchController < ApplicationController
 
   skip_before_action :verify_authenticity_token
+
   # API structure
   # params[:query] - what to look for
   # params[:entity] - where to look for (course, organization)
+  # params[:user_id] - for which user to search
   # params[:filters] - filters applied to search
   # params[:filters][:exact_owner] - filter by owner (course only)
   # params[:filters][:difficulty] - filter by difficulty (course only)
@@ -13,7 +15,8 @@ class SearchController < ApplicationController
 
   def search
     p = params[:search]
-    return if p[:query].empty? || p[:entity].empty? || p[:query].length < 4
+    user = User.find_by_id(p[:user_id] || current_user.id)
+    return if user.nil? || p[:entity].empty? || p[:query].length < 4 ||  p[:query].empty?
     search_query = p[:query]
     search_entities = []
     p[:entity].each_pair { |_key, entity| search_entities.push(entity.capitalize.constantize) }
@@ -28,6 +31,35 @@ class SearchController < ApplicationController
       end
     end
     begin
+      availability_clause = {
+        _or: [
+          {
+            _type: 'organization',
+            state: :verified
+          },
+          {
+            _or: [
+              {
+                _type: 'course',
+                visibility: :everyone
+              },
+              {
+                _and: [
+                    {
+                      _type: 'course',
+                      visibility: [:private, :individuals]
+                    },
+                    {
+                      _type: 'course',
+                      accessed_by: p[:user_id]
+                    }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      search_filters.merge!(availability_clause) unless user.admin?
       results = Searchkick.search(search_query,
                                   index_name: search_entities,
                                   fields: [:name, :description, :text_owner],
