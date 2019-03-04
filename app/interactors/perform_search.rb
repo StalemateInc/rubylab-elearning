@@ -17,8 +17,7 @@ class PerformSearch < BaseInteractor
 
   def call
     p = context.params[:search]
-    # user = User.find_by_id(p[:user_id] || current_user.id)
-    return if context.user.nil? || p[:entity].blank? || p[:query].length < 4 || p[:query].blank?
+    return if p[:entity].blank? || p[:query].length < 4 || p[:query].blank?
 
     search_query = p[:query]
     search_entities = []
@@ -50,23 +49,25 @@ class PerformSearch < BaseInteractor
                 _type: 'course',
                 visibility: :everyone
               },
-              {
-                _and: [
-                  {
-                    _type: 'course',
-                    visibility: %i[private individuals]
-                  },
-                  {
-                    _type: 'course',
-                    accessed_by: p[:user_id]
-                  }
-                ]
-              }
+              (if context.user
+                 {
+                   _and: [
+                     {
+                       _type: 'course',
+                       visibility: %i[private individuals]
+                     },
+                     {
+                       _type: 'course',
+                       accessed_by: context.user
+                     }
+                   ]
+                 }
+               end)
             ]
           }
         ]
       }
-      search_filters.merge!(availability_clause) unless context.user.admin?
+      search_filters.merge!(availability_clause) unless context.user&.admin?
       context.results = Searchkick.search(search_query,
                                           index_name: search_entities,
                                           fields: %i[name description text_owner],

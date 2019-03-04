@@ -3,7 +3,6 @@ fetchResultsCallback = null
 fetchResults = $.debounce(450, ->
   user = $('.typeahead').data('user')
   $.post '/search.json', { search: {query: fetchQuery, user_id: user, entity: ['course', 'organization'] }}, (data) ->
-    console.log(data)
     data = rebuild_response(data)
     if fetchResultsCallback
       fetchResultsCallback data

@@ -18,7 +18,7 @@
         </div>
 
         <div class="input-group mb-3">
-          <%= hidden_field_tag 'search[user_id]', current_user.id %>
+          <%= hidden_field_tag 'search[user_id]', current_user ? current_user.id : nil %>
           <%= text_field_tag 'search[query]', nil, placeholder: 'Enter your search query here', class: 'form-control' %>
           <div class="input-group-append">
             <%= button_tag(type: :submit, class: 'btn btn-outline-secondary') do %>
