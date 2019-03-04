@@ -59,6 +59,10 @@ class Course < ApplicationRecord
     end
   end
 
+  def self.sql_full_text_search(query)
+    find_by_sql("SELECT * FROM courses WHERE to_tsvector(name || ' ' || description) @@ to_tsquery('*#{query}:*')")
+  end
+
   # after_commit on: [:create] do
   #   __elasticsearch__.index_document if self.published?
   # end

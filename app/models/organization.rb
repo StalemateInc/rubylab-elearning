@@ -18,6 +18,10 @@ class Organization < ApplicationRecord
     memberships.where(org_admin: true).map(&:user)
   end
 
+  def self.sql_full_text_search(query)
+    find_by_sql("SELECT * FROM organizations WHERE to_tsvector(\"name\" || ' ' || description) @@ to_tsquery('*#{query}:*')")
+  end
+
   aasm column: 'state' do
     state :unverified, initial: true
     state :verified
