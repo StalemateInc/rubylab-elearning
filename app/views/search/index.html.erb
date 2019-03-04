@@ -1,56 +1,33 @@
-  <%= form_for :search, url: search_path, method: :get do |form| %>
-    <fieldset>
-      <legend>Search</legend>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <%= form_tag '/search', remote: true, method: :post do %>
+        <div class="form-group">
+          <h5>Search: </h5>
+          <%= label_tag 'search-course-checkbox', 'Courses' %>
+          <%= check_box_tag 'search[entity][]', 'course', nil, id: 'search-course-checkbox', checked: true %>
+          <%= label_tag 'search-organization-checkbox', 'Organizations' %>
+          <%= check_box_tag 'search[entity][]', 'organization', nil,  id: 'search-organization-checkbox', checked: true %>
+        </div>
+        <div id="course-filters" class="form-group">
+          <h5>Filters for courses:</h5>
+          <%= label_tag 'difficulty_filter', 'Difficulty' %>
+          <%= select_tag 'difficulty_filter', options_for_select(Course.difficulties), multiple: true, id: 'difficulty_filter', name: 'search[filters][difficulty][]', class: 'btn btn-md btn-primary' %>
+          <%= label_tag 'visibility_filter', 'Visibility' %>
+          <%= select_tag 'visibility_filter', options_for_select(Course.visibilities), multiple: true, id: 'visibility_filter', name: 'search[filters][visibility][]', class: 'btn btn-md btn-primary' %>
+        </div>
 
-      <div class='form-group'>
-        <%= form.text_field :query,
-          class: 'form-control', id: 'main-search', autocomplete: "false" %>
-      </div>
-      
-      <div class='form-group'>
-        <%= form.label :difficulty %><br />
-        <%= select_tag 'difficulty', options_for_select(@difficulties),
-         multiple: true, class: 'form-control', id: 'difficulty-search' %>
-      </div>
-
-      <div class='form-group'>
-        <%= form.label :owner %><br />
-        <%= select_tag 'owner', options_for_select(@owners),
-        class: 'form-control', id: 'owner-search' %>
-      </div>
-
-      <div class='form-group'> 
-        <%= form.submit 'Try',  class: 'btn btn-success form-control' %>
-      </div>
-
-    </fieldset>
-  <% end %>
-
-<% unless @results.nil? %>
-  <% if @results.empty? %>
-    <h4>No results</h4>
-  <% else %>
-    <h4>Results</h4>
-      <div class='container-fluid'>
-        <% @results.each do |result| %>
-        <div class='row'>
-          <div class='col-lg-4 col-md-4 col-sm-12 strong-high'>
-            <h5 class='text-center'>Name of course: <%= link_to "#{result.name}",
-              course_path(result.id.to_i) %></h5><br />
-            <div class='panel-stub'>
-              Difficulty: <%= result.difficulty %><br />
-              Owner of course: <%= result.owner_for_elastic %><br />
-              Course duration: <%= result.duration %><br />
-              Status: <%= result.status %><br />
-              <% if result.description %>
-                <h6 class='text-center'>Description</h6>
-                <p><%= result.description.truncate(150) %></p>
-              <% end %>
-            </div>
+        <div class="input-group mb-3">
+          <%= hidden_field_tag 'search[user_id]', current_user.id %>
+          <%= text_field_tag 'search[query]', nil, placeholder: 'Enter your search query here', class: 'form-control' %>
+          <div class="input-group-append">
+            <%= button_tag(type: :submit, class: 'btn btn-outline-secondary') do %>
+              <i class="fas fa-search"></i>
+            <% end %>
           </div>
         </div>
       <% end %>
+      <div id="found-results"></div>
     </div>
-  <% end %>
-<% end %>
-
+  </div>
+</div>

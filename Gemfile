@@ -38,6 +38,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'aasm'
 gem 'active_record_union'
 gem 'bootstrap'
+gem 'bootstrap-multiselect-rails'
 gem 'font-awesome-sass'
 
 gem 'jquery-rails'

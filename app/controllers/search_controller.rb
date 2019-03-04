@@ -19,7 +19,7 @@ class SearchController < ApplicationController
     return if user.nil? || p[:entity].empty? || p[:query].length < 4 ||  p[:query].empty?
     search_query = p[:query]
     search_entities = []
-    p[:entity].each_pair { |_key, entity| search_entities.push(entity.capitalize.constantize) }
+    p[:entity].each { |entity| search_entities.push(entity.capitalize.constantize) }
     search_filters = {}
     p[:filters]&.each do |filter_key, filter_value|
       case filter_key
@@ -60,22 +60,25 @@ class SearchController < ApplicationController
         ]
       }
       search_filters.merge!(availability_clause) unless user.admin?
-      results = Searchkick.search(search_query,
+      @results = Searchkick.search(search_query,
                                   index_name: search_entities,
                                   fields: [:name, :description, :text_owner],
                                   match: :word_middle,
                                   where: search_filters).results
     rescue Faraday::Error
-      results = []
+      @results = []
       search_entities.each do |entity|
-        results.push(entity.sql_full_text_search(p[:query], user))
+        @results.push(entity.sql_full_text_search(p[:query], user))
       end
-      results.flatten!
+      @results.flatten!
     end
     respond_to do |format|
-      format.json { render json: results }
+      format.json { render json: @results }
+      format.js
     end
   end
+
+  def index; end
 
   # def index
   #   begin
