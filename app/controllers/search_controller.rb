@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
 
+  skip_before_action :verify_authenticity_token
   # API structure
   # params[:query] - what to look for
   # params[:entity] - where to look for (course, organization)
@@ -12,9 +13,10 @@ class SearchController < ApplicationController
 
   def search
     begin
-      p = search_params
+      p = params[:search]
       search_query = p[:query]
-      search_entities = p[:entity].map { |entity| entity.capitalize.constantize }
+      search_entities = []
+      p[:entity].each_pair { |_key, entity| search_entities.push(entity.capitalize.constantize) }
       search_filters = {}
       p[:filters]&.each do |filter_key, filter_value|
         case filter_key
@@ -26,18 +28,18 @@ class SearchController < ApplicationController
         end
       end
       results = if params[:filters]
-        Searchkick.search search_query,
+        Searchkick.search(search_query,
                           index_name: search_entities,
-                          where: search_filters
+                          where: search_filters).results
       else
-        Searchkick.search search_query, index_name: search_entities
+        Searchkick.search(search_query, index_name: search_entities).results
                 end
     rescue Faraday::Error
       # db logic here
       results = []
     end
     respond_to do |format|
-      format.json { results.to_json }
+      format.json { render json: results }
     end
   end
 
@@ -77,11 +79,5 @@ class SearchController < ApplicationController
       results = AutoCompleteSearch.call(auto_params)
       render json: results.suggest
     end
-  end
-
-  private
-
-  def search_params
-    params.require(:search).permit(:query, :entity, filters:[])
   end
 end
