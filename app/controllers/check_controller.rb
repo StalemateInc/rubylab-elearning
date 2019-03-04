@@ -32,7 +32,7 @@ class CheckController < ApplicationController
                                     checked_text_questions: {})
     else
       flash[:success] = 'Congratulations on finishing this course! Your results will be known shortly, stay tuned.'
-      participation.await_check!
+      participation.update(await_check: true)
 
     end
     redirect_to course_path(@course)
