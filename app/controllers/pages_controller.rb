@@ -96,7 +96,6 @@ class PagesController < ApplicationController
 
   def create_questions(page)
     if params[:answer_list]
-      # correct_answers = params[:correct_answers].to_h
       correct_answers = params.require(:correct_answers).permit!.to_h
       params[:answer_list].each do |answer_list_params|
         correct_answer = correct_answers.shift
