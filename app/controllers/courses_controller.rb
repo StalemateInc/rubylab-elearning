@@ -121,9 +121,12 @@ class CoursesController < ApplicationController
   # PATCH /courses/:id/publish
   def publish
     authorize @course
-
-    @course.published!
-    flash[:success] = 'Course successfully published'
+    if @course.pages.empty?
+      flash[:danger] = 'You cannot publish a course without pages!'
+    else
+      @course.published!
+      flash[:success] = 'Course successfully published'
+    end
     redirect_back(fallback_location: root_path)
   end
 

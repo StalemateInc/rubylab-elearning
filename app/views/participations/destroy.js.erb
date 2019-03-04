@@ -7,5 +7,7 @@ participation_record.remove();
 var leave_button = $('.course_leave');
 leave_button.after($('<%= j render partial: 'courses/enroll_button', locals: { course: @course, participation: nil } %>'));
 leave_button.remove();
+var back_to_course_button = $('#back-to-course-button');
+back_to_course_button.remove();
 
 force_flash('<%= j render partial: "layouts/flash" %>');
