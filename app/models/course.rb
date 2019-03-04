@@ -5,7 +5,7 @@ class Course < ApplicationRecord
   # include Elasticsearch::Model::Callbacks
   # index_name Rails.application.class.parent_name.underscore
   # document_type self.name.downcase
-  searchkick
+  searchkick word_middle: %i[name description text_owner], callbacks: :async
 
   has_one :ownership, dependent: :destroy
   has_many :participations, dependent: :destroy
@@ -27,6 +27,37 @@ class Course < ApplicationRecord
   validates :difficulty, presence: true, inclusion: { in: difficulties.keys }
   validates :description, length: { maximum: 500 }
   validate :check_visibility_and_owner
+
+  scope :search_import, -> { includes(:course_accesses) }
+
+  def search_data
+    {
+      id: id,
+      name: name,
+      description: description,
+      difficulty: difficulty,
+      status: status,
+      visibility: visibility,
+      accessed_by: course_accesses.pluck(:id),
+      text_owner: text_owner,
+      exact_owner: search_owner
+    }
+  end
+
+  def search_owner
+    owned_by = owner
+    "#{owned_by.class.name}__#{owned_by.id}"
+  end
+
+  def text_owner
+    owned_by = owner
+    if owned_by.instance_of?(Organization)
+      owned_by.name
+    else
+      profile = owned_by.profile
+      "#{profile.name} #{profile.nickname} #{profile.surname}"
+    end
+  end
 
   # after_commit on: [:create] do
   #   __elasticsearch__.index_document if self.published?
