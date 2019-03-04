@@ -26,11 +26,20 @@
     </li>
   </ul>
 </div>
-<form class="form-inline my-2 my-lg-0 input-group mr-3" style="max-width: 400px">
+<form class="form-inline my-2 my-lg-0 input-group mr-3" style="max-width: 350px">
   <input class="form-control" type="search" placeholder="Search" aria-label="Search">
   <div class="input-group-append">
     <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
   </div>
 </form>
-<%= link_to 'Sign in', new_user_session_path, class: 'btn btn-outline-secondary' %>
+<div class="float-right">
+  <div class="form-inline input-group float-right">
+    <div class="input-group-prepend">
+      <%= link_to 'Sign in', new_user_session_path, class: 'btn btn-outline-secondary' %>
+    </div>
+    <div class="input-group-append">
+      <%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-outline-secondary' %>
+    </div>
+  </div>
+</div>
 </nav>
