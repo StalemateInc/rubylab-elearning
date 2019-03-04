@@ -1,0 +1,21 @@
+:builder:
+  :template_name: corel_certificate_template_blank.pdf
+  :template_path: lib/certificate_builder/
+  :save_path: public/uploads/certificates
+:stamp_creator:
+  :stamp_name: stamp
+  :stamp_path: tmp/storage/
+  :sign_name: sign.png
+  :sign_path: lib/certificate_builder/
+  :fonts:
+    :name: Montserrat
+    :course: Montserrat
+    :date: Montserrat
+    :grade: Montserrat
+  :font_sizes:
+    :name: 53.681
+    :course: 18.803
+    :date: 18.803
+    :grade: 18.803
+  :colors:
+    :dark_blue: "102654"
