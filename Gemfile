@@ -36,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'aasm'
+gem 'active_record_union'
 gem 'bootstrap'
 gem 'font-awesome-sass'
 
@@ -46,6 +47,7 @@ gem 'select2-rails'
 gem 'devise'
 gem 'figaro'
 gem 'interactor', '~> 3.0'
+gem 'pg_search'
 gem 'pundit'
 gem 'sidekiq'
 gem 'whenever', require: false

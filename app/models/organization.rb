@@ -2,6 +2,7 @@
 
 class Organization < ApplicationRecord
   include AASM
+  include PgSearch
   searchkick word_middle: %i[name description], callbacks: :async
   enum state: [:unverified, :verified, :archived]
 
@@ -14,6 +15,8 @@ class Organization < ApplicationRecord
 
   validates :name, presence: true, length: { in: 2..100 }
   validates :description, length: { maximum: 500 }
+
+  pg_search_scope :full_text_search, against: [:name, :description], using: { tsearch: { prefix: true } }
 
   def org_admin_list
     memberships.where(org_admin: true).map(&:user)
@@ -28,8 +31,8 @@ class Organization < ApplicationRecord
     }
   end
 
-  def self.sql_full_text_search(query)
-    find_by_sql("SELECT * FROM organizations WHERE to_tsvector(\"name\" || ' ' || description) @@ to_tsquery('*#{query}:*')")
+  def self.sql_full_text_search(query, _user)
+    full_text_search(query)
   end
 
   aasm column: 'state' do

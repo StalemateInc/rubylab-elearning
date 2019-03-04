@@ -68,7 +68,7 @@ class SearchController < ApplicationController
     rescue Faraday::Error
       results = []
       search_entities.each do |entity|
-        results.push(entity.sql_full_text_search(p[:query]))
+        results.push(entity.sql_full_text_search(p[:query], user))
       end
       results.flatten!
     end

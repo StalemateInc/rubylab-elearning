@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 class Course < ApplicationRecord
-  # include Elasticsearch::Model
-  # include Elasticsearch::Model::Callbacks
-  # index_name Rails.application.class.parent_name.underscore
-  # document_type self.name.downcase
+  include PgSearch
   searchkick word_middle: %i[name description text_owner], callbacks: :async
 
   has_one :ownership, dependent: :destroy
@@ -29,6 +26,7 @@ class Course < ApplicationRecord
   validate :check_visibility_and_owner
 
   scope :search_import, -> { includes(:course_accesses) }
+  pg_search_scope :full_text_search, against: [:name, :description], using: { tsearch: { prefix: true } }
 
   def search_data
     {
@@ -44,108 +42,13 @@ class Course < ApplicationRecord
     }
   end
 
-  def self.sql_full_text_search(query)
-    find_by_sql("SELECT * FROM courses WHERE to_tsvector(name || ' ' || description) @@ to_tsquery('*#{query}:*')")
+  def self.sql_full_text_search(query, user)
+    organizations_private_courses = Course.where(ownership: Ownership.where(ownable: user.organizations), visibility: :organization)
+    public_courses = Course.where(visibility: :everyone)
+    allowed_courses = user.allowed_courses
+    ultimate_query = organizations_private_courses.union(public_courses).union(allowed_courses)
+    ultimate_query.full_text_search(query)
   end
-
-  # after_commit on: [:create] do
-  #   __elasticsearch__.index_document if self.published?
-  # end
-  #
-  # after_commit on: [:update] do
-  #   __elasticsearch__.update_document if self.published?
-  # end
-  #
-  # after_commit on: [:destroy] do
-  #   __elasticsearch__.delete_document if self.published?
-  # end
-  #
-  # settings index: { number_of_shards: 1 } do
-  #   mappings dynamic: 'false' do
-  #     indexes :id,           type: :integer
-  #     indexes :name,         type: :text, analyzer: :english
-  #     indexes :duration,     type: :integer
-  #     indexes :difficulty,   type: :keyword
-  #     indexes :description,  type: :text, analyzer: :english
-  #     indexes :status,       type: :keyword
-  #     indexes :created_at,   type: :date
-  #     indexes :updated_at,   type: :date
-  #     indexes :visibility,   type: :text, analyzer: :english
-  #     indexes :owner_for_elastic, type: :keyword
-  #     indexes :pages,        type: :object do
-  #       indexes :html,         type: :text
-  #     end
-  #   end
-  # end
-  #
-  # def as_indexed_json(options={})
-  #   self.as_json(
-  #     methods: :owner_for_elastic,
-  #     only: [ :id, :name, :duration, :difficulty, :description, :status, :visibility,
-  #       :created_at, :updated_at],
-  #     include: {
-  #       pages: {
-  #         only: [:html]
-  #       }
-  #     }
-  #   )
-  # end
-  #
-  # def self.search_custom(query,
-  #   difficulty = %i[unspecified novice intermediate advanced professional],
-  #   owner = Course.search('*').map(&:owner_for_elastic).uniq!,
-  #   status = 'published',
-  #   visibility = 'everyone')
-  #
-  #   __elasticsearch__.search(
-  #     { from: 0, size: 50,
-  #       query: {
-  #         bool: {
-  #           must: [
-  #             { match: { status: status } },
-  #             { match: { visibility: visibility } },
-  #             {
-  #               multi_match: {
-  #                 query: query,
-  #                 fields: [:name, :description, 'pages.html'],
-  #                 fuzziness: 'auto'
-  #               }
-  #             }
-  #           ],
-  #           filter: {
-  #             terms: {
-  #               difficulty: difficulty
-  #
-  #             }
-  #           },
-  #           filter: {
-  #             terms: {
-  #               owner_for_elastic: owner
-  #             }
-  #           }
-  #         }
-  #       },
-  #       highlight: {
-  #         pre_tags: ['<em>'],
-  #         post_tags: ['</em>'],
-  #         fields: [
-  #           { name: {} },
-  #           { description: {} },
-  #           { 'pages.html': {} }
-  #         ]
-  #       },
-  #       sort: { updated_at: { order: 'asc' }}
-  #     }
-  #   )
-  # end
-  #
-  # def owner_for_elastic
-  #   if owner.instance_of?(User)
-  #     return "user: #{owner.profile.nickname}"
-  #   elsif owner.instance_of?(Organization)
-  #     return "organization: #{owner.name}"
-  #   end
-  # end
 
   def owner
     owner_record = ownership
