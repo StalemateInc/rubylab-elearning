@@ -24,11 +24,12 @@ class Organization < ApplicationRecord
 
   def search_data
     {
-        id: id,
-        class: self.class.name.downcase,
-        name: name,
-        description: description,
-        state: state
+      id: id,
+      class: self.class.name.downcase,
+      name: name,
+      description: description,
+      state: state,
+      members: users.pluck(:id)
     }
   end
 

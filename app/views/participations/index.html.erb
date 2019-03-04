@@ -9,6 +9,17 @@
           <div class="container-fluid">
             <div id="participations-list">
               <h1>You are currently a member of this courses: </h1>
+              <%= form_tag '/search', remote: true, method: :post do %>
+                <div class="input-group form-action mb-3">
+                  <%= hidden_field_tag 'search[user_id]', current_user.id %>
+                  <%= text_field_tag 'search[query]', nil, placeholder: 'Enter your search query here', class: 'form-control' %>
+                  <div class="input-group-append">
+                    <%= button_tag(type: :submit, class: 'btn btn-outline-secondary') do %>
+                      <i class="fas fa-search"></i>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
               <% if @participations.empty? %>
                 <h4>Sorry, no courses found.</h4>
               <% else %>

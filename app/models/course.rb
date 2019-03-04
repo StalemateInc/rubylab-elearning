@@ -39,7 +39,8 @@ class Course < ApplicationRecord
       visibility: visibility,
       accessed_by: accessible_by,
       text_owner: text_owner,
-      exact_owner: search_owner
+      exact_owner: search_owner,
+      members: students.pluck(:id)
     }
   end
 
