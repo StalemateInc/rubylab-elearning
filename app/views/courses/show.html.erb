@@ -12,7 +12,7 @@
 <p>Author: <%= @course.owner.instance_of?(User) ? "#{@course.owner.profile.name} #{@course.owner.profile.surname}" : @course.owner.name %></p>
 
 <% if user_signed_in? %>
-  <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } unless @course.in?(current_user.completed_courses) %>
+  <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } unless @course.in?(current_user.successfully_completed_courses) %>
   <% unless @course.archived? %>
     <%= link_to 'Back to course', page_course_path(@course, @participation.page), id: 'back-to-course-button', class: 'btn btn-md btn-primary' if @course.in?(current_user.enrolled_courses) && @participation.page %>
     <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
