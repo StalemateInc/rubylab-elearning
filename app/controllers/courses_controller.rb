@@ -193,9 +193,9 @@ class CoursesController < ApplicationController
     when 'rating_asc'
       courses.sort_by!(&:rating)
     when 'created_at_desc'
-      courses.sort_by!(&:rating).reverse!
+      courses.sort_by!(&:created_at).reverse!
     when 'created_at_asc'
-      courses.sort_by!(&:rating)
+      courses.sort_by!(&:created_at)
     else
       courses
     end
