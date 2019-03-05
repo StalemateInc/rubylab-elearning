@@ -3,7 +3,6 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'home#index'
 
-  get 'search', to: 'search#index', as: 'search'
   authenticate :user, lambda { |u| u.admin } do
     mount Sidekiq::Web => '/sidekiq'
   end
