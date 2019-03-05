@@ -36,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'aasm'
+gem 'active_record_union'
 gem 'bootstrap'
 gem 'carrierwave'
 gem 'ckeditor'

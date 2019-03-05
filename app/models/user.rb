@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :join_requests, dependent: :destroy
   has_many :invites, dependent: :destroy
   has_many :completion_records
+  has_many :completed_courses, through: :completion_records, source: :course
   has_many :certificates, through: :completion_records
   has_many :user_answers, dependent: :destroy
   has_many :course_accesses, dependent: :destroy
