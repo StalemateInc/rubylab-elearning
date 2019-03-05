@@ -1,43 +1,5 @@
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-5"></div>
-    <div class="col-md-2">
-      <h1>Courses</h1>
-    </div>
-    <div class="col-md-1 my-1">
-      <div class="h2">
-        <%= link_to(new_course_path) do %>
-        <i class="fas fa-plus"></i>
-      <% end %>
-    </div>
-  </div>
-  <div class="col-md-1 my-1">
-    <%= render'courses/sort_menu' %>
-  </div>
-</div>
-<hr>
-<div class="row">
-  <div class="col-md-3">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="text-center">Filters</h5>
-        <div class="form-group">
-          <%= render 'courses/label_menu' %>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-9">
-    <% @courses.each do |course| %>
-      <%= render 'courses/card', course: course %>
-    <% end %>
-  </div>
-</div>
-<div class="row my-5">
-  <div class="col-md-5"></div>
-  <div class="col-md-6">
-    <%= will_paginate @courses, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
-  </div>
-</div>
-</div>
+<h1>All courses: </h1>	
+<%= link_to 'Create course', new_course_path, class: 'btn btn-md btn-primary' %>
+<% @courses.each do |course| %>
+  <%= render partial: 'courses/card', locals: {course: course } %>
+<% end %> 

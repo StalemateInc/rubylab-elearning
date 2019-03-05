@@ -3,8 +3,7 @@
 class CoursesController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_course, except: %i[index create new filter]
-  before_action :set_keyword, only: :index
+  before_action :set_course, except: %i[index create new]
 
   # GET /courses
   def index
@@ -19,9 +18,6 @@ class CoursesController < ApplicationController
     end.reject do |course|
       course.drafted? && !course.owner?(current_user)
     end
-
-    @courses = get_courses
-
   end
 
   # POST /courses
@@ -46,7 +42,7 @@ class CoursesController < ApplicationController
       flash[:success] = 'You have successfully created the course'
       redirect_to @course
     else
-      flash[:notice] = 'An error occurred while creating the course'
+      flash[:danger] = 'An error occurred while creating the course'
       redirect_back(fallback_location: root_path)
     end
   end
@@ -113,7 +109,7 @@ class CoursesController < ApplicationController
       flash[:success] = 'You have successfully archived the course'
       redirect_to courses_path
     else
-      flash[:notice] = 'An error occurred while archiving the course'
+      flash[:danger] = 'An error occurred while archiving the course'
       redirect_back(fallback_location: root_path)
     end
   end
@@ -121,18 +117,10 @@ class CoursesController < ApplicationController
   # PATCH /courses/:id/publish
   def publish
     authorize @course
-    if @course.pages.empty?
-      flash[:danger] = 'You cannot publish a course without pages!'
-    else
-      @course.published!
-      flash[:success] = 'Course successfully published'
-    end
-    redirect_back(fallback_location: root_path)
-  end
 
-  # GET /courses
-  def filter
-    redirect_to courses_path
+    @course.published!
+    flash[:success] = 'Course successfully published'
+    redirect_back(fallback_location: root_path)
   end
 
   private
@@ -142,35 +130,6 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(%i[name description duration difficulty visibility])
-  end
-
-  def get_courses
-    case @keyword
-    when 'name'
-      courses = Course.where(visibility: 0).order(name: :desc).paginate(page: params[:page], per_page: 5)
-    when 'count'
-      courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) DESC').paginate(page: params[:page], per_page: 5)
-    when 'rate'
-      # Need add rating for couse
-      courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
-    when 'new'
-      courses = Course.where(visibility: 0).order(created_at: :desc).paginate(page: params[:page], per_page: 5)
-    when 'old'
-      courses = Course.where(visibility: 0).order(created_at: :asc).paginate(page: params[:page], per_page: 5)
-    when 'favorites'
-      courses = Course.where(visibility: 0).joins(:favorite_courses).paginate(page: params[:page], per_page: 5)
-    else
-      courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
-    end
-    courses
-  end
-
-  def set_keyword
-    @keyword = keyword_params
-  end
-
-  def keyword_params
-    params[:keyword].nil? ? nil : params.require(:keyword)
+    params.require(:course).permit(%i[name description duration difficulty visibility image remove_image])
   end
 end
