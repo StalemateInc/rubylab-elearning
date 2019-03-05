@@ -2,7 +2,8 @@
 
 class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
+  include Pagy::Backend
+  
   protected
 
   def clear_flash

@@ -4,7 +4,6 @@
 
 $(document).on 'turbolinks:load', ->
 	$('#course_is_org_creator').change ->
-
 	  orgSelector = $('#course_owner')
 	  orgSelectorDiv = $('.course_owner_div')
 	  visibilitySelector = $('#course_visibility')
@@ -39,14 +38,41 @@ $(document).on 'turbolinks:load', ->
 	    width: '100%'
 	  return
 
-	$('#sort_direction').on 'change', ->
-    $.ajax
+	$('#favorites').change ->
+		if @checked
+			$.ajax
       url: '/course/sortable'
       type: 'GET'
       data: sort:
-        sort_by: $('#sort_sort_by').val()
-        direction: @value
-	
+        sort_by: $('#sort_by_course').val()
+        direction: $('#sort_direction_course').val()
+        favorites: 'true'
+        my_org: $('#myorg').is(":checked")
+		return
+
+	$('#myorg').change ->
+		if @checked
+			$.ajax
+      url: '/course/sortable'
+      type: 'GET'
+      data: sort:
+        sort_by: $('#sort_by_course').val()
+        direction: $('#sort_direction_course').val()
+        favorites: $('#favorites').is(":checked")
+        my_org: 'true'
+		return
+
+	$('#sort_direction_course').change ->
+		$.ajax
+			url: '/course/sortable'
+			type: 'GET'
+			data: sort:
+				sort_by: $('#sort_by_course').val()
+				direction: @value
+				favorites: $('#favorites').is(":checked")
+				my_org: $('#myorg').is(":checked")
+		return
+
 	slider = new Slider('#rating')
 	slider.on 'slide', (sliderValue) ->
 		document.getElementById('rating-val').textContent = sliderValue

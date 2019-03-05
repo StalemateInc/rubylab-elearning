@@ -57,6 +57,7 @@ gem 'sidekiq'
 gem 'whenever', require: false
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
+gem 'pagy'
 gem 'bootstrap-slider-rails'
 
 # order matters, do not change

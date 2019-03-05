@@ -9,17 +9,7 @@ class CoursesController < ApplicationController
   def index
     @sort_by = { 'Name': 'name', 'Completed count': 'completion_records',
                  'Rating': 'rating', 'Creation date': 'created_at' }
-    @courses = Course.all
-    @courses = @courses.reject do |course|
-      if course.individuals?
-        !course.owner?(current_user) && !current_user.in?(course.allowed_users)
-      elsif course.organization?
-        !course.owner?(current_user) && !current_user.in?(course.owner.users)
-      end
-    end.reject do |course|
-      course.drafted? && !course.owner?(current_user)
-    end
-    @courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
+    @pagy, @courses = pagy_array(get_all_courses, items: 5)
   end
 
   # POST /courses
@@ -127,7 +117,7 @@ class CoursesController < ApplicationController
 
   # GET /course/sortable
   def sortable
-    @courses = get_courses
+    @pagy, @courses = pagy_array(get_courses, items: 5)
     respond_to do |format|
       format.js
       format.html
@@ -160,33 +150,45 @@ class CoursesController < ApplicationController
     params.require(:course).permit(%i[name description duration difficulty visibility image remove_image])
   end
 
+  def get_all_courses 
+    courses = Course.all
+    courses.reject do |course|
+      if course.individuals?
+        !course.owner?(current_user) && !current_user.in?(course.allowed_users)
+      elsif course.organization?
+        !course.owner?(current_user) && !current_user.in?(course.owner.users)
+      end
+    end.reject do |course|
+      course.drafted? && !course.owner?(current_user)
+    end
+  end
+
   def get_courses
-    case sort_params.join('_')
+    sort_by = sort_params[0] + '_' + sort_params[1]
+    case sort_by
     when 'name_desc'
-      courses = Course.where(visibility: 0).order(name: :desc).paginate(page: params[:page], per_page: 5)
+      courses = get_all_courses.sort_by(&:name).reverse
     when 'name_asc'
-      courses = Course.where(visibility: 0).order(name: :asc).paginate(page: params[:page], per_page: 5)
-    when 'complition_records_desc'
-      courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) DESC').paginate(page: params[:page], per_page: 5)
-    when 'complition_records_asc'
-      courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) ASC').paginate(page: params[:page], per_page: 5)
+      courses = get_all_courses.sort_by(&:name)
+    when 'completion_records_desc'
+      courses = get_all_courses.sort_by { |course| course.completion_records.count }.reverse
+    when 'completion_records_asc'
+      courses = get_all_courses.sort_by { |course| course.completion_records.count }
     when 'rating_desc'
-      courses = Course.where(visibility: 0).order(rating: :desc).paginate(page: params[:page], per_page: 5)
+      courses = get_all_courses.sort_by(&:rating).reverse
     when 'rating_asc'
-      courses = Course.where(visibility: 0).order(rating: :asc).paginate(page: params[:page], per_page: 5)
+      courses = get_all_courses.sort_by(&:rating)
     when 'created_at_desc'
-      courses = Course.where(visibility: 0).order(created_at: :desc).paginate(page: params[:page], per_page: 5)
+      courses = get_all_courses.sort_by(&:rating).reverse
     when 'created_at_asc'
-      courses = Course.where(visibility: 0).order(created_at: :asc).paginate(page: params[:page], per_page: 5)
-    when 'favorites'
-      courses = Course.where(visibility: 0).joins(:favorite_courses).paginate(page: params[:page], per_page: 5)
+      courses = get_all_courses.sort_by(&:rating)
     else
-      courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
+      courses = get_all_courses
     end
     courses
   end
 
   def sort_params
-    params[:sort].require(%i[sort_by direction])
+    params[:sort].require(%i[sort_by direction favorites my_org])
   end
 end
