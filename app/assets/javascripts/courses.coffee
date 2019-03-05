@@ -91,6 +91,17 @@ $(document).on 'turbolinks:load', ->
 				my_org: $('#myorg').is(":checked")
 		return
 
+	$('#sort_by_course').change ->
+		$.ajax
+			url: '/course/sortable'
+			type: 'GET'
+			data: sort:
+				sort_by: @value 
+				direction: $('#sort_direction_course').val()
+				favorites: $('#favorites').is(":checked")
+				my_org: $('#myorg').is(":checked")
+		return
+
 	$('#rating-submit').click ->
 		$.ajax
       url: window.location.href + '/rate'
