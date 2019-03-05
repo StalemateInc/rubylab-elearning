@@ -4,7 +4,7 @@
   :save_path: public/uploads/certificates
 :stamp_creator:
   :stamp_name: stamp
-  :stamp_path: tmp/storage/
+  :stamp_path: tmp/storage
   :sign_name: sign.png
   :sign_path: lib/certificate_builder/
   :fonts:
