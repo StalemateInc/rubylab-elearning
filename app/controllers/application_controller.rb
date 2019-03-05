@@ -2,7 +2,8 @@
 
 class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
+  impersonates :user
+  
   protected
 
   def clear_flash
