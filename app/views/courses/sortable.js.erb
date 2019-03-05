@@ -1,1 +1,2 @@
 $('#course-list').html("<%= j (render '/courses/card') %>")
+$('#course-pagination').html("<%= j render partial: '/courses/pagination', locals: { pagy: @pagy } %>")

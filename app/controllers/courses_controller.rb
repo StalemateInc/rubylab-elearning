@@ -164,26 +164,40 @@ class CoursesController < ApplicationController
   end
 
   def get_courses
+    courses = []
+    if sort_params[2] == 'false' && sort_params[3] == 'false'
+      courses = get_all_courses
+    elsif sort_params[2] == 'true' && sort_params[3] == 'false'
+      courses = current_user.favorites.to_a
+    elsif sort_params[2] == 'false' && sort_params[3] == 'true'
+      courses << current_user.organizations.map(&:created_courses)
+      courses.flatten!
+    else
+      current_user.favorites.map do |course|
+        courses << course if course.owner.in?(current_user.organizations)
+      end
+    end
+
     sort_by = sort_params[0] + '_' + sort_params[1]
     case sort_by
     when 'name_desc'
-      courses = get_all_courses.sort_by(&:name).reverse
+      courses.sort_by!(&:name).reverse!
     when 'name_asc'
-      courses = get_all_courses.sort_by(&:name)
+      courses.sort_by!(&:name)
     when 'completion_records_desc'
-      courses = get_all_courses.sort_by { |course| course.completion_records.count }.reverse
+      courses.sort_by! { |course| course.completion_records.count }.reverse!
     when 'completion_records_asc'
-      courses = get_all_courses.sort_by { |course| course.completion_records.count }
+      courses.sort_by! { |course| course.completion_records.count }
     when 'rating_desc'
-      courses = get_all_courses.sort_by(&:rating).reverse
+      courses.sort_by!(&:rating).reverse!
     when 'rating_asc'
-      courses = get_all_courses.sort_by(&:rating)
+      courses.sort_by!(&:rating)
     when 'created_at_desc'
-      courses = get_all_courses.sort_by(&:rating).reverse
+      courses.sort_by!(&:rating).reverse!
     when 'created_at_asc'
-      courses = get_all_courses.sort_by(&:rating)
+      courses.sort_by!(&:rating)
     else
-      courses = get_all_courses
+      courses
     end
     courses
   end

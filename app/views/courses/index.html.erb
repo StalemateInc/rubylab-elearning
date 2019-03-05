@@ -32,8 +32,8 @@
 </div>
 <div class="row my-5">
   <div class="col-md-5"></div>
-  <div class="col-md-6">
-    <%== pagy_bootstrap_nav(@pagy) %>
+  <div class="col-md-6" id="course-pagination">
+    <%= render partial: 'courses/pagination', locals: { pagy: @pagy } %>
   </div>
 </div>
 </div>

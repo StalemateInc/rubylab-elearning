@@ -48,6 +48,15 @@ $(document).on 'turbolinks:load', ->
         direction: $('#sort_direction_course').val()
         favorites: 'true'
         my_org: $('#myorg').is(":checked")
+		else
+			$.ajax
+      url: '/course/sortable'
+      type: 'GET'
+      data: sort:
+        sort_by: $('#sort_by_course').val()
+        direction: $('#sort_direction_course').val()
+        favorites: 'false'
+        my_org: $('#myorg').is(":checked")
 		return
 
 	$('#myorg').change ->
@@ -60,6 +69,15 @@ $(document).on 'turbolinks:load', ->
         direction: $('#sort_direction_course').val()
         favorites: $('#favorites').is(":checked")
         my_org: 'true'
+		else
+			$.ajax
+      url: '/course/sortable'
+      type: 'GET'
+      data: sort:
+        sort_by: $('#sort_by_course').val()
+        direction: $('#sort_direction_course').val()
+        favorites: $('#favorites').is(":checked")
+        my_org: 'false'
 		return
 
 	$('#sort_direction_course').change ->
