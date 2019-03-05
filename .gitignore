@@ -14,7 +14,7 @@
 !/tmp/.keep
 /dump.rdb
 # Ignore uploaded files in development
-/storage/*
+
 !/storage/.keep
 
 /node_modules
