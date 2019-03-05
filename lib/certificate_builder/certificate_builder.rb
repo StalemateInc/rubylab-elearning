@@ -20,8 +20,10 @@ class CertificateBuilder
     config = intersect(YAML.load(File.read(Rails.root + 'lib/certificate_builder/builder_options.yml'))[:builder], @data)
     out = CombinePDF.load(Rails.root + "#{config[:template_path]}/#{config[:template_name]}")
     out.pages.each { |page| page << stamp }
-    out.save "#{Rails.root}/#{config[:save_path]}/#{[@data[:name], @data[:surname]].join('_').downcase}_#{Time.now.to_i}.pdf"
+    certificate_name = "#{[@data[:name], @data[:surname]].join('_').downcase}_#{Time.now.to_i}.pdf"
+    out.save "#{Rails.root}/#{config[:save_path]}/#{certificate_name}"
     File.delete(stamp_file) if File.exist?(stamp_file)
+    certificate_name
   end
 
   private
