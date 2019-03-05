@@ -91,14 +91,6 @@ $(document).on 'turbolinks:load', ->
 				my_org: $('#myorg').is(":checked")
 		return
 
-	slider = new Slider('#rating')
-	slider.on 'slide', (sliderValue) ->
-		document.getElementById('rating-val').textContent = sliderValue
-		return
-	slider.on 'change', (sliderValue) ->
-		document.getElementById('rating-val').textContent = sliderValue.newValue
-		return
-
 	$('#rating-submit').click ->
 		$.ajax
       url: window.location.href + '/rate'

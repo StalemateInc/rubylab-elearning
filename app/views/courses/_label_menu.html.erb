@@ -1,18 +1,5 @@
-  <%= form_tag(controller: 'courses', action: 'sortable', method: 'get', id: 'myForm', remote: :true) do %>
-  <%= label_tag(:rate, "Rating") %>
-  <%= text_area_tag(:rate) %>
-  <br>
-  <%= label_tag(:count, "Count of completed:") %>
-  <%= text_area_tag(:count) %>
-  <br>
-  <%= check_box_tag(:favorites) %>
-  <%= label_tag(:favorites, "Favorites") %>
-  <br>
-  <%= check_box_tag(:myorg, remote: true) %>
-  <%= label_tag(:myorg, "My organization") %>
-<% end %>
-
-<script>
-var rate = new Slider("#rate", { min: -10, max: 10, value: [-10, 10]});
-var count = new Slider("#count", { min: 0, max: 1000, value: [0, 1000]});
-</script>
+<%= check_box_tag(:favorites) %>
+<%= label_tag(:favorites, "Favorites") %>
+<br>
+<%= check_box_tag(:myorg, remote: true) %>
+<%= label_tag(:myorg, "My organization") %>

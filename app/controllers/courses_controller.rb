@@ -9,7 +9,7 @@ class CoursesController < ApplicationController
   def index
     @sort_by = { 'Name': 'name', 'Completed count': 'completion_records',
                  'Rating': 'rating', 'Creation date': 'created_at' }
-    @pagy, @courses = pagy_array(get_all_courses, items: 5)
+    @courses = get_all_courses
   end
 
   # POST /courses
@@ -117,7 +117,7 @@ class CoursesController < ApplicationController
 
   # GET /course/sortable
   def sortable
-    @pagy, @courses = pagy_array(get_courses, items: 5)
+    @courses = get_courses
     respond_to do |format|
       format.js
       format.html
