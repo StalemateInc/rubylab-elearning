@@ -15,18 +15,3 @@
     <% end %>
   </div>
 </div>
-
-<script>
-$('#sort_direction_org').on('change', function() {
-  $.ajax({
-    url: '/organization/sortable',
-    type: 'GET',
-    data: {
-      sort: {
-        sort_by: $('#sort_by_org').val(),
-        direction: this.value
-      }
-    }
-  });
-});
-</script>
