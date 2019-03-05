@@ -83,6 +83,7 @@ Rails.application.routes.draw do
   post '/courses/:id/enroll', to: 'participations#create', as: :create_participation
   patch '/courses/:id/publish', to: 'courses#publish', as: :publish_course
   patch '/courses/:id/archive', to: 'courses#archive', as: :archive_course
+  get '/course/sortable', to: 'courses#sortable', as: :courses_sortable
   patch '/courses/:id/rate', to: 'courses#rate', as: :rate_course
 
   scope :user do

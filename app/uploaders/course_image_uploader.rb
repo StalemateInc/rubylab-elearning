@@ -30,6 +30,10 @@ class CourseImageUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [250, 250]
   end
 
+  version :slide, from_version: :content do
+    process resize_to_fit: [200, 200]
+  end
+
   version :thumb, from_version: :content do
     process resize_to_fit: [50, 50]
   end

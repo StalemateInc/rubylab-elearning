@@ -12,8 +12,11 @@
 @import "courses";
 @import "organizations";
 
+.tooltip.in {
+  opacity: 1;
+}
+
 #link_on {
   color: inherit;
   text-decoration: none;
 }
-
