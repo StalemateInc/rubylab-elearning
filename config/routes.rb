@@ -3,8 +3,9 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'home#index'
 
-  authenticate :user, lambda { |u| u.admin } do
+  authenticate :user, lambda(&:admin) do
     mount Sidekiq::Web => '/sidekiq'
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   end
 
   mount Ckeditor::Engine => '/ckeditor'
@@ -36,8 +37,6 @@ Rails.application.routes.draw do
     member do
       # user actions for organizations
       delete '/leave', to: 'organizations#leave', as: :leave
-      get '/import', to: 'organizations#new_import', as: :new_import
-      post '/import', to: 'organizations#create_import', as: :create_import
       # org_admin actions for organizations
       scope :manage do
         get '/', to: 'organization_dashboard#index', as: :home_dashboard
@@ -52,6 +51,7 @@ Rails.application.routes.draw do
         scope :invites do
           get '/', to: 'organizations/invites#index', as: :invites
           post '/', to: 'organizations/invites#create', as: :create_invite
+          post '/import', to: 'organizations/invites#import', as: :import
           delete '/:invite_id', to: 'organizations/invites#destroy', as: :destroy_invite
         end
         scope :reports do
@@ -66,6 +66,9 @@ Rails.application.routes.draw do
   post '/questions/create', to: 'questions#create', as: :add_question
   post '/questions/add', to: 'questions#render_form', as: :render_question_form
   delete '/questions/:question_id/destroy', to: 'questions#destroy', as: :destroy_question
+
+  get '/organization/sortable', to: 'organizations#sortable', as: :organizations_sortable
+
   resources :courses do
     member do
       get '/pages', to: 'pages#index', as: :pages
@@ -88,7 +91,8 @@ Rails.application.routes.draw do
   post '/courses/:id/enroll', to: 'participations#create', as: :create_participation
   patch '/courses/:id/publish', to: 'courses#publish', as: :publish_course
   patch '/courses/:id/archive', to: 'courses#archive', as: :archive_course
-  post '/courses/filter', to: 'courses#filter', as: :courses_filter
+  get '/course/sortable', to: 'courses#sortable', as: :courses_sortable
+  patch '/courses/:id/rate', to: 'courses#rate', as: :rate_course
   scope :user do
     get '/', to: 'user_dashboard#index', as: :user_dashboard
     resource :profile, only: %i[show edit update]

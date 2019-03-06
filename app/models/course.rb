@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Course < ApplicationRecord
+  mount_uploader :image, CourseImageUploader
+
   has_one :ownership, dependent: :destroy
   has_many :participations, dependent: :destroy
   has_many :students, through: :participations, source: :user
@@ -40,5 +42,9 @@ class Course < ApplicationRecord
     else
       user.in?(owner.org_admin_list)
     end
+  end
+
+  def favorited_by?(user)
+    in?(user.favorites)
   end
 end

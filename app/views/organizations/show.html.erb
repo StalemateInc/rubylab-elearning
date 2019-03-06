@@ -1,4 +1,5 @@
 <h1>Organization "<%= @organization.name %>"</h1>
+<%= image_tag @organization.image.content.url %>
 <p>Description: </p>
 <p><%= @organization.description %></p>
 <% if current_user %>
@@ -19,7 +20,3 @@
   <p>Log into your account to join this organization.</p>
 <% end %>
 <%= link_to 'Back', organizations_path, class: 'btn btn-info btn-md' %>
-<%= link_to 'Add users to organization', new_import_organization_path(@organization), 
-    remote: true, class: 'btn btn-md btn-info', id: 'csv-import' %>
-<div class='csv-import'>
-</div>

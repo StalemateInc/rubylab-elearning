@@ -2,6 +2,7 @@
 <%= simple_form_for @organization, url: organizations_path, method: :post, validate: true do |f| %>
   <%= f.error_notification %>
 
+  <%= f.input :image, label: 'Select image: ', as: :file %>
   <%= f.input :name, label: 'Organization name', required: true, input_html: { autocomplete: 'name' } %>
   <%= f.input :description, label: 'Describe your organization', required: true, input_html: { autocomplete: 'description'} %>
 

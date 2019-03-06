@@ -3,13 +3,14 @@
 class OrganizationsController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_organization, except: %i[index create new]
+  before_action :set_organization, except: %i[index create new sortable]
   before_action :set_join_request, only: :show
-  before_action :set_keyword, :get_organizations, only: :index
 
   # GET /organizations
   def index
-    @organizations
+    @sort_by = { 'Name': 'name', 'Members count': 'memberships',
+                 'Courses count': 'ownerships', 'Creation date': 'created_at' }
+    @organizations = Organization.all.paginate(page: params[:page], per_page: 10)
   end
 
   # POST /organizations
@@ -43,6 +44,15 @@ class OrganizationsController < ApplicationController
     redirect_to organizations_path if @organization.destroy
   end
 
+  # GET /organization/sortable
+  def sortable
+    @organizations = get_organizations
+    respond_to do |format|
+      format.js
+      format.html
+    end
+  end
+
   # POST /organizations/:id/leave
   def leave
     membership = @organization.memberships.find_by(user: current_user)
@@ -53,29 +63,6 @@ class OrganizationsController < ApplicationController
     end
     respond_to do |format|
       format.js
-    end
-  end
-
-  def new_import
-  end
-
-  def create_import
-    import_params = {}
-    if params[:organization][:file] && params[:organization][:file].content_type == 'text/csv'
-      import_params[:file] = params[:organization][:file]
-    end
-    import_params[:email] = params[:organization][:email] if params[:organization][:email] != [""]
-    import_params[:organization_id] = params[:id]
-    result = ImportUsersForOrganization.call(import_params)
-    if result.success?
-      @users = @organization.users
-      respond_to do |format|
-        format.js { @users }
-      end
-    else
-      respond_to do |format|
-        format.json { redirect_to @organization }
-      end
     end
   end
 
@@ -90,33 +77,33 @@ class OrganizationsController < ApplicationController
   end
 
   def organization_params
-    params.require(:organization).permit(%i[name description])
+    params.require(:organization).permit(%i[name description image remove_image])
   end
 
   def get_organizations
-    case @keyword
-    when "wordsA"
+    case sort_params.join('_')
+    when 'name_asc'
       @organizations = Organization.order(:name).paginate(page: params[:page], per_page: 10)
-    when "wordsZ"
+    when 'name_desc'
       @organizations = Organization.order(name: :desc).paginate(page: params[:page], per_page: 10)
-    when "course"
-      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) DESC').paginate(page: params[:page], per_page: 10)
-    when "members"
-      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) DESC').paginate(page: params[:page], per_page: 10)
-    when "new"
-      @organizations = Organization.order(:created_at).paginate(page: params[:page], per_page: 10)
-    when "old"
+    when 'ownerships_asc'
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) asc').paginate(page: params[:page], per_page: 10)
+    when 'ownerships_desc'
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) desc').paginate(page: params[:page], per_page: 10)
+    when 'memberships_asc'
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) asc').paginate(page: params[:page], per_page: 10)
+    when 'memberships_desc'
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) desc').paginate(page: params[:page], per_page: 10)
+    when 'created_at_asc'
+      @organizations = Organization.order(created_at: :asc).paginate(page: params[:page], per_page: 10)
+    when 'created_at_desc'
       @organizations = Organization.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
     else
       @organizations = Organization.all.paginate(page: params[:page], per_page: 10)
     end
   end
 
-  def set_keyword
-    @keyword = keyword_params
-  end
-
-  def keyword_params
-    params[:keyword].nil? ? nil : params.require(:keyword)
+  def sort_params
+    params[:sort].require(%i[sort_by direction])
   end
 end

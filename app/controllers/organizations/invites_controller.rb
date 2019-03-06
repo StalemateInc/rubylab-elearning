@@ -5,13 +5,24 @@ class Organizations::InvitesController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_organization
-  before_action :set_invite, except: %i[index create]
+  before_action :set_invite, except: %i[index import create]
   before_action :authorize_through_organization
   after_action :clear_flash, except: :index
 
   # GET /organizations/:id/manage/invites
   def index
     @invites = Invite.where(organization: @organization)
+  end
+
+  # POST /organizations/:id/manage/import
+  def import
+    result = ImportUsersToOrganization.call(params: invite_params, organization: @organization)
+    if result.success?
+      flash[:success] = 'Import successful!'
+    else
+      flash[:notice] = 'An error occurred while importing users.'
+    end
+    redirect_to invites_organization_path(@organization)
   end
 
   # POST /organizations:/:id/manage/invites
@@ -55,6 +66,6 @@ class Organizations::InvitesController < ApplicationController
   end
 
   def invite_params
-    params.require(:user).permit(:email)
+    params.require(:user).permit(:csv, email: [])
   end
 end
