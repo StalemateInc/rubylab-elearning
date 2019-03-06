@@ -1,0 +1,8 @@
+force_flash('<%= j render "layouts/flash" %>');
+$.ajax({
+  url: '<%= "/courses/#{@course.id}/finish" %>',
+  type: 'POST',
+  data: {
+    id: '<%= @course.id %>'
+  }
+});

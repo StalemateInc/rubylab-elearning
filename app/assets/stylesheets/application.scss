@@ -1,12 +1,37 @@
 @import "jquery-ui";
-@import "font-awesome-sprockets";
-@import "font-awesome";
+@import 'font_awesome5.css';
 @import "bootstrap";
 @import "application/application";
 @import "application/footer";
+@import "questions";
 @import "user_dashboard";
+@import "certificates";
 @import "select2";
 @import "select2-bootstrap";
 @import 'slick';
 @import 'slick-theme';
 @import "home";
+@import "bootstrap-multiselect.css";
+@import "typeahead";
+@import "bootstrap-slider";
+@import "courses";
+@import "organizations";
+
+.ui-menu {
+  border: 1px solid black;
+  border-radius: 3px;
+  background-color: rgba(120, 60%, 70%, 0.9);
+  color: black;
+  text-weight: bold;
+  list-style-type: none;
+  margin-left: -20px;
+}
+
+.tooltip.in {
+  opacity: 1;
+}
+
+#link_on {
+  color: inherit;
+  text-decoration: none;
+}

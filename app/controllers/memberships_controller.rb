@@ -17,7 +17,7 @@ class MembershipsController < ApplicationController
   def destroy
     authorize @organization, policy_class: MembershipPolicy
     if @membership.destroy
-      flash[:success] = "User @#{@membership.user.profile.nickname} was successfully kicked from the organization"
+      flash[:success] = "User @#{@membership.user.email} was successfully kicked from the organization"
     else
       flash[:notice] = 'Error kicking a user from an organization'
     end

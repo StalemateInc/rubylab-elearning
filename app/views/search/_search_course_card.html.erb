@@ -1,0 +1,5 @@
+<div class="mt-2">
+  <h4><%= "Course \"#{course.name}\"" %></h4>
+  <span><%= course.description.truncate(100) %></span>
+  <%= link_to "More", course_path(course), class: 'btn btn-sm btn-primary' %>
+</div>

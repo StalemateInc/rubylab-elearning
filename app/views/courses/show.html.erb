@@ -1,8 +1,6 @@
 <h1>
   Course "<%= @course.name %>"
-  <% if user_signed_in? %>
-      <%= render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } %>
-  <% end %>
+  <%= render partial: 'courses/favorite_button', locals: { course: @course, user: current_user } if user_signed_in? %>
 </h1>
 
 <%= image_tag @course.image.content.url %>
@@ -11,15 +9,21 @@
 <p>Difficulty: <%= @course.difficulty %></p>
 <p>Visibility: <%= @course.visibility %></p>
 <p>Author: <%= @course.owner.instance_of?(User) ? "#{@course.owner.profile.name} #{@course.owner.profile.surname}" : @course.owner.name %></p>
+<p id="average-rating">Rating: <%= @course.rating ? @course.rating : 'Not rated yet' %></p>
 
 <% if user_signed_in? %>
-  <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } %>
-  <% if !@course.archived? %>
+
+  <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } unless @course.in?(current_user.successfully_completed_courses) %>
+  <% unless @course.archived? %>
+    <%= link_to 'Back to course', page_course_path(@course, @participation.page), id: 'back-to-course-button', class: 'btn btn-md btn-primary' if @course.in?(current_user.enrolled_courses) && @participation.page %>
     <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
-    <% if current_user.admin? || @course.owner?(current_user) && !@course.published? %>
-      <%= link_to 'Publish', publish_course_path(@course), method: :patch, class: 'btn btn-md btn-primary course_publish' %>
+    <% if current_user.admin? || @course.owner?(current_user) %>
+      <%= link_to 'Publish', publish_course_path(@course), method: :patch, class: 'btn btn-md btn-primary course_publish' if !@course.published? && !@course.pages.empty? %>
+      <%= link_to 'To pages', pages_course_path(@course), class: 'btn btn-info btn-md' %>
     <% end %>
-    <%= link_to 'To pages', pages_course_path(@course), class: 'btn btn-info btn-md' %>
+    <% if current_user.admin? %>
+      <%= link_to 'Check answers', check_course_path(@course), class: 'btn btn-primary' %>
+    <% end %>
   <% end %>
 <% end %>
 <%= link_to 'Back', courses_path, class: 'btn btn-info btn-md' %>

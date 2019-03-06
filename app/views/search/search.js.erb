@@ -1,0 +1,13 @@
+var answers_div = $('#found-results');
+answers_div.empty();
+<% if @results %>
+  <% @results.each do |result| %>
+    <% if result.instance_of?(Course) %>
+      answers_div.append('<%= j render partial: 'search/search_course_card', locals: { course: result } %>');
+    <% else %>
+      answers_div.append('<%= j render partial: 'search/search_organization_card', locals: { organization: result } %>');
+    <% end %>
+  <% end %>
+<% else %>
+  answers_div.append('<%= j render inline: '<h4>No results found.</h4>' %>');
+<% end %>
