@@ -17,7 +17,6 @@ class CheckController < ApplicationController
 
   # POST /courses/:id/check/:user_id/grade
   def grade
-    binding.pry
     FinalizeCourseCompletion.call(user: @user,
                                   course: @course,
                                   checked_text_questions: checked_params)

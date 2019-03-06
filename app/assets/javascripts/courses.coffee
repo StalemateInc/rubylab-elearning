@@ -104,7 +104,7 @@ $(document).on 'turbolinks:load', ->
 
 	$('#rating-submit').click ->
 		$.ajax
-      url: window.location.href + '/rate'
+      url: window.location.href.replace(/(pages\/\d+)/, 'rate')
       type: 'PATCH'
       data: rating: $('#rating').val()
     return
