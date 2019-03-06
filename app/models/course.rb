@@ -27,6 +27,19 @@ class Course < ApplicationRecord
   validates :description, length: { maximum: 500 }
   validate :check_visibility_and_owner
 
+  def self.accessible_organizations_courses(user)
+    where(ownership: Ownership.where(ownable: user.organizations), visibility: [:organization, :everyone])
+  end
+
+  def self.accessible_user_courses(user)
+    where(ownership: Ownership.where(ownable_type: 'User'), visibility: :everyone)
+        .union(user.allowed_courses.where(ownership: Ownership.where(ownable_type: 'User')))
+  end
+
+  def self.recommended_courses(user)
+    where.not(id: user.completed_courses).where.not(id: user.enrolled_courses).order('rating DESC')
+  end
+
   scope :search_import, -> { includes(:course_accesses) }
   pg_search_scope :full_text_search, against: %i[name description], using: { tsearch: { prefix: true } }
 
