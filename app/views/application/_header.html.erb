@@ -25,7 +25,7 @@
       <%= link_to "unimpersonate",
         stop_impersonating_path(current_user), method: :post, style: 'margin-right: 5px;', class: 'btn btn-outline-success' %>
     <% end %>
-    <%= link_to "#{current_user.email}", user_dashboard_path(current_user), style: 'margin-right: 5px;', class: 'btn btn-outline-success' %>
+    <%= link_to "#{current_user.email}", user_dashboard_path, style: 'margin-right: 5px;', class: 'btn btn-outline-success' %>
     <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger') %>
   </div>
 <% else %>
