@@ -23,8 +23,13 @@ class User < ApplicationRecord
   has_many :favorite_courses, dependent: :destroy
   has_many :favorites, through: :favorite_courses, source: :course
   has_many :impersonation_histories, class_name: 'ImpersonationHistory', foreign_key: :impersonator_id
+  has_many :completed_courses, through: :completion_records, source: :course
 
   accepts_nested_attributes_for :profile
+
+  def successfully_completed_courses
+    Course.where(id: completion_records.where(status: :passed))
+  end
 
   def password_match?
     self.errors[:password] << I18n.t('errors.messages.blank') if password.blank?

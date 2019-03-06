@@ -1,4 +1,4 @@
-<% if !participation %>
+<% if !participation  %>
     <%= link_to 'Enroll', create_participation_path(course), method: :post, 
                 remote: true, class: 'btn btn-md btn-primary course_enroll' if course.published? %>
 <% else %>

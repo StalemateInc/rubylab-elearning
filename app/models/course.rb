@@ -8,6 +8,7 @@ class Course < ApplicationRecord
   has_many :students, through: :participations, source: :user
   has_many :certificates, dependent: :destroy
   has_many :pages, dependent: :destroy
+  has_many :questions, through: :pages
   has_many :completion_records, dependent: :destroy
   has_many :favorite_courses, dependent: :destroy
   has_many :user_answers, dependent: :destroy
