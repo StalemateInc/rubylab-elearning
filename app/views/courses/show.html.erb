@@ -16,14 +16,6 @@
   <%= render partial: 'courses/enroll_button', locals: { course: @course, participation: @participation } unless @course.in?(current_user.successfully_completed_courses) %>
   <% unless @course.archived? %>
     <%= link_to 'Back to course', page_course_path(@course, @participation.page), id: 'back-to-course-button', class: 'btn btn-md btn-primary' if @course.in?(current_user.enrolled_courses) && @participation.page %>
-    <% if @participation %>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="rating-btn">
-        Rate course
-      </button>
-      <div id="rating-window">
-        <%= render partial: 'courses/rating', locals: { course: @course } %>
-      </div>
-    <% end %>
     <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-md btn-warning' if policy(@course).edit? %>
     <% if current_user.admin? || @course.owner?(current_user) %>
       <%= link_to 'Publish', publish_course_path(@course), method: :patch, class: 'btn btn-md btn-primary course_publish' if !@course.published? && !@course.pages.empty? %>
