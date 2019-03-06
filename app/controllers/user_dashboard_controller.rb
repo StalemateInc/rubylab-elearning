@@ -5,7 +5,7 @@ class UserDashboardController < ApplicationController
 
   # GET /user
   def index
-    @favorite_courses = FavoriteCourse.where(user: current_user)
+    @favorite_courses = current_user.favorites.limit(5)
   end
 
 end

@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="row">
     <div class="col-md-5"></div>
@@ -8,19 +7,18 @@
     <div class="col-md-1 my-1">
       <div class="h2">
         <%= link_to(new_course_path) do %>
-        <i class="fas fa-plus"></i>
-      <% end %>
+          <i class="fas fa-plus"></i>
+        <% end %>
     </div>
-  </div>
-  <div class="col-md-1 my-1">
-    <%= render'courses/sort_menu' %>
   </div>
 </div>
 <hr>
 <div class="row">
   <div class="col-md-3">
-    <div class="card">
+    <div class="card" id="side-bar">
       <div class="card-body">
+        <h5 class="text-center">Sorting</h5>
+          <%= render'courses/sort_menu' %>
         <h5 class="text-center">Filters</h5>
         <div class="form-group">
           <%= render 'courses/label_menu' %>
@@ -28,16 +26,8 @@
       </div>
     </div>
   </div>
-  <div class="col-md-9">
-    <% @courses.each do |course| %>
-      <%= render 'courses/card', course: course %>
-    <% end %>
-  </div>
-</div>
-<div class="row my-5">
-  <div class="col-md-5"></div>
-  <div class="col-md-6">
-    <%= will_paginate @courses, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+  <div class="col-md-9" id="course-list">
+    <%= render 'courses/card', courses: @courses %>
   </div>
 </div>
 </div>

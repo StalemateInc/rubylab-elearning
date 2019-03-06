@@ -37,6 +37,7 @@
           <% end %>
           <div class="form-action">
             <%= submit_tag('Finish revision', class: 'btn btn-md btn-success', id: 'finish-revision-button') %>
+            <%= link_to 'Back', check_course_path(@course), class: 'btn btn-info btn-md' %>
           </div>
           <hr/>
         <% end %>

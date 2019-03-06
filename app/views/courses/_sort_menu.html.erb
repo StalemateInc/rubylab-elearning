@@ -1,10 +1,12 @@
-<div class="h2">
-  <i class="fas fa-sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-  <div class="dropdown-menu">
-    <%= link_to 'Name', courses_path({keyword: 'name'}), class: 'dropdown-item' %>
-    <%= link_to 'Course graduates', courses_path({keyword: 'count'}), class: 'dropdown-item' %>
-    <%= link_to 'Rating', courses_path({keyword: 'rate'}), class: 'dropdown-item' %>
-    <%= link_to 'Newest', courses_path({keyword: 'new'}), class: 'dropdown-item' %>
-    <%= link_to 'Oldest', courses_path({keyword: 'old'}), class: 'dropdown-item' %>
+<%= simple_form_for :sort, remote: true, url: courses_sortable_path, method: :get do |f| %>
+  <div class="form-row">
+    <div class="col-md-8">
+      <%= f.input :sort_by, label: 'Sort by', collection: @sort_by, include_blank: false,
+          required: false, input_html: { id: 'sort_by_course' } %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :direction, label: nil, collection: {'￪': 'asc', '￬': 'desc'},
+          include_blank: false, required: false, input_html: { id: 'sort_direction_course' } %>
+    </div>
   </div>
-</div>
+<% end %>

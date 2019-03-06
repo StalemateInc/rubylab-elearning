@@ -1,18 +1,17 @@
 <div class="row">
   <div class="col-md-9"></div>
-  <div class="col-md-2">
-    <div class="btn-group">
-      <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Sort by
-      </button>
-      <div class="dropdown-menu">
-        <%= link_to 'Words A-Z' , organizations_path({keyword: 'wordsA'}), class: 'dropdown-item' %>
-        <%= link_to 'Words Z-A' , organizations_path({keyword: 'wordsZ'}), class: 'dropdown-item' %>
-        <%= link_to 'Courses' , organizations_path({keyword: 'course'}), class: 'dropdown-item' %>
-        <%= link_to 'Members' , organizations_path({keyword: 'members'}), class: 'dropdown-item' %>
-        <%= link_to 'Newest' , organizations_path({keyword: 'new'}), class: 'dropdown-item' %>
-        <%= link_to 'Oldest' , organizations_path({keyword: 'old'}), class: 'dropdown-item' %>
+  <div class="col-md-3">
+    <%= simple_form_for :sort, remote: true, url: organizations_sortable_path, method: :get do |f| %>
+      <div class="form-row">
+        <div class="col-md-8">
+          <%= f.input :sort_by, label: 'Sort by', collection: @sort_by, include_blank: false,
+              required: false, input_html: { id: 'sort_by_org' } %>
+        </div>
+        <div class="col-md-4">
+          <%= f.input :direction, label: nil, collection: {'￪': 'asc', '￬': 'desc'},
+              include_blank: false, required: false, input_html: { id: 'sort_direction_org' } %>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 </div>

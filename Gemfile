@@ -40,12 +40,15 @@ gem 'bootstrap'
 gem 'carrierwave'
 gem 'combine_pdf'
 gem 'ckeditor'
-gem 'font-awesome-sass'
+# gem 'font-awesome-sass'
+gem 'font_awesome5_rails'
 gem 'mini_magick'
+gem 'rails_admin'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'select2-rails'
+gem 'bootstrap-slider-rails'
 
 gem 'devise'
 gem 'figaro'
@@ -54,8 +57,6 @@ gem 'prawn'
 gem 'pundit'
 gem 'sidekiq'
 gem 'whenever', require: false
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
 gem 'bootstrap-slider-rails'
@@ -97,7 +98,6 @@ group :test do
   gem 'rspec-sidekiq'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
-  gem 'elasticsearch-extensions'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

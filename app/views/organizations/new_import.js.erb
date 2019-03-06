@@ -1,8 +1,0 @@
-$('#csv-import').hide();
-$('.csv-import').html('<%= j render "form_import" %>');
-let countEmail = 1;
-$('#email-from-input').on('click', function() {
-  $('.custom-emails').append('<label class="form-control-label string" for="organization_email">Email '+
-  + countEmail +'</label><input type="text" name="organization[email][]" class="form-control" /><br />');
-  countEmail += 1;
-});

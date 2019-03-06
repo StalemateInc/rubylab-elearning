@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_22_075737) do
+ActiveRecord::Schema.define(version: 2019_03_04_123510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 2019_02_22_075737) do
     t.datetime "updated_at", null: false
     t.bigint "question_id"
     t.index ["question_id"], name: "index_answer_lists_on_question_id"
+  end
+
+  create_table "assessments", force: :cascade do |t|
+    t.integer "value"
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_assessments_on_course_id"
+    t.index ["user_id"], name: "index_assessments_on_user_id"
   end
 
   create_table "certificates", force: :cascade do |t|
@@ -77,6 +87,8 @@ ActiveRecord::Schema.define(version: 2019_02_22_075737) do
     t.text "description"
     t.integer "status", default: 0
     t.integer "visibility", default: 0
+    t.string "image"
+    t.integer "rating", default: 0
   end
 
   create_table "favorite_courses", force: :cascade do |t|
@@ -133,6 +145,7 @@ ActiveRecord::Schema.define(version: 2019_02_22_075737) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "state"
+    t.string "image"
     t.index ["name"], name: "index_organizations_on_name", unique: true
   end
 
@@ -180,6 +193,7 @@ ActiveRecord::Schema.define(version: 2019_02_22_075737) do
     t.date "birthday"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
     t.index ["nickname"], name: "index_profiles_on_nickname", unique: true
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
@@ -223,6 +237,8 @@ ActiveRecord::Schema.define(version: 2019_02_22_075737) do
   end
 
   add_foreign_key "answer_lists", "questions"
+  add_foreign_key "assessments", "courses"
+  add_foreign_key "assessments", "users"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
   add_foreign_key "ownerships", "courses"

@@ -3,25 +3,13 @@
 class CoursesController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_course, except: %i[index create new filter]
-  before_action :set_keyword, only: :index
+  before_action :set_course, except: %i[index create new sortable]
 
   # GET /courses
   def index
-    @courses = Course.all
-
-    @courses = @courses.reject do |course|
-      if course.individuals?
-        !course.owner?(current_user) && !current_user.in?(course.allowed_users)
-      elsif course.organization?
-        !course.owner?(current_user) && !current_user.in?(course.owner.users)
-      end
-    end.reject do |course|
-      course.drafted? && !course.owner?(current_user)
-    end
-
-    @courses = get_courses
-
+    @sort_by = { 'Name': 'name', 'Completed count': 'completion_records',
+                 'Rating': 'rating', 'Creation date': 'created_at' }
+    @courses = get_all_courses
   end
 
   # POST /courses
@@ -46,7 +34,7 @@ class CoursesController < ApplicationController
       flash[:success] = 'You have successfully created the course'
       redirect_to @course
     else
-      flash[:notice] = 'An error occurred while creating the course'
+      flash[:danger] = 'An error occurred while creating the course'
       redirect_back(fallback_location: root_path)
     end
   end
@@ -113,7 +101,7 @@ class CoursesController < ApplicationController
       flash[:success] = 'You have successfully archived the course'
       redirect_to courses_path
     else
-      flash[:notice] = 'An error occurred while archiving the course'
+      flash[:danger] = 'An error occurred while archiving the course'
       redirect_back(fallback_location: root_path)
     end
   end
@@ -121,18 +109,35 @@ class CoursesController < ApplicationController
   # PATCH /courses/:id/publish
   def publish
     authorize @course
-    if @course.pages.empty?
-      flash[:danger] = 'You cannot publish a course without pages!'
-    else
-      @course.published!
-      flash[:success] = 'Course successfully published'
-    end
+
+    @course.published!
+    flash[:success] = 'Course successfully published'
     redirect_back(fallback_location: root_path)
   end
 
-  # GET /courses
-  def filter
-    redirect_to courses_path
+  # GET /course/sortable
+  def sortable
+    @courses = get_courses
+    respond_to do |format|
+      format.js
+      format.html
+    end
+  end
+
+  # PATCH /courses/:id/rate
+  def rate
+    if Assessment.find_by(user: current_user, course: @course).nil?
+      rating = params[:rating]
+      Assessment.create(value: rating, user: current_user, course: @course)
+      new_rating = @course.rating ? (@course.rating.to_i + rating.to_i) / Assessment.where(course: @course).count : rating
+      @course.update(rating: new_rating)
+      flash[:success] = 'Your rating successfully recorded'
+    else
+      flash[:danger] = 'You have already rated this course.'
+    end
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
@@ -142,35 +147,62 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(%i[name description duration difficulty visibility])
+    params.require(:course).permit(%i[name description duration difficulty visibility image remove_image])
+  end
+
+  def get_all_courses 
+    courses = Course.all
+    courses.reject do |course|
+      if course.individuals?
+        !course.owner?(current_user) && !current_user.in?(course.allowed_users)
+      elsif course.organization?
+        !course.owner?(current_user) && !current_user.in?(course.owner.users)
+      end
+    end.reject do |course|
+      course.drafted? && !course.owner?(current_user)
+    end
   end
 
   def get_courses
-    case @keyword
-    when 'name'
-      courses = Course.where(visibility: 0).order(name: :desc).paginate(page: params[:page], per_page: 5)
-    when 'count'
-      courses = Course.where(visibility: 0).left_outer_joins(:completion_records).group(:id).order('COUNT(completion_records.id) DESC').paginate(page: params[:page], per_page: 5)
-    when 'rate'
-      # Need add rating for couse
-      courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
-    when 'new'
-      courses = Course.where(visibility: 0).order(created_at: :desc).paginate(page: params[:page], per_page: 5)
-    when 'old'
-      courses = Course.where(visibility: 0).order(created_at: :asc).paginate(page: params[:page], per_page: 5)
-    when 'favorites'
-      courses = Course.where(visibility: 0).joins(:favorite_courses).paginate(page: params[:page], per_page: 5)
+    courses = []
+    if sort_params[2] == 'false' && sort_params[3] == 'false'
+      courses = get_all_courses
+    elsif sort_params[2] == 'true' && sort_params[3] == 'false'
+      courses = current_user.favorites.to_a
+    elsif sort_params[2] == 'false' && sort_params[3] == 'true'
+      courses << current_user.organizations.map(&:created_courses)
+      courses.flatten!
     else
-      courses = Course.where(visibility: 0).paginate(page: params[:page], per_page: 5)
+      current_user.favorites.map do |course|
+        courses << course if course.owner.in?(current_user.organizations)
+      end
+    end
+
+    sort_by = sort_params[0] + '_' + sort_params[1]
+    case sort_by
+    when 'name_desc'
+      courses.sort_by!(&:name).reverse!
+    when 'name_asc'
+      courses.sort_by!(&:name)
+    when 'completion_records_desc'
+      courses.sort_by! { |course| course.completion_records.count }.reverse!
+    when 'completion_records_asc'
+      courses.sort_by! { |course| course.completion_records.count }
+    when 'rating_desc'
+      courses.sort_by!(&:rating).reverse!
+    when 'rating_asc'
+      courses.sort_by!(&:rating)
+    when 'created_at_desc'
+      courses.sort_by!(&:created_at).reverse!
+    when 'created_at_asc'
+      courses.sort_by!(&:created_at)
+    else
+      courses
     end
     courses
   end
 
-  def set_keyword
-    @keyword = keyword_params
-  end
-
-  def keyword_params
-    params[:keyword].nil? ? nil : params.require(:keyword)
+  def sort_params
+    params[:sort].require(%i[sort_by direction favorites my_org])
   end
 end

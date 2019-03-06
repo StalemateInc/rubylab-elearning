@@ -12,6 +12,17 @@
               <div class="row">
                 <div class="col">
                   <div class="form-inputs">
+                     <% if @profile.image? %>
+                      <%= image_tag @profile.image.content.url %> 
+                      <div>
+                        <%= label_tag :remove_image do %>
+                          Remove image
+                          <%= f.check_box :remove_image %>
+                        <% end %>
+                      </div>
+                    <% end %>
+                    <%= f.input :image, label: 'Select image', as: :file %>
+
                     <%= f.input :name, label: "Name", required: true, input_html: { autocomplete: "name" } %>
                     <%= f.input :surname, label: "Surname", required: true, input_html: { autocomplete: "surname" } %>
                     <%= f.input :nickname, label: "Nickname", required: true, input_html: { autocomplete: "nickname" } %>

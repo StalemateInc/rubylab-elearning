@@ -17,6 +17,7 @@ class CheckController < ApplicationController
 
   # POST /courses/:id/check/:user_id/grade
   def grade
+    binding.pry
     FinalizeCourseCompletion.call(user: @user,
                                   course: @course,
                                   checked_text_questions: checked_params)
@@ -49,6 +50,6 @@ class CheckController < ApplicationController
   end
 
   def checked_params
-    params.require(:checked)
+    params.permit(checked: [])
   end
 end
