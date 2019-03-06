@@ -1,0 +1,74 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: "user_dashboard/menu", locals: { active: :dashboard } %>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+          <div class="container-fluid">
+            <h2>Dashboard</h2>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                Current courses:
+                <div class="panel-stub">
+                  <% @enrolled_courses.each do |course| %>
+                    <%= render partial: 'user_dashboard/info_item', locals: { course: course } %>
+                  <% end %>
+                </div>
+                <%= link_to 'More', '#', class: 'btn btn-sm btn-secondary' %>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                Organizations courses:
+                <div class="panel-stub">
+                  <% @organization_courses.each do |course| %>
+                    <%= render partial: 'user_dashboard/info_item', locals: { course: course } %>
+                  <% end %>
+                </div>
+                <%= link_to 'More', '#', class: 'btn btn-sm btn-secondary' %>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                User-created courses:
+                <div class="panel-stub">
+                  <% @user_courses.each do |course| %>
+                    <%= render partial: 'user_dashboard/info_item', locals: { course: course } %>
+                  <% end %>
+                </div>
+                <%= link_to 'More', '#', class: 'btn btn-sm btn-secondary' %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                Favourite courses:
+                <div class="panel-stub">
+                  <% @favorite_courses.each do |course| %>
+                    <%= render partial: 'user_dashboard/info_item', locals: { course: course } %>
+                  <% end %>
+                </div>
+                <%= link_to 'More', '#', class: 'btn btn-sm btn-secondary' %>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                Last completed courses:
+                <div class="panel-stub">
+                  <% @favorite_courses.each do |course| %>
+                    <%= render partial: 'user_dashboard/info_item', locals: { course: course } %>
+                  <% end %>
+                </div>
+                <%= link_to 'More', '#', class: 'btn btn-sm btn-secondary' %>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                Recommended courses:
+                <div class="panel-stub">
+                  <% @recommended_courses.each do |course| %>
+                    <%= render partial: 'user_dashboard/info_item', locals: { course: course } %>
+                  <% end %>
+                </div>
+                <%= link_to 'More', '#', class: 'btn btn-sm btn-secondary' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+// Place all the styles related to the Course controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#rating-div {
+  text-align: center;
+  margin: auto;
+}
+
+#rating-frown {
+  margin-right: 2%;
+  color: red;
+}
+
+#rating-smile {
+  margin-left: 2%;
+  color: green;
+}
+
+#rating-div .slider-track-high {
+  background: red;
+}
+
+#rating-div .slider-selection {
+  background: green;
+}
+
+#course-card {
+  max-height: 300px;
+  min-height: 300px;
+  min-width: 500px;
+  position: relative;
+}
+
+#card-bottom-icons {
+  position: absolute;
+  bottom: 0;
+  right: 10%;
+}
+
+#side-bar {
+  min-width: 250px;
+}
+
+#course-card-img {
+  min-width: 250px;
+}

@@ -1,0 +1,3 @@
+let membership_div = $('#organization-member-<%= @membership.id %>');
+membership_div.remove();
+force_flash('<%= j render 'layouts/flash' %>');

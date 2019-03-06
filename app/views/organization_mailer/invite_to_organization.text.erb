@@ -1,0 +1,5 @@
+Hello <%= @email %>!
+You became a part of the organization: <%= @organization.name %>
+Time when organization added you: <%= Time.now %>
+You can follow to organization through the link below:
+<%= link_to @organization.name, organization_url(@organization.id) %>

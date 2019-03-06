@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <%= link_to root_path, class: 'navbar-brand' do %>
+  <%= image_tag 'elearning.png', width: '30', height: '30', class: 'd-inline-block align-top' %>
+  <div class="navbar-brand">
+    eLearning
+  </div>
+<% end %>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <%= link_to 'Courses', courses_path, class: 'nav-link'%>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'Organizations', organizations_path, class: 'nav-link' %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'Search', search_path, class: 'nav-link' %>
+    </li>
+  </ul>
+</div>
+<form class="form-inline input-group" style="max-width: 300px">
+  <input class="form-control navbar-input typeahead" type="search" placeholder="Search" aria-label="Search" data-user="<%= current_user ? current_user.id : nil %>">
+  <div class="input-group-append">
+    <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+  </div>
+</form>
+<% if user_signed_in? %>
+  <div class="navbar-nav">
+    <% if true_user != current_user %>
+      <%= link_to "unimpersonate",
+        stop_impersonating_path(current_user), method: :post, style: 'margin-right: 5px;', class: 'btn btn-outline-success' %>
+    <% end %>
+    <%= link_to "#{current_user.email}", user_dashboard_path, style: 'margin-right: 5px;', class: 'btn btn-outline-success' %>
+    <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger') %>
+  </div>
+<% else %>
+  <div class="form-actions">
+    <%= link_to 'Sign in', new_user_session_path, class: 'btn btn-outline-success' %>
+    <%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-outline-danger' %>
+  </div>
+<% end %>
+</nav>

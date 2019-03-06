@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="content-wrapper">
+        <%= render inline: @page.html %>
+      </div>
+
+      <div class="test-display">
+        <%= render partial: 'pages/test', locals: { questions: @questions, answers: @answers, user_answers: @user_answers } %>
+      </div>
+    </div>
+  </div>
+</div>

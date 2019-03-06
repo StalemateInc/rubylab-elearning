@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: "user_dashboard/menu", locals: { active: :certificates } %>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-certificates" role="tabpanel" aria-labelledby="v-pills-certificates-tab">
+          <h1>Certificate: <%= @certificate.course.name %> </h1>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-8">
+                <style></style>
+                <div class='embed-container'>
+                  <iframe src="/uploads/certificates/<%= @certificate.filename %>"></iframe>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <p><strong>Earned at:</strong> <%= @certificate.completion_record.date.strftime("%B %d, %Y") %></p>
+                <p><strong>Score:</strong> <%= @certificate.completion_record.score %>%</p>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <%= link_to "Back", certificates_path, class: 'btn btn-md btn-primary' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

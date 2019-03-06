@@ -1,0 +1,12 @@
+<%= simple_form_for :sort, remote: true, url: courses_sortable_path, method: :get do |f| %>
+  <div class="form-row">
+    <div class="col-md-8">
+      <%= f.input :sort_by, label: 'Sort by', collection: @sort_by, include_blank: false,
+          required: false, input_html: { id: 'sort_by_course' } %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :direction, label: nil, collection: {'￪': 'asc', '￬': 'desc'},
+          include_blank: false, required: false, input_html: { id: 'sort_direction_course' } %>
+    </div>
+  </div>
+<% end %>

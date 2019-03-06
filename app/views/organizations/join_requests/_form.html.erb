@@ -1,0 +1,10 @@
+<div class="comment-form">
+  <%= simple_form_for request, url: decline_request_organization_path(@organization, request), method: :put, remote: true do |f| %>
+    <%= f.input :comment, label: false, placeholder: 'Specify the decline reason (optional)', required: false %>
+    <div class="float-left">
+      <%= f.submit 'Decline', class: 'btn btn-md btn-danger' %>
+      <%= link_to 'Cancel', '#', data: { id: request.id }, class: 'btn btn-md btn-primary cancel-decline-button' %>
+    </div>
+    <div class="clearfix"></div>
+  <% end %>
+</div>

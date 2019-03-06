@@ -1,0 +1,7 @@
+<div id="user-request-<%= request.id %>-pending" class="user-request-pending-item">
+  <p><%= "[#{request.created_at}] Request sent to \"#{request.organization.name}\"" %></p>
+  <%= link_to "Cancel", cancel_request_path(request),
+              remote: :true,
+              method: :delete,
+              class: 'btn btn-sm btn-danger' %>
+</div>

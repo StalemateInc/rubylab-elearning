@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="row mx-3">
+    <div class="col-lg-2">
+      <%= render partial: "user_dashboard/menu", locals: { active: :certificates } %>
+    </div>
+    <div class="col-lg-10">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-certificates" role="tabpanel" aria-labelledby="v-pills-certificates-tab">
+          <h1>Your certificates: </h1>
+          <div class="container-fluid">
+            <div class="row">
+              <% if @certificates.empty? %>
+                <h3>No certificates yet. Finish a course to earn one!</h3>
+              <% else %>
+              <div class="col-md-3">
+                <% @certificates.each do |certificate| %>
+                  <%= render partial: "certificates/card", locals: { certificate: certificate } %>
+                <% end %>
+              <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

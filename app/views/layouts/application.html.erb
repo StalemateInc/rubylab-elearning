@@ -4,17 +4,29 @@
     <title>Elearning</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= yield :dashboard_panel_resizer %>
   </head>
 
   <body>
-    <div id="devise-flash">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+    <div id="container">
+      <div id="header">
+        <%= render 'application/header' %>
+      </div>
+      <div id="body">
+        <div id="notification-area" class="m-2">
+          <%= render 'layouts/flash' %>
+        </div>
+        <%= yield %>
+      </div>
+
+      <div id="footer">
+        <%= render 'application/footer' %>
+      </div>
     </div>
 
-    <%= yield %>
   </body>
 </html>

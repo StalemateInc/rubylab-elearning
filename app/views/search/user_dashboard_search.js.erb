@@ -1,0 +1,10 @@
+var participations_div = $('#found-results');
+participations_div.empty();
+<% if @results.blank? %>
+  participations_div.append('<%= j render inline: '<h4>Sorry, no courses found.</h4>' %>');
+<% else %>
+  <% @results.each do |result| %>
+    <%- render_string = "<hr/>#{result.course.name}<div class='participation-actions'>#{link_to 'Leave course', participation_path(result), method: :delete, remote: :true, class: 'btn btn-md btn-danger'}</div><hr/>" %>
+    participations_div.append('<%= j render inline: render_string %>');
+  <% end %>
+<% end %>
