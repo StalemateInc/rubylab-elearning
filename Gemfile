@@ -39,7 +39,13 @@ gem 'aasm'
 gem 'active_record_union'
 gem 'bootstrap'
 gem 'bootstrap-multiselect-rails'
-gem 'font-awesome-sass'
+gem 'bootstrap-slider-rails'
+gem 'carrierwave'
+gem 'ckeditor'
+gem 'combine_pdf'
+gem 'font_awesome5_rails'
+gem 'mini_magick'
+gem 'rails_admin'
 gem 'twitter-typeahead-rails'
 
 gem 'jquery-rails'
@@ -50,12 +56,13 @@ gem 'devise'
 gem 'figaro'
 gem 'interactor', '~> 3.0'
 gem 'pg_search'
+gem 'prawn'
 gem 'pundit'
+gem 'searchkick'
 gem 'sidekiq'
 gem 'whenever', require: false
-gem 'searchkick'
-# gem 'elasticsearch-model', git: 'git://github.com/elastic/elasticsearch-rails.git', branch: 'master'
-# gem 'elasticsearch-rails', git: 'git://github.com/elastic/elasticsearch-rails.git', branch: 'master'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
 
 # order matters, do not change
 gem 'simple_form'
@@ -72,11 +79,13 @@ group :development, :test do
   gem 'faker'
   gem 'pry'
   gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'rspec-rails', '~> 3.8'
   gem 'rubocop', require: false
 end
 
 group :development do
+  gem 'bullet'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
@@ -89,9 +98,9 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
+  gem 'rspec-sidekiq'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
-  gem 'elasticsearch-extensions'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

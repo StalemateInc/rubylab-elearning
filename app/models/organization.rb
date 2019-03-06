@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
+  mount_uploader :image, OrganizationImageUploader
   include AASM
   include PgSearch
   searchkick word_middle: %i[name description], callbacks: :async

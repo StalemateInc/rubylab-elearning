@@ -1,0 +1,22 @@
+  <%= form_tag store_answers_course_path(@course, @page), method: :post, remote: true do %>
+    <div class="form-group">
+      <%- question_index = 0 %>
+      <% questions.includes(:answer_list).each do |question| %>
+        <%- answers = question.answer_list %>
+        <%= render inline: render_question_form(question, answers, question_index) %>
+        <%- question_index += 1 %>
+    <% end %>
+    </div>
+    <div class="questions"></div>
+    <div class="form-actions">
+      <%= submit_tag('Save answers', class: 'btn btn-md btn-success', id: 'submit-answers-button') %>
+    </div>
+  <% end %>
+<div class="navigation-buttons">
+  <% if @page.previous_page %>
+    <%= link_to 'Previous page', page_course_path(@course, @page.previous_page), class: 'btn btn-md btn-primary float-left' %>
+  <% end %>
+  <% if @page.next_page %>
+    <%= link_to 'Next page', page_course_path(@course, @page.next_page), class: 'btn btn-md btn-primary float-right' %>
+  <% end %>
+</div>

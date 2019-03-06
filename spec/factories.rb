@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  factory :assessment do
+    
+  end
   factory :invite do
     
   end
@@ -68,7 +71,7 @@ FactoryBot.define do
     name { 'Test Course' }
     duration { 5 }
     difficulty { :unspecified }
-    views { 0 }
+    #views { 0 }
   end
 
   factory :profile do

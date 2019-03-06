@@ -1,4 +1,5 @@
 <h1>Organization "<%= @organization.name %>"</h1>
+<%= image_tag @organization.image.content.url %>
 <p>Description: </p>
 <p><%= @organization.description %></p>
 <% if current_user %>

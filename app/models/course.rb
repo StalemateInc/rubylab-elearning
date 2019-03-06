@@ -3,12 +3,14 @@
 class Course < ApplicationRecord
   include PgSearch
   searchkick word_middle: %i[name description text_owner], callbacks: :async
+  mount_uploader :image, CourseImageUploader
 
   has_one :ownership, dependent: :destroy
   has_many :participations, dependent: :destroy
   has_many :students, through: :participations, source: :user
   has_many :certificates, dependent: :destroy
   has_many :pages, dependent: :destroy
+  has_many :questions, through: :pages
   has_many :completion_records, dependent: :destroy
   has_many :favorite_courses, dependent: :destroy
   has_many :user_answers, dependent: :destroy
@@ -26,7 +28,7 @@ class Course < ApplicationRecord
   validate :check_visibility_and_owner
 
   scope :search_import, -> { includes(:course_accesses) }
-  pg_search_scope :full_text_search, against: [:name, :description], using: { tsearch: { prefix: true } }
+  pg_search_scope :full_text_search, against: %i[name description], using: { tsearch: { prefix: true } }
 
   def search_data
     {
@@ -102,6 +104,10 @@ class Course < ApplicationRecord
   def search_owner
     owned_by = owner
     "#{owned_by.class.name}__#{owned_by.id}"
+  end
+
+  def favorited_by?(user)
+    in?(user.favorites)
   end
 
 end

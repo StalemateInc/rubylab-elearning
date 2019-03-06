@@ -17,36 +17,19 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery-ui
+//= require font_awesome5
 //= require bootstrap
 //= require select2
+//= require bootstrap-slider
 //= require rails.validations
 //= require rails.validations.simple_form.bootstrap4
 //= require bootstrap-multiselect
 //= require twitter/typeahead.min
 //= require jquery.ba-throttle-debounce.min
+//= require ckeditor/init
 //= require_tree .
 
 window.force_flash = function(flash_element_string) {
     let notification_area = $('#notification-area');
     notification_area.empty().append($(flash_element_string));
 };
-
-$(document).on('turbolinks:load', function() {
-  $("#main-search").on('input', function(e) {
-    var difficulty = $("#difficulty-search").val();
-    console.log(e.target.value);
-    console.log(difficulty);
-    $.ajax({
-      type:"GET",
-      url:"/search/autocomplete",
-      dataType:"json",
-      data: {query: e.target.value, difficulty: difficulty},
-      success: function(data) {
-        console.log(data);
-        if(data) {
-          $("#main-search").autocomplete({ source: data });
-        }
-      }
-    }); 
-  });
-});

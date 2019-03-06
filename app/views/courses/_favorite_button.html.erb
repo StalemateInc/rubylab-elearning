@@ -1,0 +1,9 @@
+<% if course.favorited_by?(current_user) %>
+  <%= link_to remove_favorite_course_path(course), method: :delete, remote: true, class: 'btn btn-md btn-primary remove-from-favorite' do %>
+    <i class="fas fa-star"></i>
+  <% end %>
+<% else %>
+  <%= link_to add_favorite_course_path(course), method: :post, remote: true, class: 'btn btn-md btn-primary add-to-favorite' do %>
+    <i class="far fa-star"></i>
+  <% end %>
+<% end %>
