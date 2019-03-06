@@ -16,6 +16,7 @@ class OrganizationsController < ApplicationController
   # POST /organizations
   def create
     @organization = Organization.new(organization_params)
+    Membership.create(user: current_user, organization: @organization, org_admin: true)
     redirect_to @organization if @organization.save
   end
 
