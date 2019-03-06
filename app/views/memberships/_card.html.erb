@@ -14,7 +14,9 @@
       <% end %>
     </div>
     <div class="col float-right">
-      <%= link_to 'Impersonate', impersonate_path(membership.user), method: :post, class: "btn btn-md btn-primary" %>
+      <% if true_user == current_user && membership.user.confirmed? %>
+        <%= link_to 'Impersonate', impersonate_path(membership.user), method: :post, class: "btn btn-md btn-primary" %>
+      <% end %>
       <% unless membership.org_admin? %>
         <%= link_to 'Kick user', destroy_membership_organization_path(@organization, membership), method: :delete, remote: true, class: 'btn btn-md btn-danger' %>
       <% end %>
