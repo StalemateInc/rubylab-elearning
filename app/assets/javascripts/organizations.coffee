@@ -11,4 +11,13 @@ $(document).on 'turbolinks:load', ->
         sort_by: $('#sort_by_org').val()
         direction: @value
     return
+  
+  $('#sort_by_org').on 'change', ->
+    $.ajax
+      url: '/organization/sortable'
+      type: 'GET'
+      data: sort:
+        sort_by: @value
+        direction: $('#sort_direction_org').val()
+    return
   return

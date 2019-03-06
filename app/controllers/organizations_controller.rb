@@ -10,7 +10,7 @@ class OrganizationsController < ApplicationController
   def index
     @sort_by = { 'Name': 'name', 'Members count': 'memberships',
                  'Courses count': 'ownerships', 'Creation date': 'created_at' }
-    @organizations = Organization.all.paginate(page: params[:page], per_page: 10)
+    @organizations = Organization.all
   end
 
   # POST /organizations
@@ -83,23 +83,23 @@ class OrganizationsController < ApplicationController
   def get_organizations
     case sort_params.join('_')
     when 'name_asc'
-      @organizations = Organization.order(:name).paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.order(:name)
     when 'name_desc'
-      @organizations = Organization.order(name: :desc).paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.order(name: :desc)
     when 'ownerships_asc'
-      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) asc').paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) asc')
     when 'ownerships_desc'
-      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) desc').paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.left_outer_joins(:ownerships).group(:id).order('COUNT(ownerships.id) desc')
     when 'memberships_asc'
-      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) asc').paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) asc')
     when 'memberships_desc'
-      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) desc').paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.left_outer_joins(:memberships).group(:id).order('COUNT(memberships.id) desc')
     when 'created_at_asc'
-      @organizations = Organization.order(created_at: :asc).paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.order(created_at: :asc)
     when 'created_at_desc'
-      @organizations = Organization.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.order(created_at: :desc)
     else
-      @organizations = Organization.all.paginate(page: params[:page], per_page: 10)
+      @organizations = Organization.all
     end
   end
 

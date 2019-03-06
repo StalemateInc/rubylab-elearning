@@ -62,8 +62,6 @@ gem 'pundit'
 gem 'searchkick'
 gem 'sidekiq'
 gem 'whenever', require: false
-gem 'will_paginate'
-gem 'will_paginate-bootstrap4'
 
 # order matters, do not change
 gem 'simple_form'
