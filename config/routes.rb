@@ -99,6 +99,8 @@ Rails.application.routes.draw do
   get '/course/sortable', to: 'courses#sortable', as: :courses_sortable
   patch '/courses/:id/rate', to: 'courses#rate', as: :rate_course
   scope :user do
+    post '/impersonate/:id', to: 'impersonization#impersonate', as: :impersonate
+    post '/stop_impersonating/:id', to: 'impersonization#stop_impersonating', as: :stop_impersonating
     get '/', to: 'user_dashboard#index', as: :user_dashboard
     resource :profile, only: %i[show edit update]
     resources :participations, only: %i[index destroy]
