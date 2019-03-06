@@ -15,9 +15,11 @@
     </li>
   </ul>
 </div>
-<form class="form-inline md-form form-sm active-purple-2 mt-2">
-  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">
-  <i class="fas fa-search" aria-hidden="true"></i>
+<form class="form-inline input-group" style="max-width: 300px">
+  <input class="form-control navbar-input typeahead" type="search" placeholder="Search" aria-label="Search" data-user="<%= current_user ? current_user.id : nil %>">
+  <div class="input-group-append">
+    <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+  </div>
 </form>
 <% if user_signed_in? %>
   <div class="form">

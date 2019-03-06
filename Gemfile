@@ -36,30 +36,33 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'aasm'
+gem 'active_record_union'
 gem 'bootstrap'
+gem 'bootstrap-multiselect-rails'
+gem 'bootstrap-slider-rails'
 gem 'carrierwave'
-gem 'combine_pdf'
 gem 'ckeditor'
-# gem 'font-awesome-sass'
+gem 'combine_pdf'
 gem 'font_awesome5_rails'
 gem 'mini_magick'
 gem 'rails_admin'
+gem 'twitter-typeahead-rails'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'select2-rails'
-gem 'bootstrap-slider-rails'
 
 gem 'devise'
 gem 'figaro'
 gem 'interactor', '~> 3.0'
+gem 'pg_search'
 gem 'prawn'
 gem 'pundit'
+gem 'searchkick'
 gem 'sidekiq'
 gem 'whenever', require: false
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
-gem 'bootstrap-slider-rails'
 
 # order matters, do not change
 gem 'simple_form'

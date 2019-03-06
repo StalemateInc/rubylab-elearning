@@ -1,7 +1,12 @@
 # frozen_string_literal: true
+
 require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'home#index'
+
+  get 'search', to: 'search#index', as: 'search'
+  post 'search', to: 'search#search'
+  post 'user_dashboard_search', to: 'search#user_dashboard_search'
 
   authenticate :user, lambda(&:admin) do
     mount Sidekiq::Web => '/sidekiq'
