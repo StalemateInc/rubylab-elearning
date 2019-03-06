@@ -25,6 +25,7 @@ class PagesController < ApplicationController
     @page = Page.new(page_params.merge(course: @course, previous_page: result.previous_page, next_page: result.next_page))
 
     if @page.save
+      create_questions(@page) if params[:answer_list]
       flash[:success] = 'Page was successfully created'
       redirect_to pages_course_path(@course)
     else
@@ -36,12 +37,14 @@ class PagesController < ApplicationController
   # GET /courses/:id/pages/:page_id/edit
   def edit
     authorize @page
+    build_test
   end
 
   # PATCH /courses/:id/pages/:page_id
   def update
     authorize @page
     if @page.update(page_params)
+      create_questions(@page)
       flash[:success] = 'Page update successful.'
     else
       flash[:notice] = 'Failed to update a page.'
@@ -63,23 +66,17 @@ class PagesController < ApplicationController
   # GET /courses/:id/pages/:page_id
   def show
     authorize @page
-    # TODO: check if user has answered the questions, set it to variable
-    # forbid going to next page until user answers the questions
-    # create UserAnswers record if we've got answers
-
+    build_test
     result = MemorizeLastVisitedPage.call(user: current_user, course: @course, page: @page)
-
-    if result.remaining_pages.empty?
-      # go test user answers
-      # if no user answers present or all the values can be tested
-      #   create CompletionRecord with values
-      # if not all the values can be tested
-      #   set await_check to true
-    end
-
   end
 
   private
+
+  def build_test
+    @questions = @page.questions
+    @answers = AnswerList.where(question: @questions)
+    @user_answers = UserAnswer.where(question: @questions)
+  end
 
   def set_page
     @page = Page.find(params[:page_id])
@@ -89,7 +86,46 @@ class PagesController < ApplicationController
     @course = Course.find(params[:id])
   end
 
-  def page_params
-    params.require(:page).permit(%i[html name])
+  def create_questions(page)
+    if params[:answer_list]
+      correct_answers = params.require(:correct_answers).permit!.to_h
+      params[:answer_list].each do |answer_list_params|
+        correct_answer = correct_answers.shift
+        question_params = params[:questions].shift
+        if question_params[:status]
+          status, question_id = question_params[:status].split('-')
+          if status == 'created'
+            update_question(question_id, question_params, answer_list_params, correct_answer)
+          else
+            destroy_question(question_id)
+          end
+        else
+          answer_list = AnswerList.new
+          answer_list.answers = answer_list_params[:answers]
+          answer_list.correct_answers = correct_answer.last.join(' ')
+          answer_list.question = Question.create(content: question_params[:content],
+                                                 question_type: question_params[:question_type],
+                                                 page: page)
+          answer_list.save
+        end
+      end
+    end
   end
+
+  def update_question(question_id, question_params, answer_list_params, correct_answer)
+    question = Question.find(question_id)
+    question.update(content: question_params[:content])
+    question.answer_list.update(answers: answer_list_params[:answers],
+                                correct_answers: correct_answer.last.join(' '))
+  end
+
+  def destroy_question(question_id)
+    question = Question.find(question_id)
+    question.destroy
+  end
+
+  def page_params
+    params.require(:page).permit(:html, :name, answers: [])
+  end
+
 end

@@ -25,6 +25,10 @@ class Page < ApplicationRecord
     [self].concat(Page.find_by_sql(recursive_tree_children_sql))
   end
 
+  def all_questions_answered_by?(user)
+    questions.eager_load(:user_answers).where('user_answers.user_id = ?', user.id).count == questions.size
+  end
+
   private
 
   def set_pages

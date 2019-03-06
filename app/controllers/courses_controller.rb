@@ -3,7 +3,7 @@
 class CoursesController < ApplicationController
   include Pundit
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_course, except: %i[index create new filter sortable]
+  before_action :set_course, except: %i[index create new sortable]
 
   # GET /courses
   def index
