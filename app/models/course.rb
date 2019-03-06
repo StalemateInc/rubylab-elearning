@@ -46,8 +46,8 @@ class Course < ApplicationRecord
     }
   end
 
-  def as_json(options={})
-    super.as_json(options).merge({class: get_class})
+  def as_json(options = { except: :image })
+    super.as_json(options).merge(class: get_class)
   end
 
   def get_class
@@ -81,6 +81,10 @@ class Course < ApplicationRecord
     end
   end
 
+  def favorited_by?(user)
+    in?(user.favorites)
+  end
+
   private
 
   def text_owner
@@ -104,10 +108,6 @@ class Course < ApplicationRecord
   def search_owner
     owned_by = owner
     "#{owned_by.class.name}__#{owned_by.id}"
-  end
-
-  def favorited_by?(user)
-    in?(user.favorites)
   end
 
 end

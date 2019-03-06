@@ -34,8 +34,8 @@ class Organization < ApplicationRecord
     }
   end
 
-  def as_json(options={})
-    super.as_json(options).merge({class: get_class})
+  def as_json(options = { except: :image })
+    super.as_json(options).merge(class: get_class)
   end
 
   def get_class
