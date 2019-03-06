@@ -32,10 +32,10 @@
 </form>
 <div class="navbar-nav">
   <% if true_user != current_user %>
-    <%= link_to "#{true_user.profile.nickname.capitalize} unimpersonate #{current_user.profile.nickname.capitalize}",
+    <%= link_to "unimpersonate",
       stop_impersonating_path(current_user), method: :post, style: 'margin-right: 5px;', class: 'btn btn-outline-success' %>
   <% end %>
-  <%= link_to "#{current_user.profile.nickname.capitalize}", user_dashboard_path(current_user), style: 'margin-right: 5px;', class: 'btn btn-outline-success' %>
+  <%= link_to "#{current_user.email}", user_dashboard_path(current_user), style: 'margin-right: 5px;', class: 'btn btn-outline-success' %>
   <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger') %>
 </div>
 </nav>

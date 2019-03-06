@@ -1,26 +1,27 @@
 class ImpersonizationController < ApplicationController
-  
-
   def impersonate
     unless true_user && current_user && current_user != true_user
       id = current_user.id
       user = User.find(params[:id])
-      impersonate_user(user)
-      @impersonation = ImpersonationHistory.create(started_at: Time.now, impersonator_id: id,
-        target_user_id: user.id)
+      if user.confirmed?
+        impersonate_user(user)
+        @impersonation = ImpersonationHistory.create(started_at: Time.now, impersonator_id: id,
+                                                     target_user_id: user.id)
+      else
+        flash[:danger] = 'You can not impersonate unconfirmed user'
+      end
     end
-    redirect_back(fallback_location: root_path)
+    redirect_to root_path
   end
 
   def stop_impersonating
-    cu = current_user.id
-    tu = true_user.id
+    current_u = current_user.id
+    true_u = true_user.id
     stop_impersonating_user
-    impersonation = ImpersonationHistory.find_by(impersonator_id: tu,
-                                 target_user_id: cu,
-                                 ended_at: nil)
+    impersonation = ImpersonationHistory.find_by(impersonator_id: true_u,
+                                                 target_user_id: current_u,
+                                                 ended_at: nil)
     impersonation.update(ended_at: Time.now)
-    redirect_back(fallback_location: root_path)
+    redirect_to root_path
   end
 end
- 
