@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_03_151629) do
+ActiveRecord::Schema.define(version: 2019_03_04_123510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 2019_03_03_151629) do
     t.integer "status", default: 0
     t.integer "visibility", default: 0
     t.string "image"
-    t.integer "rating"
+    t.integer "rating", default: 0
   end
 
   create_table "favorite_courses", force: :cascade do |t|
@@ -200,7 +200,7 @@ ActiveRecord::Schema.define(version: 2019_03_03_151629) do
 
   create_table "questions", force: :cascade do |t|
     t.text "content", null: false
-    t.integer "type"
+    t.integer "question_type"
     t.bigint "page_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -236,6 +236,7 @@ ActiveRecord::Schema.define(version: 2019_03_03_151629) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "answer_lists", "questions"
   add_foreign_key "assessments", "courses"
   add_foreign_key "assessments", "users"
   add_foreign_key "memberships", "organizations"

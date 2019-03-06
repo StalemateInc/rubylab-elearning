@@ -1,0 +1,33 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <%= form_tag '/search', remote: true, method: :post do %>
+        <div class="form-group">
+          <h5>Search: </h5>
+          <%= label_tag 'search-course-checkbox', 'Courses' %>
+          <%= check_box_tag 'search[entity][]', 'course', nil, id: 'search-course-checkbox', checked: true %>
+          <%= label_tag 'search-organization-checkbox', 'Organizations' %>
+          <%= check_box_tag 'search[entity][]', 'organization', nil,  id: 'search-organization-checkbox', checked: true %>
+        </div>
+        <div id="course-filters" class="form-group">
+          <h5>Filters for courses:</h5>
+          <%= label_tag 'difficulty_filter', 'Difficulty' %>
+          <%= select_tag 'difficulty_filter', options_for_select(Course.difficulties), multiple: true, id: 'difficulty_filter', name: 'search[filters][difficulty][]', class: 'btn btn-md btn-primary' %>
+          <%= label_tag 'visibility_filter', 'Visibility' %>
+          <%= select_tag 'visibility_filter', options_for_select(Course.visibilities), multiple: true, id: 'visibility_filter', name: 'search[filters][visibility][]', class: 'btn btn-md btn-primary' %>
+        </div>
+
+        <div class="input-group mb-3">
+          <%= hidden_field_tag 'search[user_id]', current_user ? current_user.id : nil %>
+          <%= text_field_tag 'search[query]', nil, placeholder: 'Enter your search query here', class: 'form-control' %>
+          <div class="input-group-append">
+            <%= button_tag(type: :submit, class: 'btn btn-outline-secondary') do %>
+              <i class="fas fa-search"></i>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <div id="found-results"></div>
+    </div>
+  </div>
+</div>

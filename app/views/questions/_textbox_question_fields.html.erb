@@ -1,0 +1,9 @@
+<div class="question-fields">
+  <p class="btn btn-outline-danger destroy_link">delete</p>
+  <input name="questions[][content]" value="question content">
+  <div class="answers">
+    <input type="text" name="answer_list[][answers][0]" value="this is a textbox question" style="display: none">
+    <input type="text" name="correct_answers[t<%= Random.rand(1000) %>][]" value="correct answer" style="display: none">
+  </div>
+  <input name="questions[][question_type]" style="display: none" value="textbox">
+</div>

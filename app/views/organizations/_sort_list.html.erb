@@ -4,11 +4,12 @@
     <%= simple_form_for :sort, remote: true, url: organizations_sortable_path, method: :get do |f| %>
       <div class="form-row">
         <div class="col-md-8">
-          <%= f.input :sort_by, label: 'Sort by', collection: @sort_by, include_blank: false, required: false %>
+          <%= f.input :sort_by, label: 'Sort by', collection: @sort_by, include_blank: false,
+              required: false, input_html: { id: 'sort_by_org' } %>
         </div>
         <div class="col-md-4">
           <%= f.input :direction, label: nil, collection: {'￪': 'asc', '￬': 'desc'},
-              include_blank: false, required: false %>
+              include_blank: false, required: false, input_html: { id: 'sort_direction_org' } %>
         </div>
       </div>
     <% end %>

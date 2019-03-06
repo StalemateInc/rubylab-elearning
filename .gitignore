@@ -13,6 +13,7 @@
 !/log/.keep
 !/tmp/.keep
 /dump.rdb
+dump.rdb
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
@@ -32,6 +33,4 @@
 .idea/
 Gemfile.lock
 .ruby-version
-
-#ignore public uploaded files
 /public/uploads/*

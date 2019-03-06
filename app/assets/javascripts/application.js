@@ -23,6 +23,9 @@
 //= require bootstrap-slider
 //= require rails.validations
 //= require rails.validations.simple_form.bootstrap4
+//= require bootstrap-multiselect
+//= require twitter/typeahead.min
+//= require jquery.ba-throttle-debounce.min
 //= require ckeditor/init
 //= require_tree .
 

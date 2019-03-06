@@ -1,7 +1,12 @@
 # frozen_string_literal: true
+
 require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'home#index'
+
+  get 'search', to: 'search#index', as: 'search'
+  post 'search', to: 'search#search'
+  post 'user_dashboard_search', to: 'search#user_dashboard_search'
 
   authenticate :user, lambda(&:admin) do
     mount Sidekiq::Web => '/sidekiq'
@@ -34,7 +39,6 @@ Rails.application.routes.draw do
   end
 
   resources :organizations do
-    
     member do
       # user actions for organizations
       delete '/leave', to: 'organizations#leave', as: :leave
@@ -63,9 +67,13 @@ Rails.application.routes.draw do
       end
     end
   end
-  
+  get '/questions', to: 'questions#new', as: :questions
+  post '/questions/create', to: 'questions#create', as: :add_question
+  post '/questions/add', to: 'questions#render_form', as: :render_question_form
+  delete '/questions/:question_id/destroy', to: 'questions#destroy', as: :destroy_question
+
   get '/organization/sortable', to: 'organizations#sortable', as: :organizations_sortable
-  
+
   resources :courses do
     member do
       get '/pages', to: 'pages#index', as: :pages
@@ -75,6 +83,11 @@ Rails.application.routes.draw do
       get '/pages/:page_id', to: 'pages#show', as: :page
       patch '/pages/:page_id', to: 'pages#update'
       delete '/pages/:page_id', to: 'pages#destroy'
+      post '/pages/:page_id/user_answers', to: 'user_answers#store', as: :store_answers
+      get '/check', to: 'check#index', as: :check
+      get '/check/:user_id', to: 'check#show', as: :user_check
+      post '/check/:user_id/grade', to: 'check#grade', as: :user_grade
+      post '/finish', to: 'check#finish', as: :finish
     end
   end
 
@@ -83,9 +96,11 @@ Rails.application.routes.draw do
   post '/courses/:id/enroll', to: 'participations#create', as: :create_participation
   patch '/courses/:id/publish', to: 'courses#publish', as: :publish_course
   patch '/courses/:id/archive', to: 'courses#archive', as: :archive_course
+  get '/course/sortable', to: 'courses#sortable', as: :courses_sortable
   patch '/courses/:id/rate', to: 'courses#rate', as: :rate_course
-
   scope :user do
+    post '/impersonate/:id', to: 'impersonization#impersonate', as: :impersonate
+    post '/stop_impersonating/:id', to: 'impersonization#stop_impersonating', as: :stop_impersonating
     get '/', to: 'user_dashboard#index', as: :user_dashboard
     resource :profile, only: %i[show edit update]
     resources :participations, only: %i[index destroy]

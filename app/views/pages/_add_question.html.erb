@@ -1,0 +1,15 @@
+<div class="question-buttons">
+  <input name="counter" id="question-counter" value="<%= counter %>>" disabled="disabled" class="d-none"/>
+  <%= form_tag '/questions/add', method: :post, remote: true, class: 'render_form' do %>
+    <input name="type" value="0" style="display: none">
+    <%= submit_tag 'Create textbox question', class: 'btn btn-md btn-primary' %>
+  <% end %>
+  <%= form_tag '/questions/add', method: :post, remote: true, class: 'render_form' do %>
+    <input name="type" value="1" style="display: none">
+    <%= submit_tag 'Create radio question', class: 'btn btn-md btn-primary' %>
+  <% end %>
+  <%= form_tag '/questions/add', method: :post, remote: true, class: 'render_form' do %>
+    <input name="type" value="2" style="display: none">
+    <%= submit_tag 'Create checkbox question', class: 'btn btn-md btn-primary' %>
+  <% end %>
+</div>
