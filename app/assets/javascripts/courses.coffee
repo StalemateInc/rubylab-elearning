@@ -4,7 +4,6 @@
 
 $(document).on 'turbolinks:load', ->
 	$('#course_is_org_creator').change ->
-
 	  orgSelector = $('#course_owner')
 	  orgSelectorDiv = $('.course_owner_div')
 	  visibilitySelector = $('#course_visibility')
@@ -38,13 +37,69 @@ $(document).on 'turbolinks:load', ->
 	    theme: "bootstrap"
 	    width: '100%'
 	  return
-	
-	slider = new Slider('#rating')
-	slider.on 'slide', (sliderValue) ->
-		document.getElementById('rating-val').textContent = sliderValue
+
+	$('#favorites').change ->
+		if @checked
+			$.ajax
+      url: '/course/sortable'
+      type: 'GET'
+      data: sort:
+        sort_by: $('#sort_by_course').val()
+        direction: $('#sort_direction_course').val()
+        favorites: 'true'
+        my_org: $('#myorg').is(":checked")
+		else
+			$.ajax
+      url: '/course/sortable'
+      type: 'GET'
+      data: sort:
+        sort_by: $('#sort_by_course').val()
+        direction: $('#sort_direction_course').val()
+        favorites: 'false'
+        my_org: $('#myorg').is(":checked")
 		return
-	slider.on 'change', (sliderValue) ->
-		document.getElementById('rating-val').textContent = sliderValue.newValue
+
+	$('#myorg').change ->
+		if @checked
+			$.ajax
+      url: '/course/sortable'
+      type: 'GET'
+      data: sort:
+        sort_by: $('#sort_by_course').val()
+        direction: $('#sort_direction_course').val()
+        favorites: $('#favorites').is(":checked")
+        my_org: 'true'
+		else
+			$.ajax
+      url: '/course/sortable'
+      type: 'GET'
+      data: sort:
+        sort_by: $('#sort_by_course').val()
+        direction: $('#sort_direction_course').val()
+        favorites: $('#favorites').is(":checked")
+        my_org: 'false'
+		return
+
+	$('#sort_direction_course').change ->
+		$.ajax
+			url: '/course/sortable'
+			type: 'GET'
+			data: sort:
+				sort_by: $('#sort_by_course').val()
+				direction: @value
+				favorites: $('#favorites').is(":checked")
+				my_org: $('#myorg').is(":checked")
+		return
+
+	$('#sort_by_course').change ->
+		$.ajax
+			url: '/course/sortable'
+			type: 'GET'
+			data: sort:
+				sort_by: @value 
+				direction: $('#sort_direction_course').val()
+				favorites: $('#favorites').is(":checked")
+				my_org: $('#myorg').is(":checked")
 		return
 
 	$('#rating-submit').click ->

@@ -2,14 +2,13 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-
 $(document).on 'turbolinks:load', ->
-  $('#sort_direction').on 'change', ->
+  $('#sort_direction_org').on 'change', ->
     $.ajax
       url: '/organization/sortable'
       type: 'GET'
       data: sort:
-        sort_by: $('#sort_sort_by').val()
+        sort_by: $('#sort_by_org').val()
         direction: @value
     return
   return
