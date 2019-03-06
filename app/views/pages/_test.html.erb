@@ -23,13 +23,24 @@
     <% if @page.next_page %>
       <%= link_to 'Next page', page_course_path(@course, @page.next_page), class: 'btn btn-md btn-primary float-right' %>
     <% else %>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="rating-btn">
-        Rate course
-      </button>
-      <div id="rating-window">
-        <%= render partial: 'courses/rating', locals: { course: @course } %>
+      <div class="float-right">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="rating-btn">
+          Finish course
+        </button>
+        <div id="rating-window">
+          <%= render partial: 'courses/rating', locals: { course: @course } %>
+        </div>
       </div>
-      <%= link_to 'Finish course', finish_course_path(@course), method: :post, class: 'btn btn-md btn-success float-right' %>
     <% end %>
   <% end %>
 </div>
+
+<script>
+  var slider = new Slider('#rating');
+  slider.on('slide', function(sliderValue) {
+    document.getElementById('rating-val').textContent = sliderValue;
+  });
+  slider.on('change', function(sliderValue) {
+    document.getElementById('rating-val').textContent = sliderValue.newValue;
+  });
+</script>

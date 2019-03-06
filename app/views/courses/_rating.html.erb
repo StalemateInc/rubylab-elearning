@@ -28,13 +28,3 @@
     </div>
   </div>
 </div>
-
-<script>
-var slider = new Slider('#rating');
-slider.on('slide', function(sliderValue) {
-  document.getElementById('rating-val').textContent = sliderValue;
-});
-slider.on('change', function(sliderValue) {
-  document.getElementById('rating-val').textContent = sliderValue.newValue;
-});
-</script>
