@@ -27,6 +27,7 @@
 //= require twitter/typeahead.min
 //= require jquery.ba-throttle-debounce.min
 //= require ckeditor/init
+//= require jquery.slick
 //= require_tree .
 
 window.force_flash = function(flash_element_string) {

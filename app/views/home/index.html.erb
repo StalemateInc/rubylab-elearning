@@ -1,7 +1,45 @@
+<div class="container-fluid">
+  <div class="row p-3">
+    <div class="col-8">
+      <div id="most-popular-carousel" class="most-popular-carousel">
+        <% @most_popular_courses.each do |course| %>
+          <div class="most-popular-carousel-item">
+            <%= image_tag course.image.content.url %>
+          </div>
+        <% end %>
+      </div>
+    </div>
 
-<% if user_signed_in? %>
-  <%= link_to "Count of invite records: #{current_user.invites.count}" , invites_user_path %>
-  <%#= current_user.invite.organization_name %>
-<% end %>
-
-<h1>Some content</h1>
+    <div class="col-3">
+      <div id="most-popular-carousel-nav" class="most-popular-carousel-nav">
+        <% @most_popular_courses.each do |course| %>
+          <div class="most-popular-carousel-nav-item">
+            <span class="most-popular-carousel-nav-item_name"><%= course.name %></span>
+            <hr/>
+            <span class="most-popular-carousel-nav-item_description"><%= course.description.truncate(40) %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row p-3">
+    <h3>We proudly present our organizations:</h3>
+  </div>
+  <div class="row p-3">
+    <div class="col">
+      <div class="organizations-carousel mt-2">
+        <% @organizations.each do |organization| %>
+          <div class="organizations-carousel-item">
+            <%= image_tag organization.image.thumb.url %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row p-3">
+    <h3>Discover more awesome courses</h3>
+  </div>
+  <div class="col">
+    <%= link_to 'Discover', courses_path, class: 'btn btn-md btn-secondary' %>
+  </div>
+</div>

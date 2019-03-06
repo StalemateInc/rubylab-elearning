@@ -45,6 +45,7 @@ gem 'ckeditor'
 gem 'combine_pdf'
 gem 'font_awesome5_rails'
 gem 'mini_magick'
+gem 'jquery-slick-rails'
 gem 'rails_admin'
 gem 'twitter-typeahead-rails'
 
